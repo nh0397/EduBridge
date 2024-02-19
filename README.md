@@ -8,8 +8,8 @@
 | :-------------------: | :-----------------------------: | :-------------:  | :------------------: |
 |   Naisarg Halvadiya   |   naisarg.halvadiya@gmail.com   |   nh0397         |   Team Leader        |
 |   Riken Kapadia       |   rkapadia@mail.sfsu.edu        |   RikenKapadia   |   GitHub Master      |
-|   Dylan Nguyen        |   dylanguyen733@gmail.com       |   TheDylz        |   Scrum Master       |
-|   James Dixon         |   jd499b@gmail.com              |   JD499          |                      |
+|   Dylan Nguyen        |   dylanguyen733@gmail.com       |   TheDylz        |   Scrum Master I     |
+|   James Dixon         |   jd499b@gmail.com              |   JD499          |   Scrum Master II    |
 |   Shail Patel         |   patelshail233@gmail.com       |   shailtp        |   Back-end Leader    |
 |   Pankuri Khare       |   pankurikhare17@gmail.com      |   pankurik       |   Front-end Leader   |
 
