@@ -2,8 +2,6 @@ import React, { useState,useEffect } from 'react';
 import ParticlesBg from 'particles-bg';
 import './Home.scss';
 import SyntaxSquadLogo from '../../images/Syntax-Squad.jpg';
-import ShailPhoto from '../../images/shail-photo.jpg';
-import RikenPhoto from '../../images/Riken-Kapadia.jpg';
 import AboutCards from '../AboutCards/aboutCards';
 import profiles  from "../../aboutData/profiles";
 const Home = () => {
@@ -78,7 +76,7 @@ const Home = () => {
         instagram_id:"https://www.instagram.com/mr_majesty.24/",
         mail_id:"rkapadia@mail.sfsu.edu",
         profiles:profiles.find(profile => profile.name === "Riken Kapadia"),
-        picture_source:{RikenPhoto}
+        picture_source:require('../../images/Riken-Kapadia.jpg')
       }}
        />
        <AboutCards
@@ -89,7 +87,7 @@ const Home = () => {
         instagram_id:"https://www.instagram.com/",
         mail_id:"patelshail233@gmail.com",
         profiles:profiles.find(profile => profile.name === "Shail Patel"),
-        picture_source:{ShailPhoto}
+        picture_source:require('../../images/shail-photo.jpg')
       }}
        />
        <AboutCards
@@ -97,10 +95,10 @@ const Home = () => {
        details={{
         name:"Naisarg Halvadiya",
         role:"Team Leader",
-        instagram_id:"",
+        instagram_id:"https://www.instagram.com/nh0397/",
         mail_id:"naisarg.halvadiya@gmail.com",
         profiles:profiles.find(profile => profile.name === "Naisarg Halvadiya"),
-        picture_source:""
+        picture_source:require('../../images/naisarg.jpg')
       }}
        />
       </div>

@@ -43,7 +43,6 @@ const SingleSkill = ({
             py={1}
             borderRadius={"xl"}
         >
-            <Icon as={icon}/>
             <Heading as={"h3"} fontSize={"2xl"}>
                 {name}
             </Heading>

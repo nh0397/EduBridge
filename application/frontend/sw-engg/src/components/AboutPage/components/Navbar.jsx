@@ -11,45 +11,58 @@ import {
     useColorModeValue,
     useDisclosure,
 } from "@chakra-ui/react";
-import {FaHamburger} from "react-icons/fa";
-import {Link} from "react-scroll";
+import { FaHamburger } from "react-icons/fa";
+import { Link } from "react-scroll";
+import syntaxLogo from "../../../images/Syntax-Squad.jpg";
 
-
-export const Navbar = ({me}) => {
-    const isMobile = useBreakpointValue({base: true, md: false});
-    const {isOpen, onOpen, onClose} = useDisclosure();
+export const Navbar = ({ me }) => {
+    const isMobile = useBreakpointValue({ base: true, md: false });
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
         <>
-            <Stack minH={"10vh"} w={"full"} align={"center"} justify={"space-even"}>
+            <Stack
+                minH={"10vh"}
+                w={"100vw"}
+                align={"center"}
+                justify={"space-even"}
+                marginTop="7"
+                marginLeft="-280"
+                marginBottom="4" // Add margin top and bottom
+                marginRight={"-28vw"}
+            >
                 <Container maxW={"container.xl"}>
-                    <Flex justify={"space-between"}>
-                        <Avatar
-                            size={"md"}
-                            src={me.image}
-                            border={"1px"}
-                            borderColor={useColorModeValue("blue.400", "gray.700")}
-                        />
+                    <Flex justify={"space-between"} width="100%"> {/* Make width same as the box underneath */}
+                        <a href="/">
+                            <Avatar
+                                size={"md"}
+                                src={syntaxLogo}
+                                border={"1px"}
+                                borderColor={useColorModeValue("blue.400", "gray.700")}
+                                cursor="pointer"
+                            />
+                        </a>
                         {isMobile ? (
                             <Box>
-
                                 <IconButton
                                     aria-label="Open menu"
-                                    icon={<FaHamburger/>}
+                                    icon={<FaHamburger />}
                                     variant={"ghost"}
                                     onClick={isOpen ? onClose : onOpen}
                                 />
                             </Box>
                         ) : (
-                            <DesktopOptions/>
+                            <DesktopOptions />
                         )}
                     </Flex>
                 </Container>
             </Stack>
-            <BottomSheet isOpen={isOpen} onClose={onClose}/>
+            <BottomSheet isOpen={isOpen} onClose={onClose} />
         </>
     );
 };
+
+
 
 const DesktopOptions = () => {
     const bgColor = useColorModeValue("blue.50", "gray.700");

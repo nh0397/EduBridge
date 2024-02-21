@@ -1,4 +1,5 @@
 import {Avatar, Box, Heading, Icon, Stack, Text, useColorModeValue,} from "@chakra-ui/react";
+import { FaGithub } from "react-icons/fa";
 
 
 export const Hero = ({me}) => {
@@ -87,7 +88,7 @@ const Social = ({
                 color: hover.color,
             }}
         >
-            <Icon as={icon}/>
+            <Icon as={FaGithub}/>
             <Text fontWeight={"bold"} fontSize={"lg"}>
                 {name}
             </Text>
