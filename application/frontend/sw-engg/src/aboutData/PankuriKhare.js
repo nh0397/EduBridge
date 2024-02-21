@@ -14,7 +14,6 @@ export const pankuriKhare = {
     education: [{
         degree: "Bachelor of Science",
         major: "Computer Science",
-        major2: "Comparative World Literature",
         school: "San Francisco State University",
         graduation: "Expected Dec 2024",
     },],
