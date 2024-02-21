@@ -65,7 +65,7 @@ const Home = () => {
         instagram_id:"https://www.instagram.com/pankuri.17",
         mail_id:"pkhare@mail.sfsu.edu",
         profiles:profiles.find(profile => profile.name === "Pankuri Khare"),
-        picture_source:""
+        picture_source:require('../../images/Pankuri.jpeg')
       }}
        />
        <AboutCards
