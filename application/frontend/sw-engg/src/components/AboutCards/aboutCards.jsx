@@ -11,7 +11,7 @@ const aboutCards = (props) =>{
           <Link to={`/about/${props.details.name.replace(' ', '-')}`} state={{ profile: props.details }}>
             <div class="team-card">
               <div class="img-wrapper">
-                <img class="team-img" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/expert1.png"/>
+                <img class="team-img" src={props.details.picture_source}/>
               </div>
               <p class="text-blk name">
                 {props.details.name}

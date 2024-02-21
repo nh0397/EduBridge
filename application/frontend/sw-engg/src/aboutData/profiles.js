@@ -361,13 +361,13 @@ const profiles = [
   },
   {
     name: "Shail Patel",
-    subtitle: "Team Leader",
-    tagline: "A graduate student majoring in Data Science and AI at San Francisco State University.",
+    subtitle: "Backend Leader",
+    tagline: "A graduate student majoring in Computer Science at San Francisco State University.",
     social: [
       {
         name: "Github",
         icon: "FaGithub",
-        uri: "https://github.com/n0397",
+        uri: "https://github.com/shailtp",
         hover: { bg: "gray.900", color: "white" }
       }
     ],
@@ -375,46 +375,43 @@ const profiles = [
       {
         degree: "Bachelor of Technology",
         major: "Computer Science",
-        school: "Nirma University, India",
-        graduation: "May 2019"
+        school: "Vellore institute of technology, India",
+        graduation: "May 2023"
       },
       {
         degree: "Master of Science",
-        major: "Data Science and AI",
+        major: "Computer Science",
         school: "San Francisco State University",
         graduation: "May 2025"
       }
     ],
     experience: [
       {
-        company: "Mu Sigma Business Solutions Pvt. Ltd.",
-        location: "Bangalore, India",
-        position: "Full Stack Developer",
-        duration: "Aug 2020 - Dec 2021",
+        company: "Flowjet Valves Pvt. Ltd.",
+        location: "Ahmedabad, India",
+        position: "Software Engineer",
+        duration: "Jan 2022 - Dec 2022",
         bullets: [
-          "Tutored students in computer science principles, algorithms, data structures, and programming languages such as Java, C++, and Python.",
-          "Developed and implemented lesson plans and curriculum for individual tutoring sessions.",
-          "Assisted students in understanding and completing homework assignments and projects.",
-          "Provided one-on-one support and guidance for students struggling with course material.",
-          "Evaluated student progress and provided feedback to students and instructors.",
-          "Collaborated with instructors and department staff to improve course content and delivery."
+          "Worked as a Software Development co-op intern in the Information Technology department of this valve manufacturing industry.",
+          "Utilizing machine learning algorithms, a 30-day demand forecast for a product was generated. This forecast, which achieved approximately 70% accuracy on real-time seller data, can assist in choosing a location that can fulfill the order",
+          "Also worked on the backend development and database management of the company E-commerce portal using Django and MongoDB."
         ]
       }
     ],
     projects: [
       {
-        name: "ValorantProSettingsScraper",
-        links: [{ name: "Github", uri: "https://github.com/JD499/valorantProSettingsScraper" }],
-        description: "Valorant Pro Settings Scraper is a Java-based application designed to scrape professional Valorant players' settings from prosettings.net. It processes the data to calculate and display various statistics, including the minimum and maximum eDPI values per team, mean and median eDPI values, and the overall highest and lowest eDPI players among professional Valorant players.",
-        contribution: "Web scraping using Jsoup, Data processing with Java Streams, Statistical calculations using Apache Commons Math.",
-        technologies: ["Java", "Jsoup", "Java Streams", "Apache Commons Math"]
+        name: "Runout",
+        links: [{ name: "Github", uri: "https://github.com/shailtp/ExpenseTracker" }],
+        description: "Led the development of an innovative action maze chase Human-Computer Interaction (HCI) application using Python and Pygame. This project featured the implementation of an AI-based opponent that dynamically follows the player, using the A* algorithm to determine the optimal path based on the player's movements",
+        contribution: "Designed and implemented a user-friendly GUI to enhance user engagement and experience.",
+        technologies: ["Python, PyGame, A* algo"]
       },
       {
-        name: "ZipVizApp",
-        links: [{ name: "Github", uri: "https://github.com/JD499/ZipVizApp" }],
-        description: "ZipViz is a Java application that visualizes demographic data based on a given ZIP code. The application fetches income distribution data from an API and displays it in various chart formats including bar charts, line charts, pie charts, and Lorenz curves.",
-        contribution: "Fetch demographic data based on a given ZIP code, Visualize income distribution data in various chart formats, Export the current chart as an image (.png) or as a CSV file.",
-        technologies: ["Java", "JFreeChart", "Swing"]
+        name: "Nina, a personal expense tracker",
+        links: [{ name: "Github", uri: "https://github.com/shailtp/ExpenseTracker" }],
+        description: "Developed and maintained a comprehensive expense tracking application for iOS. Managed all aspects of the app's development in XCode, ensuring a robust and user-friendly experience.",
+        contribution: "Implemented features for real-time expense recording, categorization, and data visualization. Conducted extensive unit and UI testing to guarantee app reliability and usability.",
+        technologies: ["SwiftUI, Coredata, Json Parsing"]
       },
       // More projects...
     ],

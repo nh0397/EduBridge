@@ -1,7 +1,8 @@
 import React, { useState,useEffect } from 'react';
 import ParticlesBg from 'particles-bg';
 import './Home.scss';
-import SyntaxSquadLogo from '../../images/Syntax-Squad.jpg'; // Ensure the correct path
+import SyntaxSquadLogo from '../../images/Syntax-Squad.jpg';
+import ShailPhoto from '../../images/shail-photo.jpg';
 import AboutCards from '../AboutCards/aboutCards';
 import profiles  from "../../aboutData/profiles";
 const Home = () => {
@@ -42,7 +43,8 @@ const Home = () => {
           role:"Scrum Master I",
           instagram_id:"",
           mail_id:"",
-          profiles:profiles.find(profile => profile.name === "Dylan Nguyen")
+          profiles:profiles.find(profile => profile.name === "Dylan Nguyen"),
+          picture_source:""
         }}
        />
        <AboutCards
@@ -52,7 +54,8 @@ const Home = () => {
         role:"Scrum Master II",
         instagram_id:"",
         mail_id:"",
-        profiles:profiles.find(profile => profile.name === "James Dixon")
+        profiles:profiles.find(profile => profile.name === "James Dixon"),
+        picture_source:""
       }}
        />
        <AboutCards
@@ -62,7 +65,8 @@ const Home = () => {
         role:"Frontend Lead",
         instagram_id:"https://www.instagram.com/pankuri.17",
         mail_id:"pkhare@mail.sfsu.edu",
-        profiles:profiles.find(profile => profile.name === "Pankuri Khare")
+        profiles:profiles.find(profile => profile.name === "Pankuri Khare"),
+        picture_source:""
       }}
        />
        <AboutCards
@@ -72,7 +76,8 @@ const Home = () => {
         role:"GitHub Master",
         instagram_id:"",
         mail_id:"",
-        profiles:profiles.find(profile => profile.name === "Riken Kapadia")
+        profiles:profiles.find(profile => profile.name === "Riken Kapadia"),
+        picture_source:""
       }}
        />
        <AboutCards
@@ -80,9 +85,10 @@ const Home = () => {
        details={{
         name:"Shail Patel",
         role:"Backend Lead",
-        instagram_id:"",
-        mail_id:"",
-        profiles:profiles.find(profile => profile.name === "Shail Patel")
+        instagram_id:"https://www.instagram.com/",
+        mail_id:"patelshail233@gmail.com",
+        profiles:profiles.find(profile => profile.name === "Shail Patel"),
+        picture_source:{ShailPhoto}
       }}
        />
        <AboutCards
@@ -92,7 +98,8 @@ const Home = () => {
         role:"Team Leader",
         instagram_id:"",
         mail_id:"naisarg.halvadiya@gmail.com",
-        profiles:profiles.find(profile => profile.name === "Naisarg Halvadiya")
+        profiles:profiles.find(profile => profile.name === "Naisarg Halvadiya"),
+        picture_source:""
       }}
        />
       </div>
