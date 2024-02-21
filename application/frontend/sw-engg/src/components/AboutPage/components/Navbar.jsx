@@ -25,11 +25,9 @@ export const Navbar = ({ me }) => {
                 minH={"10vh"}
                 w={"100vw"}
                 align={"center"}
-                justify={"space-even"}
+                justify={"flex-end"}
                 marginTop="7"
-                marginLeft="-280"
                 marginBottom="4" // Add margin top and bottom
-                marginRight={"-28vw"}
             >
                 <Container maxW={"container.xl"}>
                     <Flex justify={"space-between"} width="100%"> {/* Make width same as the box underneath */}
@@ -70,7 +68,7 @@ const DesktopOptions = () => {
     const textColor = useColorModeValue("blue.700", "gray.100");
 
     return (
-        <Stack direction={"row"} spacing={4} align={"center"}>
+        <Stack direction={"row"} spacing={4} align={"center"}marginLeft="auto">
             {options.map((option) => (
                 <Flex
                     align={"center"}
