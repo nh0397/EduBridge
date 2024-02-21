@@ -60,8 +60,8 @@ const Home = () => {
        details={{
         name:"Pankuri Khare",
         role:"Frontend Lead",
-        instagram_id:"",
-        mail_id:"",
+        instagram_id:"https://www.instagram.com/pankuri.17",
+        mail_id:"pkhare@mail.sfsu.edu",
         profiles:profiles.find(profile => profile.name === "Pankuri Khare")
       }}
        />
