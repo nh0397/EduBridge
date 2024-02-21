@@ -58,8 +58,8 @@ const Home = () => {
        details={{
         name:"Pankuri Khare",
         role:"Frontend Lead",
-        instagram_id:"https://www.instagram.com/pankuri.17/?hl=en",
-        mail_id:"pankurikhare17@gmail.com"
+        instagram_id:"https://www.instagram.com/pankuri.17",
+        mail_id:"pkhare@mail.sfsu.edu"
       }}
        />
        <AboutCards

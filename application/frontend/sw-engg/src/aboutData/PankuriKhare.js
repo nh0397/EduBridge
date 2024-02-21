@@ -4,7 +4,7 @@ import {SiCplusplus, SiCss3, SiHtml5, SiKotlin, SiPostgresql, SiSpring,} from "r
 export const pankuriKhare = {
     name: "Pankuri Khare",
     subtitle: "Frontend Lead",
-    tagline: "I'm a computer science student at San Francisco State University.",
+    tagline: "Hello I am Pankuri Khare, an international student at SF State from India. I am a senior double majoring in Computer Science and Comparative World Literature",
 
     social: [{
         name: "pankurik", icon: FaGithub, uri: "https://github.com/pankurik", hover: {
@@ -18,34 +18,22 @@ export const pankuriKhare = {
         graduation: "Expected Dec 2024",
     },],
     
+    experience: [],
+    
     projects: [{
         name: "Web Chat Application",
-        description: "Developed a user-friendly web chat application enabling instant text messaging across devices. Features include real-time communication, multimedia file sharing, user authentication, group chats and usage of emojis.",
+        description: "Engineered a dynamic web chat platform facilitating instant text and multimedia exchange across various devices. The application stands out for its real-time communication capabilities, robust user authentication processes, and interactive features like group chats and emojis.",
+        contribution: "Spearheaded the integration of advanced functionalities including web scraping with Jsoup for content extraction, streamlined data processing utilizing Java Streams, and complex statistical computations leveraging Apache Commons Math for analytics and insights.",
         technologies: ["C++", "HTML", "CSS", "Javascript", "Websocket"],
-    }, {
-        name: "ZipVizApp",
-        links: [{
-            name: "Github", uri: "https://github.com/JD499/ZipVizApp",
-        }],
-        description: "ZipViz is a Java application that visualizes demographic data based on a given ZIP code. The application fetches income distribution data from an API and displays it in various chart formats including bar charts, line charts, pie charts, and Lorenz curves.",
-        contribution: "Fetch demographic data based on a given ZIP code, Visualize income distribution data in various chart formats, Export the current chart as an image (.png) or as a CSV file.",
-        technologies: ["Java", "JFreeChart", "Swing"],
-    }, ],
-    skills: [{
-        name: "Java", icon: FaJava,
-    },  {
-            name: "Python", icon: FaPython,
-        }, {
-            name: "C/C++", icon: SiCplusplus,
-        },  {
-            name: "JavaScript", icon: FaJsSquare,
-        }, {
-            name: "HTML", icon: SiHtml5,
-        }, {
-            name: "CSS", icon: SiCss3,
-        },
-
-        {
-            name: "React", icon: FaReact,
-        },],
+    },  ],
+    skills: [
+        
+        {name: "Java", icon: FaJava,}, 
+        {name: "C/C++", icon: SiCplusplus,},
+        {name: "JavaScript", icon: FaJsSquare,}, 
+        {name: "HTML", icon: SiHtml5,}, 
+        {name: "CSS", icon: SiCss3,},
+        {name: "React", icon: FaReact,},
+    
+    ],
 };
