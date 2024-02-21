@@ -2,12 +2,13 @@ import React, { useEffect } from 'react';
 import './aboutCards.scss';
 import {Link} from "react-router-dom";
 
+
 const aboutCards = (props) =>{
-  console.log("props", props)
+  console.log(props.details)
   return (
       <>
-        <Link to={`/about/${props.details.name.replace(' ', '-')}`}>
           <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 team-card-container">
+          <Link to={`/about/${props.details.name.replace(' ', '-')}`} state={{ profile: props.details }}>
             <div class="team-card">
               <div class="img-wrapper">
                 <img class="team-img" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/expert1.png"/>
@@ -27,8 +28,8 @@ const aboutCards = (props) =>{
                 </a>
               </div>
             </div>
+            </Link>
           </div>
-        </Link>
       </>
   )
 }

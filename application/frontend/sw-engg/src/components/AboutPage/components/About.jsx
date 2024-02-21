@@ -2,6 +2,7 @@ import {Box, Flex, Heading, Stack, Text, useColorModeValue,} from "@chakra-ui/re
 
 
 export const About = ({me}) => {
+    console.log("printing me",me)
     return (
         <Flex
             id="about"

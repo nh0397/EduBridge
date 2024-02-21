@@ -21,7 +21,7 @@ export const Navbar = ({me}) => {
 
     return (
         <>
-            <Stack minH={"10vh"} w={"full"} align={"center"} justify={"center"}>
+            <Stack minH={"10vh"} w={"full"} align={"center"} justify={"space-even"}>
                 <Container maxW={"container.xl"}>
                     <Flex justify={"space-between"}>
                         <Avatar

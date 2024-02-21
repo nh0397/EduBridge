@@ -7,29 +7,22 @@ import Projects from "./components/Projects";
 import Skills from "./components/Skills";
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from 'react';
-import {jamesDixon} from '../../aboutData/JamesDixon.js';
-import {dylanNguyen} from '../../aboutData/DylanNguyen.js';
-import {pankuriKhare} from "../../aboutData/PankuriKhare";
-import {rikenKapadia} from "../../aboutData/RikenKapadia";
-import {shailPatel} from "../../aboutData/ShailPatel";
-import {naisargHalvadiya} from "../../aboutData/NaisargHalvadiya";
+import { useLocation } from 'react-router-dom'
+import { SiCplusplus, SiCss3, SiHtml5, SiKotlin, SiPostgresql, SiSpring } from "react-icons/si";
 
-const dataMap = {
-    'James-Dixon': jamesDixon,
-    'Dylan-Nguyen': dylanNguyen,
-    'Pankuri-Khare': pankuriKhare,
-    'Riken-Kapadia': rikenKapadia,
-    'Shail-Patel': shailPatel,
-    'Naisarg-Halvadiya': naisargHalvadiya,
-};
 
-const IndividualPage = () => {
-    const {name} = useParams();
+
+
+
+const IndividualPage = (props) => {
+    const location = useLocation()
+    const { profile } = location.state
+    console.log("props", profile.profiles)
     const [me, setMe] = useState(null);
 
     useEffect(() => {
-        setMe(dataMap[name]);
-    }, [name]);
+        setMe(profile.profiles);
+    });
 
 
     if (!me) {

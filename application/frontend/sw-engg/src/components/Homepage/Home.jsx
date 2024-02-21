@@ -3,7 +3,7 @@ import ParticlesBg from 'particles-bg';
 import './Home.scss';
 import SyntaxSquadLogo from '../../images/Syntax-Squad.jpg'; // Ensure the correct path
 import AboutCards from '../AboutCards/aboutCards';
-
+import profiles  from "../../aboutData/profiles";
 const Home = () => {
   // Function to scroll to the next section
   const scrollToNextSection = () => {
@@ -41,7 +41,8 @@ const Home = () => {
           name:"Dylan Nguyen",
           role:"Scrum Master I",
           instagram_id:"",
-          mail_id:""
+          mail_id:"",
+          profiles:profiles.find(profile => profile.name === "Dylan Nguyen")
         }}
        />
        <AboutCards
@@ -50,7 +51,8 @@ const Home = () => {
         name:"James Dixon",
         role:"Scrum Master II",
         instagram_id:"",
-        mail_id:""
+        mail_id:"",
+        profiles:profiles.find(profile => profile.name === "James Dixon")
       }}
        />
        <AboutCards
@@ -58,8 +60,9 @@ const Home = () => {
        details={{
         name:"Pankuri Khare",
         role:"Frontend Lead",
-        instagram_id:"https://www.instagram.com/pankuri.17/?hl=en",
-        mail_id:"pankurikhare17@gmail.com"
+        instagram_id:"",
+        mail_id:"",
+        profiles:profiles.find(profile => profile.name === "Pankuri Khare")
       }}
        />
        <AboutCards
@@ -68,7 +71,8 @@ const Home = () => {
         name:"Riken Kapadia",
         role:"GitHub Master",
         instagram_id:"",
-        mail_id:""
+        mail_id:"",
+        profiles:profiles.find(profile => profile.name === "Riken Kapadia")
       }}
        />
        <AboutCards
@@ -77,7 +81,8 @@ const Home = () => {
         name:"Shail Patel",
         role:"Backend Lead",
         instagram_id:"",
-        mail_id:""
+        mail_id:"",
+        profiles:profiles.find(profile => profile.name === "Shail Patel")
       }}
        />
        <AboutCards
@@ -86,7 +91,8 @@ const Home = () => {
         name:"Naisarg Halvadiya",
         role:"Team Leader",
         instagram_id:"",
-        mail_id:""
+        mail_id:"naisarg.halvadiya@gmail.com",
+        profiles:profiles.find(profile => profile.name === "Naisarg Halvadiya")
       }}
        />
       </div>
