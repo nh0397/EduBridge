@@ -289,70 +289,38 @@ const profiles = [
   },
   {
     name: "Pankuri Khare",
-    subtitle: "Team Leader",
-    tagline: "A graduate student majoring in Data Science and AI at San Francisco State University.",
+    subtitle: "Frontend Lead",
+    tagline: "Hello I am Pankuri Khare, an international student at SF State from India. I am a senior double majoring in Computer Science and Comparative World Literature",
     social: [
       {
         name: "Github",
         icon: "FaGithub",
-        uri: "https://github.com/n0397",
+        uri: "https://github.com/pankurik",
         hover: { bg: "gray.900", color: "white" }
       }
     ],
     education: [
       {
-        degree: "Bachelor of Technology",
-        major: "Computer Science",
-        school: "Nirma University, India",
-        graduation: "May 2019"
-      },
-      {
-        degree: "Master of Science",
-        major: "Data Science and AI",
+        degree: "Bachleors of Science",
+        major: "Computer Science & Comparative World Literature",
         school: "San Francisco State University",
-        graduation: "May 2025"
+        graduation: "December 2024"
       }
     ],
     experience: [
-      {
-        company: "Mu Sigma Business Solutions Pvt. Ltd.",
-        location: "Bangalore, India",
-        position: "Full Stack Developer",
-        duration: "Aug 2020 - Dec 2021",
-        bullets: [
-          "Tutored students in computer science principles, algorithms, data structures, and programming languages such as Java, C++, and Python.",
-          "Developed and implemented lesson plans and curriculum for individual tutoring sessions.",
-          "Assisted students in understanding and completing homework assignments and projects.",
-          "Provided one-on-one support and guidance for students struggling with course material.",
-          "Evaluated student progress and provided feedback to students and instructors.",
-          "Collaborated with instructors and department staff to improve course content and delivery."
-        ]
-      }
     ],
     projects: [
       {
-        name: "ValorantProSettingsScraper",
-        links: [{ name: "Github", uri: "https://github.com/JD499/valorantProSettingsScraper" }],
-        description: "Valorant Pro Settings Scraper is a Java-based application designed to scrape professional Valorant players' settings from prosettings.net. It processes the data to calculate and display various statistics, including the minimum and maximum eDPI values per team, mean and median eDPI values, and the overall highest and lowest eDPI players among professional Valorant players.",
-        contribution: "Web scraping using Jsoup, Data processing with Java Streams, Statistical calculations using Apache Commons Math.",
-        technologies: ["Java", "Jsoup", "Java Streams", "Apache Commons Math"]
+        name: "Web Chat Application",
+        description: "Engineered a dynamic web chat platform facilitating instant text and multimedia exchange across various devices. The application stands out for its real-time communication capabilities, robust user authentication processes, and interactive features like group chats and emojis.",
+        contribution: "Spearheaded the integration of advanced functionalities including web scraping with Jsoup for content extraction, streamlined data processing utilizing Java Streams, and complex statistical computations leveraging Apache Commons Math for analytics and insights.",
+        technologies: ["C++", "HTML", "CSS", "Javascript", "Websocket"],
       },
-      {
-        name: "ZipVizApp",
-        links: [{ name: "Github", uri: "https://github.com/JD499/ZipVizApp" }],
-        description: "ZipViz is a Java application that visualizes demographic data based on a given ZIP code. The application fetches income distribution data from an API and displays it in various chart formats including bar charts, line charts, pie charts, and Lorenz curves.",
-        contribution: "Fetch demographic data based on a given ZIP code, Visualize income distribution data in various chart formats, Export the current chart as an image (.png) or as a CSV file.",
-        technologies: ["Java", "JFreeChart", "Swing"]
-      },
-      // More projects...
     ],
     skills: [
       { name: "Java", icon: "FaJava" },
-      { name: "Spring", icon: "SiSpring" },
-      { name: "Kotlin", icon: "SiKotlin" },
       { name: "Python", icon: "FaPython" },
       { name: "C/C++", icon: "SiCplusplus" },
-      { name: "SQL (Postgres)", icon: "SiPostgresql" },
       { name: "JavaScript", icon: "FaJsSquare" },
       { name: "HTML", icon: "SiHtml5" },
       { name: "CSS", icon: "SiCss3" },
