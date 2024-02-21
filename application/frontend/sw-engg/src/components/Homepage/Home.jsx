@@ -3,6 +3,7 @@ import ParticlesBg from 'particles-bg';
 import './Home.scss';
 import SyntaxSquadLogo from '../../images/Syntax-Squad.jpg';
 import ShailPhoto from '../../images/shail-photo.jpg';
+import RikenPhoto from '../../images/Riken-Kapadia.jpg';
 import AboutCards from '../AboutCards/aboutCards';
 import profiles  from "../../aboutData/profiles";
 const Home = () => {
@@ -74,10 +75,10 @@ const Home = () => {
        details={{
         name:"Riken Kapadia",
         role:"GitHub Master",
-        instagram_id:"",
-        mail_id:"",
+        instagram_id:"https://www.instagram.com/mr_majesty.24/",
+        mail_id:"rkapadia@mail.sfsu.edu",
         profiles:profiles.find(profile => profile.name === "Riken Kapadia"),
-        picture_source:""
+        picture_source:{RikenPhoto}
       }}
        />
        <AboutCards
