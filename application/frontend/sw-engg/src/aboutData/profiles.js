@@ -154,13 +154,13 @@ const profiles = [
   },
   {
     name: "Dylan Nguyen",
-    subtitle: "Team Leader",
-    tagline: "A graduate student majoring in Data Science and AI at San Francisco State University.",
+    subtitle: "Scrum master",
+    tagline: "A senior majoring in Computer Science at San Francisco State University.",
     social: [
       {
         name: "Github",
         icon: "FaGithub",
-        uri: "https://github.com/n0397",
+        uri: "https://github.com/TheDylz",
         hover: { bg: "gray.900", color: "white" }
       }
     ],
@@ -168,41 +168,24 @@ const profiles = [
       {
         degree: "Bachelor of Technology",
         major: "Computer Science",
-        school: "Nirma University, India",
-        graduation: "May 2019"
-      },
-      {
-        degree: "Master of Science",
-        major: "Data Science and AI",
         school: "San Francisco State University",
-        graduation: "May 2025"
-      }
+        graduation: "December 2024"
+      },
     ],
     experience: [
     ],
     projects: [
       {
-        name: "Chat Application",
-        description: "Valorant Pro Settings Scraper is a Java-based application designed to scrape professional Valorant players' settings from prosettings.net. It processes the data to calculate and display various statistics, including the minimum and maximum eDPI values per team, mean and median eDPI values, and the overall highest and lowest eDPI players among professional Valorant players.",
-        contribution: "Web scraping using Jsoup, Data processing with Java Streams, Statistical calculations using Apache Commons Math.",
+        name: "Snake Game",
+        description: "Snake tile game where player controls snake to eat apples for points. If snake hits a random generated bomb on board, game over",
+        contribution: "Used Java and Swing to make game functions and visuals.",
         technologies: ["Java"]
-      },
-      {
-        name: "ZipVizApp",
-        links: [{ name: "Github", uri: "https://github.com/JD499/ZipVizApp" }],
-        description: "ZipViz is a Java application that visualizes demographic data based on a given ZIP code. The application fetches income distribution data from an API and displays it in various chart formats including bar charts, line charts, pie charts, and Lorenz curves.",
-        contribution: "Fetch demographic data based on a given ZIP code, Visualize income distribution data in various chart formats, Export the current chart as an image (.png) or as a CSV file.",
-        technologies: ["Java", "JFreeChart", "Swing"]
       },
       // More projects...
     ],
     skills: [
       { name: "Java", icon: "FaJava" },
-      { name: "Spring", icon: "SiSpring" },
-      { name: "Kotlin", icon: "SiKotlin" },
-      { name: "Python", icon: "FaPython" },
       { name: "C/C++", icon: "SiCplusplus" },
-      { name: "SQL (Postgres)", icon: "SiPostgresql" },
       { name: "JavaScript", icon: "FaJsSquare" },
       { name: "HTML", icon: "SiHtml5" },
       { name: "CSS", icon: "SiCss3" },
