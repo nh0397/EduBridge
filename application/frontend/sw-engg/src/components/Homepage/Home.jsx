@@ -51,10 +51,10 @@ const Home = () => {
        details={{
         name:"James Dixon",
         role:"Scrum Master II",
-        instagram_id:"",
-        mail_id:"",
+        instagram_id:"https://www.instagram.com/james.d499/",
+        mail_id:"jd499b@gmail.com",
         profiles:profiles.find(profile => profile.name === "James Dixon"),
-        picture_source:""
+        picture_source:require('../../images/james.jpg')
       }}
        />
        <AboutCards
