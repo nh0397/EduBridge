@@ -4,6 +4,7 @@ const profiles = [
     name: "Naisarg Halvadiya",
     subtitle: "Team Leader",
     tagline: "As a Data Scientist with Full-Stack Development skills, I excel in fusing data analytics with web development to innovate and solve complex problems. My expertise lies in deriving actionable insights from data using advanced analytics and visualization, coupled with designing dynamic, user-oriented web applications. Proficient in diverse programming languages and frameworks, I seamlessly integrate data insights into web solutions, enhancing decision-making and user experience.",
+    image: "images/naisarg.jpg",
     social: [
       {
         name: "Github",
@@ -84,6 +85,7 @@ const profiles = [
     name: "James Dixon",
     subtitle: "Scrum Master II",
     tagline: "I'm a computer science student at San Francisco State University.",
+    image: "images/james.jpg",
     social: [
       {
         name: "Github",
@@ -182,6 +184,7 @@ const profiles = [
     name: "Dylan Nguyen",
     subtitle: "Scrum master",
     tagline: "A senior majoring in Computer Science at San Francisco State University.",
+    image: "images/dylan.jpg",
     social: [
       {
         name: "Github",
@@ -222,6 +225,7 @@ const profiles = [
     name: "Riken Kapadia",
     subtitle: "GitHub Master",
     tagline: "Hello I am Riken Kapadia and I am international undergrade student majoring in Computer Science at San Francisco state University.",
+    image: "images/Riken-Kapadia.jpg",
     social: [
       {
         name: "RikenKapadia",
@@ -276,6 +280,7 @@ const profiles = [
     name: "Pankuri Khare",
     subtitle: "Frontend Lead",
     tagline: "Hello I am Pankuri Khare, an international student at SF State from India. I am a senior double majoring in Computer Science and Comparative World Literature",
+    image: "images/Pankuri.jpeg",
     social: [
       {
         name: "Github",
@@ -316,6 +321,7 @@ const profiles = [
     name: "Shail Patel",
     subtitle: "Backend Leader",
     tagline: "A graduate student majoring in Computer Science at San Francisco State University.",
+    image: "images/shail-photo.jpg",
     social: [
       {
         name: "Github",

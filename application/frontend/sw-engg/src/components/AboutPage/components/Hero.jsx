@@ -3,6 +3,7 @@ import { FaGithub } from "react-icons/fa";
 
 
 export const Hero = ({me}) => {
+    const imagePath = require(`../../../${me.image}`); // Dynamically require the image
     return (
         <Stack
             id={"home"}
@@ -31,7 +32,8 @@ export const Hero = ({me}) => {
                 }}
                 justify={"center"}
             >
-                <Avatar size={"xl"} src={me.image} border={"2px"}/>
+
+                <Avatar size={"xl"} src={imagePath} border={"2px"}/>
                 <Heading
                     fontWeight={"normal"}
                     as={"h1"}
