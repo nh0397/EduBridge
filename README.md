@@ -1,6 +1,6 @@
 # CSC648-04-sp24-04 Repository
 
-**Application URL: <https://example.com>** (TBD)
+**Application URL: <http://3.17.26.146>**
 
 # Roster
 
