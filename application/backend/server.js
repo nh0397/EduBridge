@@ -1,24 +1,17 @@
-require('dotenv').config()
-
-// Import to the express app
-const express = require('express')
-const routes = require('./routes/routes')
-
-// Create an express app by invoking the function 
-const app = express()
-
-// Setting up the middleware so as to log the path 
-app.use((request, response, next) => {
-    console.log(request.path, request.method)
-    next()
-} )
-
-// Setting up the route handler
-app.use(routes)
+const express = require('express');
+const userRoutes = require('./routes/routes'); // Import the user routes
+const cors = require('cors');
 
 
+const app = express();
+const PORT = process.env.PORT || 3001;
+app.use(cors());
+app.use(express.json());
 
-// We need to keep listening for requests now 
-app.listen(process.env.PORT, () => {
-    console.log("Listening to the port number:",process.env.PORT)
-})
+// Use userRoutes for any request that comes to '/api/users'
+app.use('/', userRoutes);
+
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}`);
+});

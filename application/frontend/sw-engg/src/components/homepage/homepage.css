@@ -1,0 +1,23 @@
+.homepage-container {
+    /* Your styles for the container */
+  }
+  
+  .homepage-container input {
+    /* Your styles for the search input */
+    margin-bottom: 1rem;
+  }
+  
+  .homepage-container table {
+    /* Your styles for the table */
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .homepage-container th, .homepage-container td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  /* Add more CSS as needed to match your style preferences */
+  
