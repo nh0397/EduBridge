@@ -2,6 +2,7 @@
 
 The details of the milestone is available in a PDF and Word format. 
 
+The app can be accessed here: http://54.82.98.216:3000/
 
 Overview of the milestone is as follows: 
 

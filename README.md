@@ -1,6 +1,6 @@
 # CSC648-04-sp24-04 Repository
 
-**Application URL: <http://3.17.26.146>**
+**Application URL: <http://54.82.98.216:3000/>**
 
 # Roster
 
