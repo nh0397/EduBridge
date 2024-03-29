@@ -10,13 +10,14 @@ const transporter = nodemailer.createTransport({
 });
 
 // Function to send OTP email
-const sendOtpEmail = (toEmail, otp) => {
+const sendOtpEmail = (firstName, toEmail, otp) => {
     return new Promise((resolve, reject) => {
         const mailOptions = {
             from: 'csc848verify@gmail.com', // Your email address
             to: toEmail,
-            subject: 'Your OTP',
-            text: `Here is your OTP: ${otp}. It is valid for 10 minutes.`,
+            subject: 'Welcome to EduBridge! Here\'s your OTP.',
+            text: `Hello ${firstName}, and welcome to EduBridge! 🎓\n\nWe're thrilled to have you join our platform where you can delve into a myriad of topics related to your studies. Your access code is ${otp}.\n\nEnjoy your journey with us, and we wish you the best of luck in your educational endeavors!`,
+
         };
 
         transporter.sendMail(mailOptions, (error, info) => {

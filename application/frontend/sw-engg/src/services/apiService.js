@@ -2,10 +2,12 @@ import axios from "axios";
 import config from "../config";
 
 
-const signup = (email, password) => {
+const signup = (firstName, lastName, email, password) => {
   console.log("inside apiservice");
   // Hash the password client-side (understanding the security implications)
   return axios.post(`${config.BASE_URL}/signup`, {
+    firstName,
+    lastName,
     email,
     password: password,
   });
@@ -29,10 +31,39 @@ const fetchUsers = async () => {
   }
 };
 
+// Inside your apiService.js or a similar service file in your React app
+
+const uploadFile = (file, folderId) => {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  // Construct the URL to include the folderId as a query parameter
+  const url = folderId ? `${config.BASE_URL}/upload?folderId=${folderId}` : `${config.BASE_URL}/upload`;
+
+  return axios.post(url, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+
+const fetchFolders = async () => {
+  try {
+    const response = await axios.get(`${config.BASE_URL}/folders`);
+    return response.data.data; // Assuming Directus standard response structure
+  } catch (error) {
+    console.error('Error fetching folders:', error);
+    throw error;
+  }
+};
+
 // Export the service functions
 export default {
   signup,
   login,
   loginWithOtp,
-  fetchUsers
+  fetchUsers,
+  uploadFile,
+  fetchFolders
 };

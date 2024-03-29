@@ -7,7 +7,8 @@ import CryptoJS from "crypto-js";
 
 
 function Signup() {
-  const [username, setUsername] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ function Signup() {
     try {
       const hashedPassword = CryptoJS.SHA256(password).toString();
 
-      const response = await apiService.signup(email, hashedPassword);
+      const response = await apiService.signup(firstName,lastName,email, hashedPassword);
       // Handle the response from the server
       console.log(response.data);
       alert('Signup successful!');
@@ -44,6 +45,28 @@ function Signup() {
     <div className="login-container">
       <h2>Sign Up</h2>
       <form>
+        <div className="form-group">
+          <label htmlFor="email">First Name:</label>
+          <input
+            type="text"
+            id="firstName"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            required
+            placeholder="Enter your first name"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="email">Last Name:</label>
+          <input
+            type="text"
+            id="lastName"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            required
+            placeholder="Enter your last name"
+          />
+        </div>
         <div className="form-group">
           <label htmlFor="email">Email:</label>
           <input

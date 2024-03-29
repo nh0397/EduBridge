@@ -1,53 +1,74 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './homepage.css'; // Make sure to create this CSS file and define your styles
+import './homepage.css';
 import apiService from '../../services/apiService';
 
 function Homepage() {
-  const [users, setUsers] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [folders, setFolders] = useState([]); // State to hold folders
+  const [selectedFolderId, setSelectedFolderId] = useState(''); // State to hold the selected folder ID
 
   useEffect(() => {
-    const getUsers = async () => {
-      try {
-        const usersData = await apiService.fetchUsers();
-        setUsers(usersData); // Set the users in state
-      } catch (error) {
-        console.error('Error fetching users:', error);
-        // Optionally, handle the error in UI, like showing an error message
-      }
+    const fetchData = async () => {
+      const fetchedData = await apiService.fetchFolders();
+      setFolders(fetchedData); // Store fetched folders in state
+      console.log('folders',folders)
     };
 
-    getUsers();
+    fetchData();
   }, []);
+
+  const handleFileSelect = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleFileUpload = async () => {
+    if (!selectedFile) {
+      alert('Please select a file to upload.');
+      return;
+    }
+    if (!selectedFolderId) {
+      alert('Please select a folder to upload to.');
+      return;
+    }
+
+    setIsUploading(true);
+
+    try {
+      const response = await apiService.uploadFile(selectedFile, selectedFolderId); // Assume uploadFile service can handle folder ID
+      console.log('File uploaded successfully:', response.data);
+      alert('File uploaded successfully!');
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      alert('File upload failed.');
+    } finally {
+      setIsUploading(false);
+      setSelectedFile(null); // Reset the selected file after upload or failure
+      // Optionally reset selected folder ID here as well
+    }
+  };
 
   return (
     <div className="homepage-container">
-      <input
-        type="text"
-        placeholder="Search by email..."
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <table>
-        <thead>
-          <tr>
-            <th>User ID</th>
-            <th>Email</th>
-            {/* Add other headers if needed */}
-          </tr>
-        </thead>
-        <tbody>
-          {users.filter(user => 
-            user.user_email.toLowerCase().includes(searchTerm.toLowerCase())
-          ).map((user) => (
-            <tr key={user.user_id}>
-              <td>{user.user_id}</td>
-              <td>{user.user_email}</td>
-              {/* Add other data cells if needed */}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {/* Dropdown for selecting folder */}
+      <select value={selectedFolderId} onChange={(e) => setSelectedFolderId(e.target.value)} className="folder-dropdown">
+        <option value="">Select a folder</option>
+        {folders.map((folder) => (
+          <option key={folder.id} value={folder.id}>
+            {folder.name}
+          </option>
+        ))}
+      </select>
+
+      {/* Upload Section */}
+      <div className="upload-section">
+        <input type="file" onChange={handleFileSelect} style={{ display: 'none' }} id="file-upload" />
+        <label htmlFor="file-upload" className="custom-file-upload">Upload File</label>
+        {selectedFile && <span className="file-name">{selectedFile.name}</span>}
+        <button onClick={handleFileUpload} disabled={!selectedFile || isUploading}>
+          {isUploading ? 'Uploading...' : 'Upload'}
+        </button>
+      </div>
     </div>
   );
 }

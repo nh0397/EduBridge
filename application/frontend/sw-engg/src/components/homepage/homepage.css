@@ -1,23 +1,10 @@
-.homepage-container {
-    /* Your styles for the container */
-  }
-  
-  .homepage-container input {
-    /* Your styles for the search input */
-    margin-bottom: 1rem;
-  }
-  
-  .homepage-container table {
-    /* Your styles for the table */
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .homepage-container th, .homepage-container td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  /* Add more CSS as needed to match your style preferences */
-  
+.custom-file-upload {
+  padding: 6px 12px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  display: inline-block;
+  border-radius: 4px;
+  margin-right: 5px;
+}
+

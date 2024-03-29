@@ -12,12 +12,16 @@ function Login() {
   const [password, setPassword] = useState('');
   const [otp, setOtp] = useState(''); // Add OTP state
   const [requireOtp, setRequireOtp] = useState(false); // Flag to show/hide OTP input
+  const [isLoggingIn, setIsLoggingIn] = useState(false); // New state to track login process
+
+
   useEffect(() => {
   setRequireOtp(false); // Reset OTP requirement on page load
 }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoggingIn(true); // Disable the login button
     const hashedPassword = CryptoJS.SHA256(password).toString(); // Hash the password
 
     try {
@@ -33,23 +37,26 @@ function Login() {
       console.log('Login successful:', response.data);
       alert('Login successful!');
       navigate('/homepage');
+      setIsLoggingIn(false); // Enable the login button on failure
       // Redirect or update state as needed
     } catch (error) {
       if (error.response?.data?.message === 'OTP verification required') {
         // Server requires OTP; show OTP input and prompt the user
         setRequireOtp(true);
+        setIsLoggingIn(false); // Enable the login button on failure
         alert('Please enter the OTP sent to your email.');
         return; // Stop here to allow user to enter OTP
       }
       console.error('Login error:', error);
       alert('Login failed: ' + (error.response?.data?.message || 'Unknown error'));
+      setIsLoggingIn(false); // Enable the login button on failure
     }
   };
 
   return (
     <div className="login-container">
       <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
+      <form>
         <div className="form-group">
           <label htmlFor="email">Email:</label>
           <input
@@ -85,7 +92,7 @@ function Login() {
             />
           </div>
         )}
-        <button type="submit">Login</button>
+        <button type="submit" onClick={handleSubmit} disabled={isLoggingIn}>Login</button>
       </form>
     </div>
   );
