@@ -1,0 +1,45 @@
+.upload-content {
+    max-width: 600px;
+    margin: auto;
+    background: #333;
+    color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .dropzone {
+    border: 2px dashed #fff;
+    padding: 30px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .upload-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .upload-form label {
+    margin-top: 10px;
+  }
+  
+  .upload-form input,
+  .upload-form textarea {
+    margin-top: 5px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background: #222;
+    color: white;
+  }
+  
+  .upload-form button {
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+  }
+  
