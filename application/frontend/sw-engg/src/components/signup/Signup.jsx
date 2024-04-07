@@ -42,11 +42,19 @@ function Signup() {
 
 
   return (
-    <div className="login-container">
+    <div className='full-container-signup'>
+
+      <div className='welcome-container'>
+        <h10>Welcome! 👋</h10>
+        <p>Our platform dedicated to empowering your educational journey! Here, you'll gain access to a wealth of enriching educational videos and materials tailored to enhance your learning experience. Whether you're a student, educator, or lifelong learner, our user-friendly platform is designed to cater to your unique educational needs. By registering with us, you'll unlock a world of knowledge at your fingertips. Join our community today and embark on a fulfilling educational adventure like never before!</p>
+      </div>
+
+    <div className="signup-container">
       <h2>Sign Up</h2>
+      <div className="underline"></div>
       <form>
         <div className="form-group">
-          <label htmlFor="email">First Name:</label>
+          <label htmlFor="email">First Name</label>
           <input
             type="text"
             id="firstName"
@@ -57,7 +65,7 @@ function Signup() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="email">Last Name:</label>
+          <label htmlFor="email">Last Name</label>
           <input
             type="text"
             id="lastName"
@@ -68,7 +76,7 @@ function Signup() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="email">Email:</label>
+          <label htmlFor="email">Email</label>
           <input
             type="email"
             id="email"
@@ -79,7 +87,7 @@ function Signup() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="password">Password</label>
           <input
             type="password"
             id="password"
@@ -89,8 +97,24 @@ function Signup() {
             placeholder="Enter your password"
           />
         </div>
+        <div className="form-group">
+          <label htmlFor="confirmpassword">Confirm Password</label>
+          <input
+            type="confirmpassword"
+            id="confirmpassword"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            placeholder="Confirm your password"
+          />
+        </div>
         <button type="submit" onClick={handleSubmit}>Sign Up</button>
+
+        <div className="register-link">
+            <p>Already have an account? Sign in here <a href="/login">Login</a></p>
+        </div>
       </form>
+    </div>
     </div>
   );
 }
