@@ -30,6 +30,7 @@ function Login() {
       }
 
       console.log('Login successful:', response.data);
+      sessionStorage.setItem('isAuthenticated', 'true');
       alert('Login successful!');
 
       // Fetch user role after successful login
