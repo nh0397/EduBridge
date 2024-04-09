@@ -11,6 +11,8 @@ function Signup() {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmedPassword, setConfirmedPassword] = useState('');
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -18,6 +20,10 @@ function Signup() {
       // Check if the email ends with ".edu"
       if (!email.endsWith('.edu')) {
         alert('Please use a .edu email address.');
+        return; // Stop the function if the check fails
+      }
+      if (password != confirmedPassword){
+        alert('Passwords do not match! Please retry.');
         return; // Stop the function if the check fails
       }  
     try {
@@ -100,10 +106,10 @@ function Signup() {
         <div className="form-group">
           <label htmlFor="confirmpassword">Confirm Password</label>
           <input
-            type="confirmpassword"
+            type="password"
             id="confirmpassword"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={confirmedPassword}
+            onChange={(e) => setConfirmedPassword(e.target.value)}
             required
             placeholder="Confirm your password"
           />

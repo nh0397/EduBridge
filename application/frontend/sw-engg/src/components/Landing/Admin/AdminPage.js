@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './AdminPage.css';
-
+import apiService from '../../../services/apiService'
 // Mock data
 const initialUsers = [
   { id: 1, firstName: 'Alice', lastName: 'Smith', email: 'alice@example.com', role: 'student' },
@@ -9,26 +9,56 @@ const initialUsers = [
 ];
 
 const AdminPage = () => {
-  const [users, setUsers] = useState(initialUsers);
+  const [users, setUsers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    // Fetch users from the backend and set them in state
-    // setUsers(fetchedUsers);
+    loadUsers();
   }, []);
 
-  const handleRoleChange = (userId, newRole) => {
-    // Update the role in the backend, then update state locally
-    const updatedUsers = users.map(user =>
-      user.id === userId ? { ...user, role: newRole } : user
-    );
-    setUsers(updatedUsers);
-
-    // TODO: Make an API call to update the user role in the backend
+  const loadUsers = async () => {
+    console.log("load users called");
+    try {
+      const fetchedUsers = await apiService.fetchUsers();
+      console.log('fe',fetchedUsers)
+      setUsers(fetchedUsers);
+    } catch (error) {
+      console.error('Failed to fetch users:', error);
+    }
   };
+  const handleRoleChange = async (email, newRole) => {
+    try {
+      const response = await apiService.updateUserRole(email, newRole);
+      // Assuming response indicates success, then update local state
+      if (response.success) {
+        const updatedUsers = users.map(user =>
+          user.email === email ? { ...user, role: newRole } : user
+        );
+        setUsers(updatedUsers);
+      } else {
+        console.error('Failed to update user role in the database.');
+      }
+    } catch (error) {
+      console.error('Error updating user role:', error);
+    }
+    loadUsers()
+  };
+
+  const filteredUsers = users.filter(user =>
+    user.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    user.last_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    user.email.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div>
       <h1>Admin Page</h1>
+      <input
+        type="text"
+        placeholder="Search users..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
       <table>
         <thead>
           <tr>
@@ -36,20 +66,18 @@ const AdminPage = () => {
             <th>Last Name</th>
             <th>Email</th>
             <th>Role</th>
-            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {users.map(user => (
+          {filteredUsers.map(user => (
             <tr key={user.id}>
-              <td>{user.firstName}</td>
-              <td>{user.lastName}</td>
+              <td>{user.first_name}</td>
+              <td>{user.last_name}</td>
               <td>{user.email}</td>
               <td>
-                <select value={user.role} onChange={(e) => handleRoleChange(user.id, e.target.value)}>
-                  <option value="student">Student</option>
-                  <option value="instructor">Instructor</option>
-                  <option value="admin">Admin</option>
+                <select value={user.role} onChange={(e) => handleRoleChange(user.email, e.target.value)}>
+                  <option value="Student">Student</option>
+                  <option value="Instructor">Instructor</option>
                 </select>
               </td>
             </tr>

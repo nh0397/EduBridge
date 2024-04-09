@@ -31,6 +31,18 @@ const fetchUsers = async () => {
   }
 };
 
+const updateUserRole = async (email, newRole) => {
+  try {
+    const response = await axios.post(`${config.BASE_URL}/updateRole`, {
+      role: newRole,
+      email: email
+    });
+    return response.data; // Assuming the response structure is directly the updated user data or success indicator
+  } catch (error) {
+    console.error('Error updating user role:', error);
+    throw error;
+  }
+};
 // Inside your apiService.js or a similar service file in your React app
 
 const uploadFile = (file, folderId) => {
@@ -58,6 +70,17 @@ const fetchFolders = async () => {
   }
 };
 
+const fetchUserRole = async (email) => {
+  try {
+    const response = await axios.get(`${config.BASE_URL}/userRole/${email}`);
+    return response.data.data; // Assuming Directus standard response structure
+  } catch (error) {
+    console.error('Error fetching user role:', error);
+    throw error;
+  }
+};
+
+
 // Export the service functions
 export default {
   signup,
@@ -65,5 +88,7 @@ export default {
   loginWithOtp,
   fetchUsers,
   uploadFile,
-  fetchFolders
+  fetchFolders,
+  updateUserRole,
+  fetchUserRole
 };

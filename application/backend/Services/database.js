@@ -1,14 +1,13 @@
-const mysql = require('mysql');
+const mysql = require('mysql2/promise');
 
-// Create a MySQL pool
+// Create a MySQL pool with `mysql2` promise support
 const pool = mysql.createPool({
-    connectionLimit : 10, // the number of connections node.js will hold open to our database
-    host     : 'localhost', // Your RDS instance endpoint    
-    user     : 'root', // Your RDS instance username
-    password : 'csc848', // Your RDS instance password
-    database : 'csc848', // Your database name
-    port     : 3306 // Your RDS instance port
+    connectionLimit : 1000,
+    host     : '54.91.50.46',    
+    user     : 'root',
+    password : 'csc848',
+    database : 'csc848',
+    port     : 3306
 });
 
-// Export the pool
 module.exports = pool;
