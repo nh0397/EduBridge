@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link, useLocation, Navigate } from "react-router-dom";
 import Login from "./components/login/Login";
 import Signup from './components/signup/Signup';
 import StudentLandingPage from "./components/Landing/StudentLanding/StudentLandingPage";
@@ -12,9 +12,22 @@ import DiscussionDetail from './components/DiscussionForum/DiscussionDetail';
 import ProtectedRoute from "./components/routing/ProtectedRoute";
 import StudentRoute from "./components/routing/StudentRoute";
 import InstructorRoute from "./components/routing/InstructorRoute";
-
+import Navbar from "./components/Navbar/Navbar";
 import './App.css';
 import ForgotPassword from "./components/forgotPassword/ForgotPassword";
+
+const Layout = ({ children }) => {
+  const location = useLocation();
+  const hideNavbarOnRoutes = ["/login", "/signup"];
+  const showNavbar = !hideNavbarOnRoutes.includes(location.pathname);
+
+  return (
+    <>
+      {showNavbar && <Navbar userName="John Doe" />} {/* Placeholder for the user's name */}
+      <div>{children}</div>
+    </>
+  );
+};
 
 function App() {
   return (

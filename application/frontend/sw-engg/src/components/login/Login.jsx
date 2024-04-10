@@ -41,10 +41,10 @@ function Login() {
       // Redirect based on user role
       if (role.toLowerCase() === 'student') {
         sessionStorage.setItem('isStudent', 'true');
-        navigate('/homepage/student');
+        navigate('/student');
       } else if (role.toLowerCase() === 'instructor') {
         sessionStorage.setItem('isInstructor', 'true');
-        navigate('/homepage/instructor');
+        navigate('/instructor');
       } else {
         // Handle other roles or unexpected cases
         navigate('/homepage');
