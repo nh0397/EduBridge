@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -81,11 +82,7 @@ const StudentLandingPage = () => {
         <button onClick={exploreCourses}>Explore Courses</button>
       </section>
 
-      <main className="split-view">
-        <FileView />
-        <Conversations />
-        <button onClick={startDiscussion}>Start a New Discussion</button>
-      </main>
+      <Link to="/forum" className="nav-link">Go to Discussion Forum</Link>
 
       <section className="featured-courses">
         <h3>Featured Courses</h3>

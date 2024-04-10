@@ -8,6 +8,9 @@ import AdminPage from "./components/Landing/Admin/AdminPage";
 import InstructorLandingPage from "./components/Landing/InstructorLanding/InstructorLandingPage";
 import UploadContentPage from './components/Landing/InstructorLanding/UploadContentPage';
 import ProtectedRoute from "./components/routing/ProtectedRoute";
+import DiscussionForum from './components/DiscussionForum/DiscussionForum'; // Import the DiscussionForum component
+import DiscussionList from './components/DiscussionForum/DiscussionList';
+import DiscussionDetail from './components/DiscussionForum/DiscussionDetail';
 
 function App() {
   return (
@@ -37,6 +40,9 @@ function App() {
               <UploadContentPage />
             </ProtectedRoute>
           } />
+          <Route path="/forum" element={<DiscussionForum />} />
+          <Route path="/discussions" element={<DiscussionList />} />
+          <Route path="/discussion/:id" element={<DiscussionDetail />} />
         </Routes>
       </div>
     </Router>

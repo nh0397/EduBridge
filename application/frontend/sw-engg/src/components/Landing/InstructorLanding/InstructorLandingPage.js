@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './InstructorLandingPage.css'; // CSS file needs to be updated
 
 // Placeholder Components for demonstrating structure. Implement or replace with actual functionality.
@@ -34,7 +35,9 @@ const InstructorLandingPage = () => {
       <header className="instructor-header">
         <h1>Instructor Dashboard</h1>
         <button onClick={goToUploadContent}>Upload New Content</button>
+        <Link to="/forum" className="nav-link">Go to Discussion Forum</Link>
       </header>
+     
 
       <DashboardOverview />
 
@@ -48,6 +51,7 @@ const InstructorLandingPage = () => {
         <p>© 2024 Your Learning Platform. All rights reserved.</p>
       </footer>
     </div>
+    
   );
 };
 

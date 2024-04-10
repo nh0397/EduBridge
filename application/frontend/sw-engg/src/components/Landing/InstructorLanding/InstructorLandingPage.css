@@ -1,0 +1,15 @@
+.nav-link {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none; /* Remove underline from link */
+    margin-left: 1rem;
+  }
+  
+  .nav-link {
+    background-color: #218838;
+  }

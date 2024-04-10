@@ -1,0 +1,68 @@
+.discussion-form-container {
+    margin: 2rem auto;
+    max-width: 800px;
+    padding: 1rem;
+  }
+  
+  .discussion-form-header {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+  
+  .discussion-title-input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    box-sizing: border-box; /* Ensures padding doesn't affect overall width */
+  }
+  
+  .discussion-textarea {
+    width: 100%;
+    height: 150px; /* Fixed height */
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    margin-bottom: 1rem;
+    box-sizing: border-box;
+  }
+  
+  .discussion-submit-btn {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .discussion-submit-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .view-discussions-btn {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none; /* Remove underline from link */
+    margin-left: 1rem;
+  }
+  
+  .view-discussions-btn:hover {
+    background-color: #218838;
+  }
+  .error {
+    color: red;
+  }
+  
+  .confirmation {
+    color: green;
+  }
