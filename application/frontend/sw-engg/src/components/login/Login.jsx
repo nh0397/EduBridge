@@ -72,8 +72,8 @@ function Login() {
   return (
     <div className='full-container-login'>
       <div className='welcomeback-container'>
-        <h10>Welcome back! 👋</h10>
-        <p>We're thrilled to have you back on our platform. Dive back into your learning journey with ease. Whether it's accessing your saved materials, continuing a course, or exploring new content, we're here to support your educational goals every step of the way!</p>
+
+
       </div>
       <div className="login-container">
         <h2>Login</h2>

@@ -51,8 +51,7 @@ function Signup() {
     <div className='full-container-signup'>
 
       <div className='welcome-container'>
-        <h10>Welcome! 👋</h10>
-        <p>Our platform dedicated to empowering your educational journey! Here, you'll gain access to a wealth of enriching educational videos and materials tailored to enhance your learning experience. Whether you're a student, educator, or lifelong learner, our user-friendly platform is designed to cater to your unique educational needs. By registering with us, you'll unlock a world of knowledge at your fingertips. Join our community today and embark on a fulfilling educational adventure like never before!</p>
+
       </div>
 
     <div className="signup-container">
