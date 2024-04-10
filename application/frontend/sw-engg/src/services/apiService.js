@@ -45,19 +45,14 @@ const updateUserRole = async (email, newRole) => {
 };
 // Inside your apiService.js or a similar service file in your React app
 
-const uploadFile = (file, folderId) => {
-  const formData = new FormData();
-  formData.append("file", file);
-
-  // Construct the URL to include the folderId as a query parameter
-  const url = folderId ? `${config.BASE_URL}/upload?folderId=${folderId}` : `${config.BASE_URL}/upload`;
-
-  return axios.post(url, formData, {
+const uploadFile = (formData) => {
+  return axios.post(`${config.BASE_URL}/upload`, formData, {
     headers: {
-      "Content-Type": "multipart/form-data",
+      'Content-Type': 'multipart/form-data', // Set the content type header explicitly
     },
   });
 };
+
 
 
 const fetchFolders = async () => {
@@ -79,7 +74,6 @@ const fetchUserRole = async (email) => {
     throw error;
   }
 };
-
 
 // Export the service functions
 export default {

@@ -3,6 +3,7 @@ import CryptoJS from "crypto-js";
 import { useNavigate } from 'react-router-dom';
 import apiService from '../../services/apiService';
 import './Login.css'
+
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -63,7 +64,7 @@ function Login() {
 
   // Redirect logged-in users to homepage if they try to access the login page
   useEffect(() => {
-    
+    // Add any logic here if needed
   }, []);
 
   return (

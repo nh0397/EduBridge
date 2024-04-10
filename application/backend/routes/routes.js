@@ -173,44 +173,55 @@ router.get("/users", async (req, res) => {
 });
 
 router.post("/upload", upload.single("file"), async (req, res) => {
-  const { folderId } = req.query; // Extract folderId from the URL parameter
-  const file = req.file; // The uploaded file
-
   try {
-    // Step 1: Upload the file to Directus
-    let formData = new FormData();
+    const { folderId, title, description, tags } = req.body; // Extract data from the FormData object
+    console.log("Folder ID:", folderId); // Print folder ID
+    console.log("Title:", title); // Print title
+    console.log("Description:", description); // Print description
+    console.log("Tags:", tags); // Print tags
+
+    const file = req.file; // The uploaded file
+    console.log("file", file);
+
+    if (!file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    // Upload the file to Directus
+    const formData = new FormData();
     formData.append("file", file.buffer, file.originalname);
 
     const uploadResponse = await directusClient.post("/files", formData, {
-      headers: {
-        ...formData.getHeaders(),
-      },
+      headers: formData.getHeaders(),
     });
 
     const fileId = uploadResponse.data.data.id; // Assuming Directus response structure
 
-    // Step 2: Update the file's metadata to assign it to the folder
-    if (folderId) {
-      await directusClient.patch(`/files/${fileId}`, {
-        folder: folderId,
-      });
-    }
+    // Update the file's metadata to assign it to the folder and add additional details
+    const metadata = {
+      folder: folderId,
+      title: title,
+      description: description,
+      tags: tags,
+      // Add more metadata fields as needed
+    };
+
+    await directusClient.patch(`/files/${fileId}`, metadata);
 
     // Respond with success
     res.json({
       success: true,
-      message: "File uploaded and folder assigned successfully",
-      data: uploadResponse.data,
+      message: "File uploaded and metadata assigned successfully",
     });
   } catch (error) {
     console.error("Error handling file upload to Directus:", error);
-    res
-      .status(500)
-      .json({
-        message: "Failed to upload file to Directus and assign to folder",
-      });
+    res.status(500).json({
+      message: "Failed to upload file to Directus and assign metadata",
+    });
   }
 });
+
+
 
 router.get("/folders", async (req, res) => {
   try {
