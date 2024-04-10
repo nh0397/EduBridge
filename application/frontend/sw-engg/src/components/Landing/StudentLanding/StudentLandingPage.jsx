@@ -3,15 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import './StudentLandingPage.css'; // CSS file needs to be updated
-import  apiService  from '../../../services/apiService'; // Import the fetchFiles API service
-
-// Placeholder Components
-const FileView = () => <div>File View Placeholder</div>;
-const Conversations = () => <div>Conversations Placeholder</div>;
+import './StudentLandingPage.css'; // CSS file
+import apiService from '../../../services/apiService';
+import FileView from './FileView';
+import Conversations from './Conversations';
 
 const FeaturedCoursesCarousel = ({ files }) => {
-  console.log("type of ", typeof(files), files)
   const settings = {
     dots: true,
     infinite: true,
@@ -20,7 +17,6 @@ const FeaturedCoursesCarousel = ({ files }) => {
     slidesToScroll: 1,
   };
 
-      // Check if files is not an array
   if (!Array.isArray(files)) {
     return <div>No files available</div>;
   }
@@ -29,35 +25,11 @@ const FeaturedCoursesCarousel = ({ files }) => {
     <Slider {...settings}>
       {files.map((file) => (
         <div key={file.id}>
-          <h3>{file.title}</h3> {/* Display file title */}
-          <p>{file.description}</p> {/* Display file description */}
+          <h3>{file.title}</h3>
+          <p>{file.description}</p>
         </div>
       ))}
     </Slider>
-  );
-};
-
-
-
-// Additional feature can be removed
-const FeedbackForm = () => {
-  const [feedback, setFeedback] = useState('');
-
-  const submitFeedback = () => {
-    console.log(feedback);
-    //  feedback logic here
-    setFeedback(''); // Reset feedback input
-  };
-
-  return (
-    <div>
-      <textarea
-        value={feedback}
-        onChange={(e) => setFeedback(e.target.value)}
-        placeholder="Suggest a course or feature..."
-      />
-      <button onClick={submitFeedback}>Submit Feedback</button>
-    </div>
   );
 };
 
@@ -77,14 +49,14 @@ const StudentLandingPage = () => {
     };
 
     fetchFilesData();
-  }, []); // Run only once when the component mounts
+  }, []); 
 
   const exploreCourses = () => {
-    navigate('/courses');
+    navigate('/courses'); // Adjust as necessary based on the app's routes
   };
 
   const startDiscussion = () => {
-    console.log("Redirect to start a new discussion form/page.");
+    navigate('/discussion/new'); // Example route, adjust as necessary
   };
 
   return (
@@ -107,13 +79,10 @@ const StudentLandingPage = () => {
 
       <section className="featured-courses">
         <h3>Featured Courses</h3>
-        <FeaturedCoursesCarousel files={files} /> {/* Pass files as props */}
+        <FeaturedCoursesCarousel files={files} />
       </section>
 
-      <section className="feedback-section">
-        <h3>Your Feedback</h3>
-        <FeedbackForm />
-      </section>
+      <FeedbackForm />
 
       <footer className="landing-footer">
         <p>© 2024 Your Learning Platform. All rights reserved.</p>
