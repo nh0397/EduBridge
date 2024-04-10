@@ -358,6 +358,28 @@ router.get("/files", async (req, res) => {
   }
 });
 
+router.get('/searchFiles', async (req, res) => {
+  try {
+    // Check if there is a search term
+    if (req.query.search) {
+      const searchTerm = encodeURIComponent(req.query.search);
+      // Construct the query only with the search term for title, description, and tags
+      const query = `/files?search=${searchTerm}`;
+      
+      const response = await directusClient.get(`${query}`);
+      console.log(response)
+      res.json(response.data);
+    } else {
+      // If no search term is provided, respond with an error or empty array
+      res.status(400).json({ message: 'No search term provided' });
+    }
+  } catch (error) {
+    console.error('Error fetching files:', error);
+    res.status(500).json({ message: 'Failed to fetch files' });
+  }
+});
+
+
 module.exports = router;
 
 

@@ -78,6 +78,17 @@ const handleLike = async (id) => {
     return await response.json();
   } catch (error) {
     console.error('Error liking discussion:', error);
+  }
+}
+
+const fetchSearchedFiles = async (searchTerm) => {
+  try {
+    // Construct the query URL with the search term as a query parameter
+    const queryUrl = `${config.BASE_URL}/searchFiles?search=${encodeURIComponent(searchTerm)}`;
+    const response = await axios.get(queryUrl);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching files:', error);
     throw error;
   }
 };
@@ -96,5 +107,6 @@ export default {
   fetchUserRole,
   createDiscussion,
   fetchDiscussions, 
-  handleLike
-};
+  handleLike,
+  fetchSearchedFiles,
+}
