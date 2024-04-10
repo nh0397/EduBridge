@@ -1,15 +1,61 @@
-.nav-link {
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none; /* Remove underline from link */
-    margin-left: 1rem;
-  }
-  
-  .nav-link {
-    background-color: #218838;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+.instructor-landing-page {
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+}
+
+.instructor-header {
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  font-family: 'Outfit', sans-serif;
+}
+
+.dashboard-overview, .course-management-tools, .engagement-insights, .featured-courses {
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 90%;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.featured-courses h3, .dashboard-overview h3, .course-management-tools h3, .engagement-insights h3 {
+  font-size: 24px;
+  color: rgb(190, 22, 190);
+}
+
+.upload-content {
+  text-align: center;
+  padding: 20px;
+}
+
+.upload-content button {
+  background-color: rgb(190, 22, 190);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+.upload-content button:hover {
+  background-color: rgb(143, 25, 143);
+}
+
+.instructor-footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #333;
+  color: white;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
