@@ -11,6 +11,8 @@ import ProtectedRoute from "./components/routing/ProtectedRoute";
 import DiscussionForum from './components/DiscussionForum/DiscussionForum'; // Import the DiscussionForum component
 import DiscussionList from './components/DiscussionForum/DiscussionList';
 import DiscussionDetail from './components/DiscussionForum/DiscussionDetail';
+import StudentRoute from "./components/routing/StudentRoute";
+import InstructorRoute from "./components/routing/InstructorRoute";
 
 function App() {
   return (
@@ -21,12 +23,16 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/homepage/student" element={
             <ProtectedRoute>
-              <StudentLandingPage />
+              <StudentRoute>
+                <StudentLandingPage />
+              </StudentRoute>
             </ProtectedRoute>
           } />
           <Route path="/homepage/instructor" element={
             <ProtectedRoute>
-              <InstructorLandingPage />
+              <InstructorRoute>
+                <InstructorLandingPage />
+              </InstructorRoute>
             </ProtectedRoute>
           } />
           <Route path="/" element={<Login />} />

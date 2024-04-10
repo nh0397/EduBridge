@@ -40,8 +40,10 @@ function Login() {
 
       // Redirect based on user role
       if (role === 'student') {
+        sessionStorage.setItem('isStudent', 'true');
         navigate('/homepage/student');
       } else if (role === 'instructor') {
+        sessionStorage.setItem('isInstructor', 'true');
         navigate('/homepage/instructor');
       } else {
         // Handle other roles or unexpected cases
