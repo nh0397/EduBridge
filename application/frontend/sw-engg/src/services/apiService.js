@@ -54,6 +54,15 @@ const createDiscussion = async (title, content) => {
   return response.data;
 };
 
+const fetchFiles = async () => {
+  try {
+    const response = await axios.get(`${config.BASE_URL}/files`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
 // Export the service functions
 export default {
   signup,
@@ -64,5 +73,6 @@ export default {
   fetchFolders,
   updateUserRole,
   fetchUserRole,
-  createDiscussion
+  createDiscussion,
+  fetchFiles,
 };

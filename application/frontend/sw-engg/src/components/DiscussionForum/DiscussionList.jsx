@@ -10,7 +10,7 @@ const DiscussionList = () => {
 
   const fetchDiscussions = async () => {
     try {
-      const response = await fetch('/api/discussions');
+      const response = await fetch('localhost:3000/discussions');
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }

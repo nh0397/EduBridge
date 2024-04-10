@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import './StudentLandingPage.css'; // CSS file needs to be updated
+import  apiService  from '../../../services/apiService'; // Import the fetchFiles API service
 
 // Placeholder Components
 const FileView = () => <div>File View Placeholder</div>;
 const Conversations = () => <div>Conversations Placeholder</div>;
 
-const FeaturedCoursesCarousel = () => {
+const FeaturedCoursesCarousel = ({ files }) => {
+  console.log("type of ", typeof(files), files)
   const settings = {
     dots: true,
     infinite: true,
@@ -18,23 +20,24 @@ const FeaturedCoursesCarousel = () => {
     slidesToScroll: 1,
   };
 
-  // Sample courses data
-  const courses = [
-    { id: 1, title: 'Mastering React: From Beginner to Pro', description: 'Dive deep into React...' },
-    { id: 2, title: 'The Ultimate Guide to Node.js', description: 'Unlock the full potential of Node.js...' },
-  ];
+      // Check if files is not an array
+  if (!Array.isArray(files)) {
+    return <div>No files available</div>;
+  }
 
   return (
     <Slider {...settings}>
-      {courses.map((course) => (
-        <div key={course.id}>
-          <h3>{course.title}</h3>
-          <p>{course.description}</p>
+      {files.map((file) => (
+        <div key={file.id}>
+          <h3>{file.title}</h3> {/* Display file title */}
+          <p>{file.description}</p> {/* Display file description */}
         </div>
       ))}
     </Slider>
   );
 };
+
+
 
 // Additional feature can be removed
 const FeedbackForm = () => {
@@ -60,6 +63,21 @@ const FeedbackForm = () => {
 
 const StudentLandingPage = () => {
   const navigate = useNavigate();
+  const [files, setFiles] = useState([]); // State variable to store files
+
+  useEffect(() => {
+    // Fetch files when the component mounts
+    const fetchFilesData = async () => {
+      try {
+        const filesData = await apiService.fetchFiles();
+        setFiles(filesData.data);
+      } catch (error) {
+        console.error('Error fetching files:', error);
+      }
+    };
+
+    fetchFilesData();
+  }, []); // Run only once when the component mounts
 
   const exploreCourses = () => {
     navigate('/courses');
@@ -89,7 +107,7 @@ const StudentLandingPage = () => {
 
       <section className="featured-courses">
         <h3>Featured Courses</h3>
-        <FeaturedCoursesCarousel />
+        <FeaturedCoursesCarousel files={files} /> {/* Pass files as props */}
       </section>
 
       <section className="feedback-section">
@@ -105,6 +123,3 @@ const StudentLandingPage = () => {
 };
 
 export default StudentLandingPage;
-
-
-
