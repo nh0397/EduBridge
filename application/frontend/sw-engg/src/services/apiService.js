@@ -10,6 +10,14 @@ const signup = (firstName, lastName, email, password) => {
   });
 };
 
+const requestPasswordReset = (email) => {
+  return axios.post(`${config.BASE_URL}/request-password-reset`, { email });
+};
+
+const resetPasswordWithOtp = (email, otp, newPassword) => {
+  return axios.post(`${config.BASE_URL}/reset-password-with-otp`, { email, otp, newPassword });
+};
+
 const login = (email, password) => {
   return axios.post(`${config.BASE_URL}/login`, { email, password });
 };
@@ -109,4 +117,6 @@ export default {
   fetchDiscussions, 
   handleLike,
   fetchSearchedFiles,
+  requestPasswordReset,
+  resetPasswordWithOtp,
 }

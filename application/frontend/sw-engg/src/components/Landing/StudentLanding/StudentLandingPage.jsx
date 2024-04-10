@@ -82,7 +82,7 @@ const StudentLandingPage = () => {
         <FeaturedCoursesCarousel files={files} />
       </section>
 
-      <FeedbackForm />
+
 
       <footer className="landing-footer">
         <p>© 2024 Your Learning Platform. All rights reserved.</p>
