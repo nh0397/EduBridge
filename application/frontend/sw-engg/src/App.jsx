@@ -12,7 +12,9 @@ import DiscussionDetail from './components/DiscussionForum/DiscussionDetail';
 import ProtectedRoute from "./components/routing/ProtectedRoute";
 import StudentRoute from "./components/routing/StudentRoute";
 import InstructorRoute from "./components/routing/InstructorRoute";
+
 import './App.css';
+import ForgotPassword from "./components/forgotPassword/ForgotPassword";
 
 function App() {
   return (
@@ -24,6 +26,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/forgot-password" element={<ForgotPassword/>}/>
           {/* Protected and role-based routes for Student */}
           <Route path="/student" element={
             <ProtectedRoute>

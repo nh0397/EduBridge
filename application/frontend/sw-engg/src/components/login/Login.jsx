@@ -82,41 +82,44 @@ function Login() {
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              placeholder="Enter your email"
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder="Enter your email"
             />
-          </div>  
+          </div>
           <div className="form-group">
             <label htmlFor="password">Password</label>
             <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              placeholder="Enter your password"
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                placeholder="Enter your password"
             />
           </div>
           {requireOtp && (
-            <div className="form-group">
-              <label htmlFor="otp">OTP:</label>
-              <input
-                type="text"
-                id="otp"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                required
-                placeholder="Enter OTP"
-              />
-            </div>
+              <div className="form-group">
+                <label htmlFor="otp">OTP:</label>
+                <input
+                    type="text"
+                    id="otp"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    required
+                    placeholder="Enter OTP"
+                />
+              </div>
           )}
+          <div className="forgot-password-link">
+            <p>Forgot your password? <a href="/forgot-password">Reset it</a></p>
+          </div>
           <button type="submit" onClick={handleSubmit} disabled={isLoggingIn}>Login</button>
           <div className="register-link">
-              <p>Don't have an account? <a href="/signup">Register</a></p>
+            <p>Don't have an account? <a href="/signup">Register</a></p>
           </div>
         </form>
       </div>

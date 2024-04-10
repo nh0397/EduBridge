@@ -5,6 +5,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import './InstructorLandingPage.css'; // CSS needs work
 
+import apiService from "../../../services/apiService";
+
 const DashboardOverview = () => <div className="dashboard-overview">Dashboard Overview Content</div>;
 const CourseManagementTools = () => <div className="course-management-tools">Course Management Tools Content</div>;
 const EngagementInsights = () => <div className="engagement-insights">Engagement Insights Content</div>;

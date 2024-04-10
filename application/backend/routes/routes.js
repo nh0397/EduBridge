@@ -20,6 +20,53 @@ router.get("/", async (req, res) => {
   res.send("Welcome to the Syntaxx Squad API!");
 });
 
+// Endpoint to handle forgot password request
+router.post('/request-password-reset', async (req, res) => {
+  const { email } = req.body;
+  try {
+    const [users] = await pool.query("SELECT * FROM users WHERE email = ?", [email]);
+    if (users.length === 0) {
+
+      return res.status(200).json({ message: "If the email is registered, you will receive a password reset email." });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    await sendOtpEmail(users[0].first_name, email, otp);
+
+    await pool.query("UPDATE users SET otp = ? WHERE email = ?", [otp, email]);
+
+    res.json({ message: "If the email is registered, you will receive a password reset email." });
+  } catch (error) {
+    console.error("Error in requesting password reset:", error);
+    res.status(500).json({ message: "An error occurred while processing your request." });
+  }
+});
+
+// Endpoint to verify OTP and reset password
+router.post('/reset-password-with-otp', async (req, res) => {
+  const { email, otp, newPassword } = req.body;
+  try {
+    const [users] = await pool.query("SELECT * FROM users WHERE email = ?", [email]);
+    if (users.length === 0) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    const user = users[0];
+    if (user.otp === otp) {
+
+      const hashedPassword = CryptoJS.SHA256(newPassword).toString();
+      await pool.query("UPDATE users SET password = ?, otp = NULL, is_authenticated = 1 WHERE email = ?", [hashedPassword, email]);
+
+      res.json({ message: "Your password has been reset successfully." });
+    } else {
+      res.status(401).json({ message: "Invalid OTP. Please try again." });
+    }
+  } catch (error) {
+    console.error("Error resetting password:", error);
+    res.status(500).json({ message: "An error occurred while resetting your password." });
+  }
+});
+
 // Signup endpoint
 router.post("/signup", async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
