@@ -1,4 +1,9 @@
 import React, { useState } from 'react';
+import './Search.css';
+import SearchComponent from './Search';
+import apiService from '../../../services/apiService';
+import Conversations from '../Landing/StudentLanding/Conversations';
+
 
 const SearchComponent = ({ data }) => {
     const [query, setQuery] = useState('');
@@ -17,6 +22,20 @@ const SearchComponent = ({ data }) => {
         };
     };
 
+    useEffect(() => {
+        // Fetch files when the component mounts
+        const fetchFilesData = async () => {
+          try {
+            const filesData = await apiService.fetchFiles();
+            setFiles(filesData.data);
+          } catch (error) {
+            console.error('Error fetching files:', error);
+          }
+        };
+    
+        fetchFilesData();
+      }, []); 
+    
     // Handle search input changes
     const handleSearch = debounce((searchQuery) => {
         setIsLoading(true); // Show loading state
