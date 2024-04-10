@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import apiService from '../../services/apiService'; // Import your apiService
+import apiService from '../../services/apiService'; // Ensure the path to apiService is correct
 import './DiscussionForum.css';
 
 const DiscussionForum = () => {
@@ -23,6 +23,7 @@ const DiscussionForum = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setConfirmation('');
     if (title.length > 150) {
       setError('Title must be less than 150 characters.');
       return;
@@ -33,12 +34,12 @@ const DiscussionForum = () => {
     }
 
     try {
-      const data = await apiService.createDiscussion(title, text); // Use the apiService here
+      const data = await apiService.createDiscussion(title, text); // Using the apiService here
       setConfirmation('Discussion created successfully!');
       navigate(`/discussion/${data.id}`);
     } catch (error) {
-      setError('Failed to create discussion.');
       console.error('Error creating discussion:', error);
+      setError(error.message || 'Failed to create discussion.');
     }
   };
 

@@ -50,18 +50,39 @@ const fetchUserRole = async (email) => {
 };
 
 const createDiscussion = async (title, content) => {
-  const response = await axios.post(`${config.BASE_URL}/discussions`, { title, content });
+  const response = await axios.post(`${config.BASE_URL}/api/discussions`, { title, content });
   return response.data;
 };
 
-const fetchFiles = async () => {
+const fetchDiscussions = async () => {
   try {
-    const response = await axios.get(`${config.BASE_URL}/files`);
-    return response.data;
+    const response = await fetch(`${config.BASE_URL}/discussions`); // Template literal used
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return await response.json();
   } catch (error) {
-    throw error.response.data;
+    console.error('Error fetching discussions:', error);
+    throw error;
   }
 };
+
+const handleLike = async (id) => {
+  try {
+    const response = await fetch(`${config.BASE_URL}/discussions/${id}/like`, { // Template literal used
+      method: 'POST'
+    });
+    if (!response.ok) {
+      throw new Error('Could not like the discussion');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error liking discussion:', error);
+    throw error;
+  }
+};
+
+
 
 // Export the service functions
 export default {
@@ -74,5 +95,6 @@ export default {
   updateUserRole,
   fetchUserRole,
   createDiscussion,
-  fetchFiles,
+  fetchDiscussions, 
+  handleLike
 };

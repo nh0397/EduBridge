@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import apiService from '../../services/apiService'; // Import your apiService
 
 const DiscussionDetail = () => {
   const [discussion, setDiscussion] = useState(null);
@@ -9,44 +10,30 @@ const DiscussionDetail = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    const fetchDiscussionDetails = async () => {
-      try {
-        const response = await fetch(`/api/discussions/${id}`);
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        const data = await response.json();
-        setDiscussion(data.discussion);
-        setReplies(data.replies);
-      } catch (error) {
-        console.error('Error fetching discussion details:', error);
-        setError('Failed to fetch discussion details.');
-      }
-    };
-
     fetchDiscussionDetails();
-  }, [id]);
+  }, [id]); // Add fetchDiscussionDetails to the dependency array
+
+  const fetchDiscussionDetails = async () => {
+    try {
+      const data = await apiService.fetchDiscussionDetail(id); // Update this to the correct function name if needed
+      setDiscussion(data.discussion);
+      setReplies(data.replies);
+    } catch (error) {
+      console.error('Error fetching discussion details:', error);
+      setError('Failed to fetch discussion details.');
+    }
+  };
 
   const handleReplySubmit = async (e) => {
     e.preventDefault();
+    if (!newReply.trim()) {
+      setError('Reply cannot be empty.');
+      return;
+    }
     try {
-      const response = await fetch(`/api/discussions/${id}/replies`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // If you have an auth token, include it in the headers
-          // 'Authorization': `Bearer ${authToken}`
-        },
-        body: JSON.stringify({ content: newReply })
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setReplies([...replies, { content: newReply, id: data.id }]); // Add the new reply to the local state
-      setNewReply(''); // Clear the input field
+      const data = await apiService.postReply(id, newReply); // Update this to the correct function name if needed
+      setReplies([...replies, { content: newReply, id: data.id }]);
+      setNewReply('');
     } catch (error) {
       console.error('Error submitting reply:', error);
       setError('Failed to submit reply.');

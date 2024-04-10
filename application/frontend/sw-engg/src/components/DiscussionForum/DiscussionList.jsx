@@ -1,32 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import apiService from '../../services/apiService'; // Correct path to your apiService
 
 const DiscussionList = () => {
   const [discussions, setDiscussions] = useState([]);
 
   useEffect(() => {
-    fetchDiscussions();
+    fetchDiscussionsFromApi();
   }, []);
 
-  const fetchDiscussions = async () => {
+  const fetchDiscussionsFromApi = async () => {
     try {
-      const response = await fetch('localhost:3000/discussions');
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
+      const data = await apiService.fetchDiscussions();
       setDiscussions(data);
     } catch (error) {
       console.error('Error fetching discussions:', error);
     }
   };
 
-  const handleLike = async (id) => {
+  const likeDiscussion = async (id) => {
     try {
-      const response = await fetch(`/api/discussions/${id}/like`, { method: 'POST' });
-      if (!response.ok) {
-        throw new Error('Could not like the discussion');
-      }
+      await apiService.handleLike(id);
       // Optimistically update the UI
       setDiscussions(discussions.map(discussion => {
         if (discussion.id === id) {
@@ -35,7 +29,7 @@ const DiscussionList = () => {
         return discussion;
       }));
     } catch (error) {
-      console.error(error);
+      console.error('Error liking discussion:', error);
     }
   };
 
@@ -47,7 +41,7 @@ const DiscussionList = () => {
           <li key={discussion.id}>
             <Link to={`/discussion/${discussion.id}`}>{discussion.title}</Link>
             {' '}
-            <button onClick={() => handleLike(discussion.id)}>Like</button>
+            <button onClick={() => likeDiscussion(discussion.id)}>Like</button>
             <span>Likes: {discussion.likes || 0}</span>
           </li>
         ))}
