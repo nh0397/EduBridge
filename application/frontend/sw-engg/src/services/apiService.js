@@ -1,15 +1,12 @@
 import axios from "axios";
 import config from "../config";
 
-
 const signup = (firstName, lastName, email, password) => {
-  console.log("inside apiservice");
-  // Hash the password client-side (understanding the security implications)
   return axios.post(`${config.BASE_URL}/signup`, {
     firstName,
     lastName,
     email,
-    password: password,
+    password,
   });
 };
 
@@ -19,60 +16,42 @@ const login = (email, password) => {
 
 const loginWithOtp = (email, hashedPassword, otp) => {
   return axios.post(`${config.BASE_URL}/verify-otp`, { email, hashedPassword, otp });
-}
+};
 
 const fetchUsers = async () => {
-  try {
-    const response = await axios.get(`${config.BASE_URL}/users`);
-    return response.data.data; // Assuming the response structure includes data within data
-  } catch (error) {
-    console.error('Error fetching users:', error);
-    throw error; // Rethrow the error so the calling function can handle it
-  }
+  const response = await axios.get(`${config.BASE_URL}/users`);
+  return response.data.data;
 };
 
 const updateUserRole = async (email, newRole) => {
-  try {
-    const response = await axios.post(`${config.BASE_URL}/updateRole`, {
-      role: newRole,
-      email: email
-    });
-    return response.data; // Assuming the response structure is directly the updated user data or success indicator
-  } catch (error) {
-    console.error('Error updating user role:', error);
-    throw error;
-  }
+  const response = await axios.post(`${config.BASE_URL}/updateRole`, {
+    role: newRole,
+    email: email
+  });
+  return response.data;
 };
-// Inside your apiService.js or a similar service file in your React app
 
 const uploadFile = (formData) => {
   return axios.post(`${config.BASE_URL}/upload`, formData, {
     headers: {
-      'Content-Type': 'multipart/form-data', // Set the content type header explicitly
+      'Content-Type': 'multipart/form-data',
     },
   });
 };
 
-
-
 const fetchFolders = async () => {
-  try {
-    const response = await axios.get(`${config.BASE_URL}/folders`);
-    return response.data.data; // Assuming Directus standard response structure
-  } catch (error) {
-    console.error('Error fetching folders:', error);
-    throw error;
-  }
+  const response = await axios.get(`${config.BASE_URL}/folders`);
+  return response.data.data;
 };
 
 const fetchUserRole = async (email) => {
-  try {
-    const response = await axios.get(`${config.BASE_URL}/userRole/${email}`);
-    return response.data.data; // Assuming Directus standard response structure
-  } catch (error) {
-    console.error('Error fetching user role:', error);
-    throw error;
-  }
+  const response = await axios.get(`${config.BASE_URL}/userRole/${email}`);
+  return response.data.data;
+};
+
+const createDiscussion = async (title, content) => {
+  const response = await axios.post(`${config.BASE_URL}/discussions`, { title, content });
+  return response.data;
 };
 
 // Export the service functions
@@ -84,5 +63,6 @@ export default {
   uploadFile,
   fetchFolders,
   updateUserRole,
-  fetchUserRole
+  fetchUserRole,
+  createDiscussion
 };
