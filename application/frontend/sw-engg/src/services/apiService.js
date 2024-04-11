@@ -14,8 +14,8 @@ const fetchDiscussionDetail = (id) => {
   return axios.get(`${config.BASE_URL}/api/discussions/${id}`);
 }
 
-const postReply = (id, newReply) => {
-  return axios.get(`${config.BASE_URL}/api/discussions/${id}/replies`);
+const postReply = (id, content) => {
+  return axios.post(`${config.BASE_URL}/api/discussions/${id}/replies`, { content });
 }
 const requestPasswordReset = (email) => {
   return axios.post(`${config.BASE_URL}/request-password-reset`, { email });
@@ -71,7 +71,7 @@ const createDiscussion = async (title, content) => {
 
 const fetchDiscussions = async () => {
   try {
-    const response = await fetch(`${config.BASE_URL}/discussions`); // Template literal used
+    const response = await fetch(`${config.BASE_URL}/api/discussions`); // Template literal used
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -84,7 +84,7 @@ const fetchDiscussions = async () => {
 
 const handleLike = async (id) => {
   try {
-    const response = await fetch(`${config.BASE_URL}/discussions/${id}/like`, { // Template literal used
+    const response = await fetch(`${config.BASE_URL}/api/discussions/${id}/like`, { // Template literal used
       method: 'POST'
     });
     if (!response.ok) {

@@ -4,7 +4,7 @@ const pool = require("../Services/database"); // Make sure this path is correct
 const router = express.Router();
 
 // Record discussion
-router.post('/discussions', async (req, res) => {
+router.post('/', async (req, res) => {
     const { title, content } = req.body;
     if (!title || !content) {
       return res.status(400).json({ message: 'Title and content are required.' });
@@ -13,7 +13,9 @@ router.post('/discussions', async (req, res) => {
     const query = 'INSERT INTO discussions (title, content) VALUES (?, ?)';
     try {
       const result = await pool.query(query, [title, content]);
-      res.status(201).json({ message: 'Discussion created.', id: result.insertId });
+      res.status(201).json({ message: 'Discussion created.', id: result[0].insertId });
+      console.log(result);
+      console.log(result[0].insertId);
     } catch (error) {
       console.error('Database error:', error);
       res.status(500).json({ message: 'Error creating discussion.' });
@@ -21,7 +23,7 @@ router.post('/discussions', async (req, res) => {
 });
 
 // Record reply
-router.post('/discussions/:id/replies', async (req, res) => {
+router.post('/:id/replies', async (req, res) => {
     const { content } = req.body;
     const { id: discussionId } = req.params;
     if (!content) {
@@ -31,6 +33,7 @@ router.post('/discussions/:id/replies', async (req, res) => {
     const insertReplyQuery = 'INSERT INTO replies (discussion_id, content) VALUES (?, ?)';
     try {
       const [result] = await pool.execute(insertReplyQuery, [discussionId, content]);
+      console.log(result);
       res.status(201).json({ message: 'Reply added successfully', id: result.insertId });
     } catch (error) {
       console.error('Database error:', error);
@@ -38,8 +41,10 @@ router.post('/discussions/:id/replies', async (req, res) => {
     }
 });
 
+
+
 // Get discussions
-router.get('/discussions', async (req, res) => {
+router.get('/', async (req, res) => {
     const selectDiscussionsQuery = 'SELECT id, title FROM discussions';
     try {
       const [rows] = await pool.execute(selectDiscussionsQuery);
@@ -51,7 +56,7 @@ router.get('/discussions', async (req, res) => {
 });
 
 // Get discussion details
-router.get('/discussions/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     const { id } = req.params;
     const selectDiscussionQuery = 'SELECT * FROM discussions WHERE id = ?';
     const selectRepliesQuery = 'SELECT * FROM replies WHERE discussion_id = ?';
@@ -71,7 +76,7 @@ router.get('/discussions/:id', async (req, res) => {
 });
 
 // Likes
-router.post('/discussions/:id/like', async (req, res) => {
+router.post('/:id/like', async (req, res) => {
     const { id } = req.params;
     const likeDiscussionQuery = 'UPDATE discussions SET likes = likes + 1 WHERE id = ?';
   

@@ -16,8 +16,10 @@ const DiscussionDetail = () => {
   const fetchDiscussionDetails = async () => {
     try {
       const data = await apiService.fetchDiscussionDetail(id); // Update this to the correct function name if needed
-      setDiscussion(data.discussion);
-      setReplies(data.replies);
+
+      console.log(data.data);
+      setDiscussion(data.data.discussion);
+      setReplies(data.data.replies);
     } catch (error) {
       console.error('Error fetching discussion details:', error);
       setError('Failed to fetch discussion details.');
@@ -32,7 +34,7 @@ const DiscussionDetail = () => {
     }
     try {
       const data = await apiService.postReply(id, newReply); // Update this to the correct function name if needed
-      setReplies([...replies, { content: newReply, id: data.id }]);
+      setReplies([...replies, { content: newReply, id: data.data.id }]);
       setNewReply('');
     } catch (error) {
       console.error('Error submitting reply:', error);
