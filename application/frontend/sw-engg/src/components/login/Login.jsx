@@ -45,6 +45,9 @@ function Login() {
       } else if (role.toLowerCase() === 'instructor') {
         sessionStorage.setItem('isInstructor', 'true');
         navigate('/instructor');
+      } else if (role.toLowerCase() === 'administrator') {
+        sessionStorage.setItem('isAdministrator', 'true');
+        navigate('/admin');
       } else {
         // Handle other roles or unexpected cases
         navigate('/homepage');
