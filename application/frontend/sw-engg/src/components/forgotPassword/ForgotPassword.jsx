@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import apiService from '../../services/apiService';
+import './ForgotPassword.css'
 
 function ForgotPassword() {
     const [email, setEmail] = useState('');
@@ -33,27 +34,29 @@ function ForgotPassword() {
         <div className="forgot-password-container">
             <h2>Reset Password</h2>
             {!resetSent ? (
-                <form onSubmit={handleRequestReset}>
+                <form onSubmit={handleRequestReset} className="password-reset-form">
                     <div className="form-group">
                         <label htmlFor="email">Email</label>
                         <input
                             type="email"
                             id="email"
+                            className="input-field"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
                             placeholder="Enter your email"
                         />
                     </div>
-                    <button type="submit">Send Reset Link</button>
+                    <button type="submit" className="submit-btn">Send Reset Link</button>
                 </form>
             ) : (
-                <form onSubmit={handleResetPassword}>
+                <form onSubmit={handleResetPassword} className="password-reset-form">
                     <div className="form-group">
                         <label htmlFor="otp">OTP</label>
                         <input
                             type="text"
                             id="otp"
+                            className="input-field"
                             value={otp}
                             onChange={(e) => setOtp(e.target.value)}
                             required
@@ -65,18 +68,20 @@ function ForgotPassword() {
                         <input
                             type="password"
                             id="newPassword"
+                            className="input-field"
                             value={newPassword}
                             onChange={(e) => setNewPassword(e.target.value)}
                             required
                             placeholder="Enter your new password"
                         />
                     </div>
-                    <button type="submit">Reset Password</button>
+                    <button type="submit" className="submit-btn">Reset Password</button>
                 </form>
             )}
-            {message && <p>{message}</p>}
+            {message && <p className="reset-message">{message}</p>}
         </div>
     );
+
 }
 
 export default ForgotPassword;
