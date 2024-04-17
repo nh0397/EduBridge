@@ -92,4 +92,20 @@ router.post('/:id/like', async (req, res) => {
     }
 });
 
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  const deleteDiscussionQuery = 'DELETE FROM discussions WHERE id = ?';
+  try {
+    const [result] = await pool.execute(deleteDiscussionQuery, [id]);
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Discussion not found or you do not have permission to delete this discussion' });
+    }
+    res.status(200).json({ message: 'Discussion deleted successfully' });
+  } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({ message: 'Error deleting discussion' });
+  }
+});
+
 module.exports = router;

@@ -108,6 +108,11 @@ const fetchSearchedFiles = async (searchTerm) => {
   }
 };
 
+const deleteDiscussion = async (id) => {
+  const response = await axios.delete(`${config.BASE_URL}/api/discussions/${id}`);
+  return response.data;
+};
+
 
 
 // Export the service functions
@@ -128,4 +133,5 @@ export default {
   resetPasswordWithOtp,
   fetchDiscussionDetail,
   postReply,
+  deleteDiscussion
 }

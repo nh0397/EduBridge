@@ -17,8 +17,18 @@ const DiscussionList = () => {
       console.error('Error fetching discussions:', error);
     }
   };
+  
+  const deleteDiscussion = async (id) => {
+    try {
+      await apiService.deleteDiscussion(id);
+      setDiscussions(discussions.filter((discussion) => discussion.id !== id));
+    } catch (error) {
+      console.error('Error deleting discussion:', error);
+    }
+  };
+  
 
-  const likeDiscussion = async (id) => {
+  const likeDiscussion = async (id) => { 
     try {
       await apiService.handleLike(id);
       // Optimistically update the UI
@@ -41,6 +51,7 @@ const DiscussionList = () => {
           <li key={discussion.id}>
             <Link to={`/discussion/${discussion.id}`}>{discussion.title}</Link>
             {' '}
+            <button onClick={() => deleteDiscussion(discussion.id)}>Delete</button>
             <button onClick={() => likeDiscussion(discussion.id)}>Like</button>
             <span>Likes: {discussion.likes || 0}</span>
           </li>
