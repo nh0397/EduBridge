@@ -23,7 +23,7 @@ function ForgotPassword() {
     const handleResetPassword = async (e) => {
         e.preventDefault();
         try {
-            await apiService.resetPassword(email, otp, newPassword);
+            await apiService.resetPasswordWithOtp(email, otp, newPassword);
             setMessage('Your password has been reset successfully. You can now login with your new password.');
         } catch (error) {
             setMessage('Failed to reset password. Please ensure your OTP is correct and try again.');
