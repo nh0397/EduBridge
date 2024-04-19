@@ -20,6 +20,8 @@ router.get("/", async (req, res) => {
   res.send("Welcome to the Syntaxx Squad API!");
 });
 
+
+
 // Endpoint to handle forgot password request
 router.post('/request-password-reset', async (req, res) => {
   const { email } = req.body;
@@ -310,6 +312,22 @@ router.get("/userRole/:email", async (req, res) => {
   } catch (error) {
     console.error("Error retrieving user role:", error);
     res.status(500).json({ success: false, message: "Error retrieving user role" });
+  }
+});
+
+router.get("/userFirstName/:email", async (req, res) => {
+  const { email } = req.params; // Extract email from params using destructuring
+  try {
+    const [results] = await pool.query(
+        "SELECT first_name FROM users WHERE email = ?",
+        [email]
+    );
+
+
+    res.json({ success: true, data: results });
+  } catch (error) {
+    console.error("Error retrieving user FirstName:", error);
+    res.status(500).json({ success: false, message: "Error retrieving user FirstName" });
   }
 });
 

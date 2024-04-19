@@ -10,6 +10,10 @@ const signup = (firstName, lastName, email, password) => {
   });
 };
 
+const fetchUserFirstName = (email) => {
+  return axios.get(`${config.BASE_URL}/userFirstName/${email}`);
+}
+
 const fetchDiscussionDetail = (id) => {
   return axios.get(`${config.BASE_URL}/api/discussions/${id}`);
 }
@@ -68,7 +72,6 @@ const createDiscussion = async (title, content, userEmail) => {
   const response = await axios.post(`${config.BASE_URL}/api/discussions`, { title, content, userEmail });
   return response.data;
 };
-
 
 const fetchDiscussions = async () => {
   try {
@@ -168,6 +171,7 @@ export default {
   fetchDiscussionDetail,
   postReply,
   deleteDiscussion,
+  fetchUserFirstName,
   fetchMyDiscussions,
   dislikeDiscussion,
   updateDiscussion

@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 
 const isStudent = () => {
-    return sessionStorage.getItem('isStudent') === 'true';
+    return sessionStorage.getItem('role') === 'student';
 };
 
 const StudentRoute = ({ children}) => {

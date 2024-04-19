@@ -1,11 +1,13 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 
+// Function to check if the user's role is 'instructor'
 const isInstructor = () => {
-    return sessionStorage.getItem('isInstructor') === 'true';
+    return sessionStorage.getItem('role') === 'instructor';
 };
 
-const InstructorRoute = ({ children}) => {
+// Component to protect routes intended only for instructors
+const InstructorRoute = ({ children }) => {
     if (!isInstructor()) {
         return <Navigate to="/" />;
     }
