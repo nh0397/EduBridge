@@ -31,6 +31,9 @@ function ForgotPassword() {
     };
 
     return (
+        <div className='full-container'>
+
+
         <div className="forgot-password-container">
             <h2>Reset Password</h2>
             {!resetSent ? (
@@ -79,6 +82,7 @@ function ForgotPassword() {
                 </form>
             )}
             {message && <p className="reset-message">{message}</p>}
+        </div>
         </div>
     );
 
