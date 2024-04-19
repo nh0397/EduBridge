@@ -1,98 +1,84 @@
 /* Main container styling */
 .discussion-container {
-    max-width: 800px; /* Limiting max width for better readability */
-    margin: 2rem auto;
-    padding: 2rem;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  }
-  
-  /* Heading styling */
-  .discussion-container h2 {
-    color: #333;
-    font-size: 1.75rem; /* Smaller font size for heading */
-    text-align: center;
-    margin-bottom: 1.5rem;
-  }
-  
-  /* List styling */
-  .discussion-container ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Heading styling */
+.discussion-container h2 {
+  color: #333;
+  font-size: 1.75rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* List styling */
+.discussion-container .discussion-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0;
+  margin: 0;
+}
+
+.discussion-container li {
+  width: calc(50% - 0.5rem); /* Two discussions side by side with gap between */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.discussion-container li:hover {
+  transform: translateY(-5px);
+}
+
+/* Link styling */
+.discussion-container a {
+  text-decoration: none;
+  color: #1058d1;
+  font-weight: 500;
+}
+
+/* Button styling */
+.discussion-container button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background-color 0.2s;
+}
+
+.discussion-container button:hover {
+  background-color: #0056b3;
+}
+
+/* Likes styling */
+.discussion-container .likes {
+  font-size: 0.875rem;
+  color: #666;
+  margin-left: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
   .discussion-container li {
-    background-color: #fff;
-    border-radius: 4px;
-    padding: 0.75rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-    transition: background-color 0.2s; /* Smooth background transition */
+    width: 100%; /* Single column layout on smaller screens */
   }
-  
-  /* Interaction hover effect */
-  .discussion-container li:hover {
-    background-color: #eef2f7;
-  }
-  
-  /* Link styling */
-  .discussion-container a {
-    text-decoration: none;
-    color: #1058d1;
-    font-weight: 500;
-    flex-grow: 1; /* Allow the title to grow */
-  }
-  
-  /* Button styling */
-  .discussion-container button {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-    font-size: 0.875rem;
-    transition: background-color 0.2s; /* Smooth background transition for buttons */
-  }
-  
-  .discussion-container button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Span for likes, adjusted to be inline with like button */
-  .likes {
-    font-size: 0.875rem; /* Smaller text for likes */
-    color: #666;
-    margin-left: 1rem;
-  }
-  
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .discussion-container {
-      width: 90%; /* Increase width on smaller screens */
-      padding: 1rem;
-    }
-  
-    .discussion-container h2 {
-      font-size: 1.5rem; /* Adjust heading size on smaller screens */
-    }
-  
-    .discussion-container li {
-      flex-direction: column; /* Stack elements on small screens */
-      align-items: flex-start; /* Align items to the start */
-    }
-  
-    .discussion-container button {
-      margin-top: 0.5rem; /* Add space between buttons on small screens */
-    }
-  
-    .likes {
-      align-self: flex-end; /* Align likes to the end of the flex container */
-      margin-top: 0.5rem;
-    }
-  }
+}
+
+
+
+
+
+
+
   

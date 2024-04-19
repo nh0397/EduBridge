@@ -3,30 +3,57 @@ import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import './StudentLandingPage.css'; // CSS file
-import apiService from '../../../services/apiService';
-import FileView from './FileView';
-import Conversations from './Conversations';
+import './StudentLandingPage.css'; 
+import apiService from '../../../services/apiService'; 
+import FileView from './FileView'; 
+import DiscussionList from '../../DiscussionForum/DiscussionList';
+import MyDiscussions from '../../DiscussionForum/MyDiscussions';
 
-const FeaturedCoursesCarousel = ({ files }) => {
+const PopularCoursesCarousel = ({ files }) => {
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />,
+    responsive: [
+      {
+        breakpoint: 768, // Adjust breakpoint as needed
+        settings: {
+          slidesToShow: 2
+        }
+      },
+      {
+        breakpoint: 480, // Adjust breakpoint as needed
+        settings: {
+          slidesToShow: 1
+        }
+      }
+    ]
   };
 
-  if (!Array.isArray(files)) {
-    return <div>No files available</div>;
+  if (!Array.isArray(files) || files.length === 0) {
+    return <div className="empty-state">No files available</div>;
   }
 
   return (
     <Slider {...settings}>
       {files.map((file) => (
-        <div key={file.id}>
-          <h3>{file.title}</h3>
-          <p>{file.description}</p>
+        <div key={file.id} className="file-card">
+          <img src={file.thumbnail} alt={file.title} className="file-thumbnail" />
+          <div className="file-info">
+            <h3>{file.title}</h3>
+            <p>{file.description}</p>
+            <div className="file-meta">
+              <span>{file.category}</span>
+              <span>{file.fileSize}</span>
+              <span>{file.uploadDate}</span>
+            </div>
+          </div>
         </div>
       ))}
     </Slider>
@@ -35,60 +62,88 @@ const FeaturedCoursesCarousel = ({ files }) => {
 
 const StudentLandingPage = () => {
   const navigate = useNavigate();
-  const [files, setFiles] = useState([]); // State variable to store files
+  const [files, setFiles] = useState([]);
+  const [showMyDiscussions, setShowMyDiscussions] = useState(false);
+  const Name = sessionStorage.getItem('firstName');
 
   useEffect(() => {
-    // Fetch files when the component mounts
     const fetchFilesData = async () => {
       try {
         const filesData = await apiService.fetchAllFiles();
         setFiles(filesData.data);
       } catch (error) {
         console.error('Error fetching files:', error);
+        // Display error message to the user
       }
     };
 
     fetchFilesData();
-  }, []); 
+  }, []);
 
   const exploreCourses = () => {
-    navigate('/courses'); // Adjust as necessary based on the app's routes
+    navigate('/courses');
   };
 
-  const startDiscussion = () => {
-    navigate('/discussion/new'); // Example route, adjust as necessary
+  const toggleDiscussionsView = () => {
+    setShowMyDiscussions(!showMyDiscussions);
   };
 
   return (
     <div className="landing-page">
       <header className="landing-header">
-        <h1>Welcome to Your Learning Platform</h1>
+        <h1 className="header-title">Welcome to Your Learning Platform</h1>
       </header>
 
       <section className="welcome-section">
-        <h2>Welcome, Students!</h2>
-        <p>Explore your courses, connect in conversations, and enhance your learning journey with us.</p>
-        <button onClick={exploreCourses}>Explore Courses</button>
+        <h2 className="welcome-heading">{Name ? `Hello, ${Name}`: ''}</h2>
+        <p className="welcome-description">Discover new courses and enhance your learning journey with us.</p>
+        <button className="explore-button" onClick={exploreCourses}>Explore Courses</button>
       </section>
 
       <main className="split-view">
-        <FileView />
-        <Conversations />
-        <button onClick={startDiscussion}>Start a New Discussion</button>
+        <div className="course-content">
+          <h2 className="section-heading">Course Materials</h2>
+          <FileView />
+        </div>
+        <div className="discussion-content">
+          <h2 className="section-heading">Discussions</h2>
+          <button className="toggle-button" onClick={toggleDiscussionsView}>
+            {showMyDiscussions ? 'Show All Discussions' : 'Show My Discussions'}
+          </button>
+          {showMyDiscussions ? <MyDiscussions /> : <DiscussionList />}
+        </div>
       </main>
 
       <section className="featured-courses">
-        <h3>Featured Courses</h3>
-        <FeaturedCoursesCarousel files={files} />
+        <h2 className="section-heading">Popular Files</h2>
+        <PopularCoursesCarousel files={files} />
       </section>
 
-
-
       <footer className="landing-footer">
-        <p>© 2024 Your Learning Platform. All rights reserved.</p>
+        <p className="footer-text">© 2024 Your Learning Platform. All rights reserved.</p>
       </footer>
     </div>
   );
 };
 
+// Custom arrow components for Slider
+const PrevArrow = (props) => {
+  const { className, onClick } = props;
+  return (
+    <div className={className} onClick={onClick}>
+      <i className="fas fa-chevron-left"></i>
+    </div>
+  );
+};
+
+const NextArrow = (props) => {
+  const { className, onClick } = props;
+  return (
+    <div className={className} onClick={onClick}>
+      <i className="fas fa-chevron-right"></i>
+    </div>
+  );
+};
+
 export default StudentLandingPage;
+

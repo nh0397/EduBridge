@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import apiService from '../../services/apiService'; // Ensure the path to apiService is correct
 import './DiscussionForum.css';
 
-const DiscussionForum = () => {
+const DiscussionForum = ({ onClose }) => {
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
   const [error, setError] = useState('');
@@ -38,6 +38,7 @@ const DiscussionForum = () => {
       const data = await apiService.createDiscussion(title, text, userEmail); // Pass the userEmail to the createDiscussion function
       setConfirmation('Discussion created successfully!');
       navigate(`/discussion/${data.id}`);
+      onClose(); // Close the discussion forum tab
     } catch (error) {
       console.error('Error creating discussion:', error);
       setError(error.message || 'Failed to create discussion.');
@@ -69,8 +70,8 @@ const DiscussionForum = () => {
           required
         />
         <button type="submit" className="discussion-submit-btn">Create Discussion</button>
-        <Link to="/discussions" className="view-discussions-btn">View All Discussions</Link>
-        <Link to="/my-discussions" className="view-my-discussions-btn">View My Discussions</Link>
+        <Link to="/discussions" className="view-discussions-btn" onClick={onClose}>View All Discussions</Link>
+        <Link to="/my-discussions" className="view-my-discussions-btn" onClick={onClose}>View My Discussions</Link>
       </form>
     </div>
   );

@@ -1,4 +1,3 @@
-// DiscussionList.jsx
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import apiService from '../../services/apiService';
@@ -53,14 +52,28 @@ const DiscussionList = () => {
 
   return (
     <div className="discussion-container">
-      <h2>All Discussions</h2>
-      <ul>
+      <h2 className="discussion-heading">All Discussions</h2>
+      <ul className="discussion-list">
         {discussions.map((discussion) => (
-          <li key={discussion.id}>
-            <Link to={`/discussion/${discussion.id}`}>{discussion.title}</Link>
-            <p>Likes: {discussion.likes || 0} | Dislikes: {discussion.dislikes || 0}</p>
-            <button onClick={() => likeDiscussion(discussion.id)}>Like</button>
-            <button onClick={() => handleDislike(discussion.id)}>Dislike</button>
+          <li key={discussion.id} className="discussion-item">
+            <Link to={`/discussion/${discussion.id}`} className="discussion-link">{discussion.title}</Link>
+            <div className="discussion-actions">
+              <button
+                onClick={() => likeDiscussion(discussion.id)}
+                className="discussion-like"
+                title="Like"
+              >
+                👍
+              </button>
+              <button
+                onClick={() => handleDislike(discussion.id)}
+                className="discussion-dislike"
+                title="Dislike"
+              >
+                👎
+              </button>
+            </div>
+            <p className="discussion-stats">Likes: {discussion.likes || 0} | Dislikes: {discussion.dislikes || 0}</p>
           </li>
         ))}
       </ul>
@@ -69,3 +82,6 @@ const DiscussionList = () => {
 };
 
 export default DiscussionList;
+
+
+

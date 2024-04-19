@@ -17,6 +17,7 @@ import './App.css';
 import ForgotPassword from "./components/forgotPassword/ForgotPassword";
 import AdministratorRoute from "./components/routing/AdministratorRoute";
 import MyDiscussions from './components/DiscussionForum/MyDiscussions';
+import CoursesPage from "./components/CoursesPage/CoursesPage";
 
 const Layout = ({children}) => {
     const location = useLocation();
@@ -68,6 +69,8 @@ function App() {
                 <Route path="/discussions" element={<DiscussionList/>}/>
                 <Route path="/discussion/:id" element={<DiscussionDetail/>}/>
                 <Route path="/my-discussions" element={<MyDiscussions />} />
+                {/* Courses page route */}
+                <Route path="/courses" element={<CoursesPage />} />
                 {/* Redirect / to Login for now */}
                 <Route path="/" element={<Login/>}/>
             </Routes>

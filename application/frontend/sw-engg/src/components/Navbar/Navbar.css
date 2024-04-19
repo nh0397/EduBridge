@@ -1,69 +1,66 @@
+/* Navbar container */
 .navbar-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 2vw;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  height: 10vh;
   position: relative;
-}
-
-.navbar-left, .navbar-right {
-  position: absolute;
-}
-
-.navbar-left {
-  left: 2vw;
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  padding: 1.5rem 2rem;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.navbar-right {
-  right: 2vw;
+/* Logo and app name */
+.navbar-left {
   display: flex;
   align-items: center;
 }
 
 .app-logo {
-  width: 3vw;
+  width: 7rem;
   height: auto;
+  margin-right: 1rem;
 }
 
 .app-name {
-  font-size: 1.2vw;
+  font-size: 1.2rem;
   font-family: "Outfit", sans-serif;
   color: rgb(190, 22, 190);
-  margin-left: 1vw;
 }
 
+/* Search bar */
 .search-bar {
-  width: 100%;
-  display: flex;
-  justify-content: center;
+  flex-grow: 1;
+  margin: 0 2rem;
 }
 
 .search-bar input {
-  padding: 1vh 1vw;
-  width: 30vw;
-  max-width: 500px;
+  width: 100%;
+  padding: 0.8rem 1rem;
   border-radius: 5px;
   border: 1px solid #ccc;
   font-family: "Poppins", sans-serif;
 }
 
-.navbar-right .user-info {
+/* User info and logout button */
+.navbar-right {
   display: flex;
   align-items: center;
 }
 
-.navbar-right .username, .navbar-right .role {
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-right: 2rem;
+}
+
+.username,
+.role {
   font-family: "Poppins", sans-serif;
-  margin-right: 10px;
+  margin-right: 0.5rem;
 }
 
 .logout-button {
-  padding: 0.5vh 1vw;
+  padding: 0.5rem 1rem;
   background-color: rgb(190, 22, 190);
   color: white;
   border: none;
@@ -76,3 +73,25 @@
 .logout-button:hover {
   background-color: rgb(143, 25, 143);
 }
+
+/* Tab content */
+.tab-content {
+  position: absolute;
+  top: calc(100% + 10px); /* Adjust the distance from the navbar */
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* Ensure it's above other content */
+  border-radius: 5px; /* Add border radius to match navbar */
+}
+
+/* Styling for user info tab */
+.user-info-tab {
+  padding: 0.5rem 1rem;
+  background-color: rgb(230, 230, 230);
+  border-radius: 5px;
+  margin-right: 1rem;
+}
+
+
