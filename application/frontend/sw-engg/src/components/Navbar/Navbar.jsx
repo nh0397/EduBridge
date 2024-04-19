@@ -1,28 +1,31 @@
-
-
-
-
 import React from 'react';
-import './Navbar.css'; // Importing the CSS for styling
+import './Navbar.css';
+import logo from '../../images/eduBridge-logo.webp';
 
-const Navbar = ({ userName }) => {
-  return (
-    <body class="navbar">
-        <header>
-          <h1>EduBridge</h1>
-          {/* <img class="logoedubridge" src="" alt="edubridge" /> */}
-          <input type="search" placeholder="Search"></input>
-          <nav>
-            <ul class="nav__links">
-              <li><a href="#">About</a></li>
-              <li><a href="#">About</a></li>
-              <li><a href="#">About</a></li>
-            </ul>
-          </nav>
-          <a class="logout" href="#"><button>Logout</button></a>
-        </header>
-      </body>
-  );
-};
+function Navbar() {
+    const handleLogout = () => {
+        sessionStorage.clear();
+        window.location.href = '/login';
+    };
+
+    return (
+        <div className="navbar-container">
+            <div className="navbar-left">
+                <img src={logo} alt="App Logo" className="app-logo" />
+                <div className="app-name">EduBridge</div>
+            </div>
+            <div className="search-bar">
+                <input type="text" placeholder="Search..." />
+            </div>
+            <div className="navbar-right">
+                <div className="user-info">
+                    <span className="username">{sessionStorage.getItem('firstName')}</span>
+                    <span className="role">{sessionStorage.getItem('role')}</span>
+                </div>
+                <button onClick={handleLogout} className="logout-button">Logout</button>
+            </div>
+        </div>
+    );
+}
 
 export default Navbar;

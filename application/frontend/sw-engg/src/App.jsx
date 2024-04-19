@@ -23,54 +23,56 @@ const Layout = ({children}) => {
     const hideNavbarOnRoutes = ["/login", "/signup"];
     const showNavbar = !hideNavbarOnRoutes.includes(location.pathname);
 
+
     return (<>
-            {showNavbar && <Navbar userName="John Doe"/>} {/* Placeholder for the user's name */}
-            <div>{children}</div>
-        </>);
+        {showNavbar && <Navbar/>}
+        <div>{children}</div>
+    </>);
 };
 
 function App() {
     return (<Router>
 
 
-            <div className="app">
-                <Routes>
-                    <Route path="/login" element={<Login/>}/>
-                    <Route path="/signup" element={<Signup/>}/>
-                    <Route path="/forgot-password" element={<ForgotPassword/>}/>
-                    {/* Protected and role-based routes for Student */}
-                    <Route path="/student" element={<ProtectedRoute>
-                        <StudentRoute>
-                            <StudentLandingPage/>
-                        </StudentRoute>
-                    </ProtectedRoute>}/>
-                    {/* Protected and role-based routes for Instructor */}
-                    <Route path="/instructor" element={<ProtectedRoute>
-                        <InstructorRoute>
-                            <InstructorLandingPage/>
-                        </InstructorRoute>
-                    </ProtectedRoute>}/>
-                    <Route path="/instructor/upload-content" element={<ProtectedRoute>
-                        <InstructorRoute>
-                            <UploadContentPage/>
-                        </InstructorRoute>
-                    </ProtectedRoute>}/>
-                    {/* Admin route */}
-                    <Route path="/admin" element={<ProtectedRoute>
-                        <AdministratorRoute>
-                            <AdminPage/>
-                        </AdministratorRoute>
-                    </ProtectedRoute>}/>
-                    {/* Discussion Forum routes */}
-                    <Route path="/forum" element={<DiscussionForum/>}/>
-                    <Route path="/discussions" element={<DiscussionList/>}/>
-                    <Route path="/discussion/:id" element={<DiscussionDetail/>}/>
-                    <Route path="/my-discussions" element={<MyDiscussions />} />
-                    {/* Redirect / to Login for now */}
-                    <Route path="/" element={<Login/>}/>
-                </Routes>
-            </div>
-        </Router>);
+        <div className="app">
+            <Layout/>
+            <Routes>
+                <Route path="/login" element={<Login/>}/>
+                <Route path="/signup" element={<Signup/>}/>
+                <Route path="/forgot-password" element={<ForgotPassword/>}/>
+                {/* Protected and role-based routes for Student */}
+                <Route path="/student" element={<ProtectedRoute>
+                    <StudentRoute>
+                        <StudentLandingPage/>
+                    </StudentRoute>
+                </ProtectedRoute>}/>
+                {/* Protected and role-based routes for Instructor */}
+                <Route path="/instructor" element={<ProtectedRoute>
+                    <InstructorRoute>
+                        <InstructorLandingPage/>
+                    </InstructorRoute>
+                </ProtectedRoute>}/>
+                <Route path="/instructor/upload-content" element={<ProtectedRoute>
+                    <InstructorRoute>
+                        <UploadContentPage/>
+                    </InstructorRoute>
+                </ProtectedRoute>}/>
+                {/* Admin route */}
+                <Route path="/admin" element={<ProtectedRoute>
+                    <AdministratorRoute>
+                        <AdminPage/>
+                    </AdministratorRoute>
+                </ProtectedRoute>}/>
+                {/* Discussion Forum routes */}
+                <Route path="/forum" element={<DiscussionForum/>}/>
+                <Route path="/discussions" element={<DiscussionList/>}/>
+                <Route path="/discussion/:id" element={<DiscussionDetail/>}/>
+                <Route path="/my-discussions" element={<MyDiscussions />} />
+                {/* Redirect / to Login for now */}
+                <Route path="/" element={<Login/>}/>
+            </Routes>
+        </div>
+    </Router>);
 }
 
 export default App;

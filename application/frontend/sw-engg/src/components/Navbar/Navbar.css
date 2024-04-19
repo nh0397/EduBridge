@@ -1,81 +1,78 @@
-.navbar {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    /* background-color: #24252A; */
-    background-color: #9ad0dd;
-  }
-  
-  .navbar .li, .a, .button {
-    font-family: "Outfit", sans-serif;
-    font-weight: 500;
-    font-size: 16px;
-    color: #edf0f1;
-    text-decoration: none;
-  }
-  
-  .navbar a{
-    color: #000000;
-    margin: 0 10px;
-    text-decoration: none;
-    font-family: "Outfit", sans-serif;
-    font-size: 25px;
-  }
-  
-  header {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 30px 15%;
-  }
-  
-  /* .logo {
-    cursor: pointer;
-  } */
-  
-  .navbar h1 {
-    margin-right: auto;
-    cursor: pointer;
-  }
-  
-  .nav__links {
-    list-style: none;
-  }
-  
-  .nav__links li {
-    display: inline-block;
-    padding: 0px 20px;
-  }
-  
-  .nav__links li a {
-    transition: all 0.3s ease 0s;
-  }
-  
-  .nav__links li a:hover {
-    color: #0088a9;
-  }
-  
-  .navbar button {
-    padding: 9px 25px;
-    background-color: rgba(0,136,169,1);
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s ease 0s;
-    font-family: "Outfit", sans-serif;
-    font-size: 25px;
-  }
-  
-  .navbar button:hover {
-    background-color: rgba(0,136,169,.8);
-  }
-  
-  .navbar input {
-      width: 30%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 50px;
-      background-color: #eaeaea;
-      font-family: "Poppins", sans-serif;
-  }
+.navbar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 2vw;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  height: 10vh;
+  position: relative;
+}
+
+.navbar-left, .navbar-right {
+  position: absolute;
+}
+
+.navbar-left {
+  left: 2vw;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-right {
+  right: 2vw;
+  display: flex;
+  align-items: center;
+}
+
+.app-logo {
+  width: 3vw;
+  height: auto;
+}
+
+.app-name {
+  font-size: 1.2vw;
+  font-family: "Outfit", sans-serif;
+  color: rgb(190, 22, 190);
+  margin-left: 1vw;
+}
+
+.search-bar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.search-bar input {
+  padding: 1vh 1vw;
+  width: 30vw;
+  max-width: 500px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-family: "Poppins", sans-serif;
+}
+
+.navbar-right .user-info {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-right .username, .navbar-right .role {
+  font-family: "Poppins", sans-serif;
+  margin-right: 10px;
+}
+
+.logout-button {
+  padding: 0.5vh 1vw;
+  background-color: rgb(190, 22, 190);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-family: "Poppins", sans-serif;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+  background-color: rgb(143, 25, 143);
+}
