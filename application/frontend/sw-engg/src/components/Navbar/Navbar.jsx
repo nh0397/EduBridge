@@ -1,12 +1,32 @@
 import React from 'react';
 import './Navbar.css';
 import logo from '../../images/eduBridge-logo.webp';
+import apiService from "../../services/apiService";
+
 
 function Navbar() {
+
+    const [searchTerm, setSearchTerm] = React.useState('');
+
     const handleLogout = () => {
         sessionStorage.clear();
         window.location.href = '/login';
     };
+
+
+
+    const handleSearch = async (e) => {
+        e.preventDefault();
+        try {
+            const searchedFiles = await apiService.fetchSearchedFiles(searchTerm);
+            console.log('Searched files:', searchedFiles);
+        } catch (error) {
+            console.error('Error searching files:', error);
+        }
+    }
+
+
+
 
     return (
         <div className="navbar-container">
@@ -15,7 +35,12 @@ function Navbar() {
                 <div className="app-name">EduBridge</div>
             </div>
             <div className="search-bar">
-                <input type="text" placeholder="Search..." />
+                <input type="search"
+                       placeholder="Search"
+                       value={searchTerm}
+                       onChange={(e) => setSearchTerm(e.target.value)}
+                       onInput={handleSearch}
+                />
             </div>
             <div className="navbar-right">
                 <div className="user-info">
