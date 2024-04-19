@@ -79,7 +79,8 @@ const MyDiscussions = () => {
 
   const handleSaveEdit = async () => {
     try {
-      const updatedDiscussion = await apiService.updateDiscussion(discussionToEdit.id, editedTitle, editedText);
+      const userEmail = localStorage.getItem('userEmail');
+      const updatedDiscussion = await apiService.updateDiscussion(discussionToEdit.id, editedTitle, editedText, userEmail);
       const updatedDiscussions = discussions.map((discussion) =>
         discussion.id === updatedDiscussion.id ? updatedDiscussion : discussion
       );

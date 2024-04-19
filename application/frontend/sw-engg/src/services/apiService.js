@@ -142,9 +142,9 @@ const dislikeDiscussion = async (id) => {
 }
 
 
-const updateDiscussion = async (id, title, content) => {
+const updateDiscussion = async (id, title, content, userEmail) => {
   try {
-    const response = await axios.put(`${config.BASE_URL}/api/discussions/${id}`, { title, content });
+    const response = await axios.put(`${config.BASE_URL}/api/discussions/${id}`, { title, content, userEmail });
     return response.data;
   } catch (error) {
     console.error('Error updating discussion:', error);
