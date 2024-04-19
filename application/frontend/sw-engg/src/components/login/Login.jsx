@@ -33,7 +33,7 @@ function Login() {
       console.log('Login successful:', response.data);
       sessionStorage.setItem('isAuthenticated', 'true');
       alert('Login successful!');
-
+      localStorage.setItem('userEmail', email);
       // Fetch user role after successful login
       const roleResponse = await apiService.fetchUserRole(email);
       const role = roleResponse[0].role;

@@ -16,6 +16,7 @@ import Navbar from "./components/Navbar/Navbar";
 import './App.css';
 import ForgotPassword from "./components/forgotPassword/ForgotPassword";
 import AdministratorRoute from "./components/routing/AdministratorRoute";
+import MyDiscussions from './components/DiscussionForum/MyDiscussions';
 
 const Layout = ({children}) => {
     const location = useLocation();
@@ -64,6 +65,7 @@ function App() {
                     <Route path="/forum" element={<DiscussionForum/>}/>
                     <Route path="/discussions" element={<DiscussionList/>}/>
                     <Route path="/discussion/:id" element={<DiscussionDetail/>}/>
+                    <Route path="/my-discussions" element={<MyDiscussions />} />
                     {/* Redirect / to Login for now */}
                     <Route path="/" element={<Login/>}/>
                 </Routes>

@@ -64,10 +64,11 @@ const fetchUserRole = async (email) => {
   return response.data.data;
 };
 
-const createDiscussion = async (title, content) => {
-  const response = await axios.post(`${config.BASE_URL}/api/discussions`, { title, content });
+const createDiscussion = async (title, content, userEmail) => {
+  const response = await axios.post(`${config.BASE_URL}/api/discussions`, { title, content, userEmail });
   return response.data;
 };
+
 
 const fetchDiscussions = async () => {
   try {
@@ -113,7 +114,40 @@ const deleteDiscussion = async (id) => {
   return response.data;
 };
 
+const fetchMyDiscussions = async (userEmail) => {
+  try {
+    const response = await axios.get(`${config.BASE_URL}/api/discussions/my/${userEmail}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching my discussions:', error);
+    throw error;
+  }
+};
 
+const dislikeDiscussion = async (id) => {
+  try {
+    const response = await fetch(`${config.BASE_URL}/api/discussions/${id}/dislike`, {
+      method: 'POST'
+    });
+    if (!response.ok) {
+      throw new Error('Could not dislike the discussion');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error disliking discussion:', error);
+  }
+}
+
+
+const updateDiscussion = async (id, title, content) => {
+  try {
+    const response = await axios.put(`${config.BASE_URL}/api/discussions/${id}`, { title, content });
+    return response.data;
+  } catch (error) {
+    console.error('Error updating discussion:', error);
+    throw error;
+  }
+};
 
 // Export the service functions
 export default {
@@ -133,5 +167,8 @@ export default {
   resetPasswordWithOtp,
   fetchDiscussionDetail,
   postReply,
-  deleteDiscussion
+  deleteDiscussion,
+  fetchMyDiscussions,
+  dislikeDiscussion,
+  updateDiscussion
 }

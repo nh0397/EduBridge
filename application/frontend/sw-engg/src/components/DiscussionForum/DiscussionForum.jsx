@@ -32,9 +32,10 @@ const DiscussionForum = () => {
       setError('Please enter a title and text for the discussion.');
       return;
     }
-
+  
     try {
-      const data = await apiService.createDiscussion(title, text); // Using the apiService here
+      const userEmail = localStorage.getItem('userEmail'); // Retrieve the user's email from local storage or any other suitable storage mechanism
+      const data = await apiService.createDiscussion(title, text, userEmail); // Pass the userEmail to the createDiscussion function
       setConfirmation('Discussion created successfully!');
       navigate(`/discussion/${data.id}`);
     } catch (error) {
@@ -69,6 +70,7 @@ const DiscussionForum = () => {
         />
         <button type="submit" className="discussion-submit-btn">Create Discussion</button>
         <Link to="/discussions" className="view-discussions-btn">View All Discussions</Link>
+        <Link to="/my-discussions" className="view-my-discussions-btn">View My Discussions</Link>
       </form>
     </div>
   );

@@ -1,6 +1,7 @@
+// DiscussionList.jsx
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import apiService from '../../services/apiService'; // Correct path to your apiService
+import apiService from '../../services/apiService';
 
 const DiscussionList = () => {
   const [discussions, setDiscussions] = useState([]);
@@ -17,18 +18,8 @@ const DiscussionList = () => {
       console.error('Error fetching discussions:', error);
     }
   };
-  
-  const deleteDiscussion = async (id) => {
-    try {
-      await apiService.deleteDiscussion(id);
-      setDiscussions(discussions.filter((discussion) => discussion.id !== id));
-    } catch (error) {
-      console.error('Error deleting discussion:', error);
-    }
-  };
-  
 
-  const likeDiscussion = async (id) => { 
+  const likeDiscussion = async (id) => {
     try {
       await apiService.handleLike(id);
       // Optimistically update the UI
@@ -43,17 +34,32 @@ const DiscussionList = () => {
     }
   };
 
+  const handleDislike = async (id) => {
+    try {
+      await apiService.dislikeDiscussion(id);
+      // Update the discussions state with the new dislike count
+      const updatedDiscussions = discussions.map((discussion) => {
+        if (discussion.id === id) {
+          return { ...discussion, dislikes: discussion.dislikes + 1 };
+        }
+        return discussion;
+      });
+      setDiscussions(updatedDiscussions);
+    } catch (error) {
+      console.error('Error disliking discussion:', error);
+    }
+  };
+
   return (
     <div>
-      <h2>Discussions</h2>
+      <h2>All Discussions</h2>
       <ul>
         {discussions.map((discussion) => (
           <li key={discussion.id}>
             <Link to={`/discussion/${discussion.id}`}>{discussion.title}</Link>
-            {' '}
-            <button onClick={() => deleteDiscussion(discussion.id)}>Delete</button>
+            <p>Likes: {discussion.likes || 0} | Dislikes: {discussion.dislikes || 0}</p>
             <button onClick={() => likeDiscussion(discussion.id)}>Like</button>
-            <span>Likes: {discussion.likes || 0}</span>
+            <button onClick={() => handleDislike(discussion.id)}>Dislike</button>
           </li>
         ))}
       </ul>
