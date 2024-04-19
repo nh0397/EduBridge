@@ -41,7 +41,7 @@ const StudentLandingPage = () => {
     // Fetch files when the component mounts
     const fetchFilesData = async () => {
       try {
-        const filesData = await apiService.fetchFiles();
+        const filesData = await apiService.fetchAllFiles();
         setFiles(filesData.data);
       } catch (error) {
         console.error('Error fetching files:', error);
