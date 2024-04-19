@@ -1,104 +1,136 @@
 /* Base setup */
 * {
   box-sizing: border-box;
-}
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f4f4;
-  color: #333;
-  line-height: 1.6;
   margin: 0;
   padding: 0;
+}
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #ecf0f1;
+  color: #333;
+  line-height: 1.6;
 }
 
 /* Discussion form container styling */
 .discussion-form-container {
   max-width: 600px;
-  margin: 2rem auto;
+  margin: 3rem auto;
   padding: 2rem;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #0056b3;
 }
 
 /* Form header */
 .discussion-form-header {
-  margin-bottom: 1.5rem;
-  color: #0056b3;
+  margin-bottom: 2rem;
+  color: #333;
   text-align: center;
-  font-weight: bold;
+  font-size: 2rem;
+  font-weight: 600;
 }
 
 /* Form inputs and textarea */
 input[type="text"], textarea {
-  width: 100%;
+  width: calc(100% - 1.6rem); /* Adjust width for padding */
   padding: 0.8rem;
-  margin-bottom: 1rem;
-  border: 2px solid #ccc;
-  border-radius: 5px;
+  margin-bottom: 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
   font-size: 1rem;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  background-color: #f7f7f7;
+  transition: border-color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
 input[type="text"]:focus, textarea:focus {
-  border-color: #0056b3;
-  box-shadow: 0 0 0 3px rgba(0,86,179,0.3);
+  border-color: #3498db;
+  transform: scale(1.02);
   outline: none;
 }
 
 /* Buttons */
 button {
-  width: 100%;
-  padding: 0.8rem;
-  margin-top: 1rem;
+  width: calc(100% - 1.6rem);
+  padding: 1rem;
   font-size: 1rem;
   color: #fff;
-  background-color: #007bff;
+  background-color: #3498db;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #2980b9;
+  transform: translateY(-2px);
 }
 
-/* Responsive Button Styles */
+/* Link-like buttons */
 .view-discussions-btn {
-  background-color: transparent;
-  color: #007bff;
-  padding: 0.5rem;
-  margin-top: 0.5rem;
-  text-decoration: underline;
-  display: inline;
-  margin-right: 10px;
-  transition: color 0.3s;
+  background-color: #ecf0f1;
+  color: #3498db;
+  padding: 0.8rem;
+  border: 2px solid #3498db;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  display: inline-block;
+  margin: 5px;
+  text-decoration: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .view-discussions-btn:hover {
-  color: #0056b3;
-  background-color: transparent;
+  background-color: #3498db;
+  color: #fff;
   text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.view-my-discussions-btn {
+  background-color: #ecf0f1;
+  color: #3498db;
+  padding: 0.8rem;
+  border: 2px solid #3498db;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  display: inline-block;
+  margin: 5px;
+  text-decoration: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.view-my-discussions-btn:hover {
+  background-color: #3498db;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* Error and Confirmation Messages */
 .error, .confirmation {
   text-align: center;
   padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 5px;
+  margin: 1rem 0;
+  border-radius: 8px;
   font-size: 0.9rem;
 }
 
 .error {
-  background-color: #f8d7da;
-  border: 1px solid #f5c2c7;
-  color: #842029;
+  background-color: #e74c3c;
+  color: #fff;
+  border: 1px solid #c0392b;
 }
 
 .confirmation {
-  background-color: #d1e7dd;
-  border: 1px solid #badbcc;
-  color: #0f5132;
+  background-color: #2ecc71;
+  color: #fff;
+  border: 1px solid #27ae60;
 }
