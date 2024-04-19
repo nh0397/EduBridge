@@ -1,0 +1,97 @@
+.my-discussions {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f4f7f6;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .my-discussions h2 {
+    color: #102a43;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .my-discussions p {
+    color: #334e68;
+    line-height: 1.6;
+  }
+  
+  .my-discussions ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .my-discussions li {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .my-discussions a {
+    color: #1d70b8;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 1.1em;
+  }
+  
+  .my-discussions a:hover {
+    text-decoration: underline;
+  }
+  
+  .my-discussions button {
+    padding: 10px 15px;
+    margin-right: 10px;
+    background-color: #4d908e;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .my-discussions button:hover {
+    background-color: #3a6f6e;
+  }
+  
+  .my-discussions button:active {
+    transform: translateY(1px);
+  }
+  
+  .my-discussions input[type="text"],
+  .my-discussions textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #dfe3e6;
+    border-radius: 4px;
+  }
+  
+  .my-discussions textarea {
+    height: 100px;
+    resize: vertical;
+  }
+  
+  /* Media Query for responsive adjustments */
+  @media (max-width: 768px) {
+    .my-discussions {
+      width: 90%;
+      padding: 15px;
+    }
+  
+    .my-discussions h2 {
+      font-size: 1.5rem;
+    }
+  
+    .my-discussions button,
+    .my-discussions input[type="text"],
+    .my-discussions textarea {
+      width: 100%;
+      margin-top: 10px;
+    }
+  }
+  

@@ -1,68 +1,104 @@
+/* Base setup */
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* Discussion form container styling */
 .discussion-form-container {
-    margin: 2rem auto;
-    max-width: 800px;
-    padding: 1rem;
-  }
-  
-  .discussion-form-header {
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-    font-weight: bold;
-    font-size: 1.5rem;
-  }
-  
-  .discussion-title-input {
-    width: 100%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    box-sizing: border-box; /* Ensures padding doesn't affect overall width */
-  }
-  
-  .discussion-textarea {
-    width: 100%;
-    height: 150px; /* Fixed height */
-    padding: 0.5rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    margin-bottom: 1rem;
-    box-sizing: border-box;
-  }
-  
-  .discussion-submit-btn {
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .discussion-submit-btn:hover {
-    background-color: #0056b3;
-  }
-  
-  .view-discussions-btn {
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none; /* Remove underline from link */
-    margin-left: 1rem;
-  }
-  
-  .view-discussions-btn:hover {
-    background-color: #218838;
-  }
-  .error {
-    color: red;
-  }
-  
-  .confirmation {
-    color: green;
-  }
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* Form header */
+.discussion-form-header {
+  margin-bottom: 1.5rem;
+  color: #0056b3;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Form inputs and textarea */
+input[type="text"], textarea {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus, textarea:focus {
+  border-color: #0056b3;
+  box-shadow: 0 0 0 3px rgba(0,86,179,0.3);
+  outline: none;
+}
+
+/* Buttons */
+button {
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive Button Styles */
+.view-discussions-btn {
+  background-color: transparent;
+  color: #007bff;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  text-decoration: underline;
+  display: inline;
+  margin-right: 10px;
+  transition: color 0.3s;
+}
+
+.view-discussions-btn:hover {
+  color: #0056b3;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+/* Error and Confirmation Messages */
+.error, .confirmation {
+  text-align: center;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
+
+.error {
+  background-color: #f8d7da;
+  border: 1px solid #f5c2c7;
+  color: #842029;
+}
+
+.confirmation {
+  background-color: #d1e7dd;
+  border: 1px solid #badbcc;
+  color: #0f5132;
+}
