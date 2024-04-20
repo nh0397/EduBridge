@@ -21,7 +21,7 @@ import CoursesPage from "./components/CoursesPage/CoursesPage";
 
 const Layout = ({children}) => {
     const location = useLocation();
-    const hideNavbarOnRoutes = ["/login", "/signup"];
+    const hideNavbarOnRoutes = ["/login", "/signup",'/forgot-password'];
     const showNavbar = !hideNavbarOnRoutes.includes(location.pathname);
 
 

@@ -50,6 +50,9 @@ function ForgotPassword() {
                             placeholder="Enter your email"
                         />
                     </div>
+                     <div className="register-link">
+            <p>Go back to <a href="/login">Login</a></p>
+        </div>
                     <button type="submit" className="submit-btn">Send Reset Link</button>
                 </form>
             ) : (
@@ -79,6 +82,9 @@ function ForgotPassword() {
                         />
                     </div>
                     <button type="submit" className="submit-btn">Reset Password</button>
+                    <div className="register-link">
+            <p>Go back to <a href="/login">Login</a></p>
+        </div>
                 </form>
             )}
             {message && <p className="reset-message">{message}</p>}

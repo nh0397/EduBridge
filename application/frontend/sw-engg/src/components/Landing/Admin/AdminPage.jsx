@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './AdminPage.css';
 import apiService from '../../../services/apiService'
-// Mock data
-const initialUsers = [
-  { id: 1, firstName: 'Alice', lastName: 'Smith', email: 'alice@example.com', role: 'student' },
-  { id: 2, firstName: 'Bob', lastName: 'Brown', email: 'bob@example.com', role: 'instructor' },
-  // ...other users
-];
+// // Mock data
+// const initialUsers = [
+//   { id: 1, firstName: 'Alice', lastName: 'Smith', email: 'alice@example.com', role: 'student' },
+//   { id: 2, firstName: 'Bob', lastName: 'Brown', email: 'bob@example.com', role: 'instructor' },
+//   // ...other users
+// ];
 
 const AdminPage = () => {
   const [users, setUsers] = useState([]);

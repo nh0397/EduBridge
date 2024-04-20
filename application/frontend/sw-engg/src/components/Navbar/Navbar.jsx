@@ -6,7 +6,7 @@ import apiService from "../../services/apiService";
 import DiscussionForum from "../DiscussionForum/DiscussionForum"; // Import DiscussionForum component
 import UploadContentPage from '../Landing/InstructorLanding/UploadContentPage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight, faTimes, faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons'; // Import necessary icons
+import { faTimes, faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons'; // Import necessary icons
 
 function Navbar() {
     const [searchTerm, setSearchTerm] = useState('');

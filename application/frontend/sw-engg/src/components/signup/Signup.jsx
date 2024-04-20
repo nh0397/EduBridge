@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './Signup.css';
 import apiService from '../../services/apiService';
 import { useNavigate } from 'react-router-dom';
-import Login from '../login/Login';
 import CryptoJS from "crypto-js";
 
 
