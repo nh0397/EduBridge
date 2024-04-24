@@ -75,10 +75,6 @@ const InstructorLandingPage = () => {
 
   return (
     <div className="instructor-landing-page">
-      <header className="landing-header">
-        <h1>Welcome{ Name ? `, ${Name}` : ''} </h1>
-      </header>
-
       <section className="instructions-section">
         <h2>Getting Started</h2>
         <p>Manage your courses, engage with students, and track progress using the tools provided:</p>

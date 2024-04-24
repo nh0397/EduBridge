@@ -90,10 +90,6 @@ const StudentLandingPage = () => {
 
   return (
     <div className="landing-page">
-      <header className="landing-header">
-        <h1 className="header-title">Welcome to Your Learning Platform</h1>
-      </header>
-
       <section className="welcome-section">
         <h2 className="welcome-heading">{Name ? `Hello, ${Name}`: ''}</h2>
         <p className="welcome-description">Discover new courses and enhance your learning journey with us.</p>

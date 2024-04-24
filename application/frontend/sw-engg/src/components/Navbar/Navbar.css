@@ -7,6 +7,7 @@
   padding: 1.5rem 2rem;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 5rem;
 }
 
 /* Logo and app name */
@@ -16,9 +17,11 @@
 }
 
 .app-logo {
-  width: 7rem;
+  margin-top: 0.5rem;
+  width: 75px;
   height: auto;
   margin-right: 1rem;
+  border-radius: 50%;
 }
 
 .app-name {
@@ -36,9 +39,10 @@
 .search-bar input {
   width: 100%;
   padding: 0.8rem 1rem;
-  border-radius: 5px;
+  border-radius: 30px;
   border: 1px solid #ccc;
   font-family: "Poppins", sans-serif;
+
 }
 
 /* User info and logout button */
@@ -51,12 +55,27 @@
   display: flex;
   align-items: center;
   margin-right: 2rem;
+  flex-direction: column; 
 }
 
-.username,
+.username{
+    font-family: "Poppins", sans-serif;
+    margin-right: 0.5rem;
+    font-size: 15px;
+}
 .role {
   font-family: "Poppins", sans-serif;
   margin-right: 0.5rem;
+  font-size: 10px;
+}
+.tab-button{
+  background-color: #61dafb;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 30px;
+  height: 3rem;
 }
 
 .logout-button {
@@ -68,6 +87,10 @@
   font-family: "Poppins", sans-serif;
   cursor: pointer;
   transition: background-color 0.3s;
+  border-radius: 30px;
+  width: 6rem;
+  text-align: center;
+  height: 3rem;
 }
 
 .logout-button:hover {
