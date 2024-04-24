@@ -1,8 +1,8 @@
 const axios = require('axios');
 
 // Configuration for Directus API
-const DIRECTUS_API_URL = 'http://54.90.144.148:8055'; // Your Directus instance URL
-const DIRECTUS_API_TOKEN = 'tZSg-1bZI0EmmjRzAqPwNxifC68Cqpxy'; // Static token for API access
+const DIRECTUS_API_URL = 'http://3.137.218.130:8055'; // Your Directus instance URL
+const DIRECTUS_API_TOKEN = 'fNVT4Ht5HE0_nlVOOhanaeXfWA1o1KFf'; // Static token for API access
 
 // Create an Axios instance for Directus
 const directusClient = axios.create({

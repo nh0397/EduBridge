@@ -134,79 +134,46 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.post("/verify-otp", (req, res) => {
+router.post("/verify-otp", async (req, res) => {
+  console.log("Inside verify otp")
   const { email, otp, firstName, lastName, hashedPassword } = req.body; // Assume these are provided in the request
-
-  pool.query(
-    "SELECT * FROM users WHERE email = ?",
-    [email],
-    async (error, results) => {
-      if (error) {
-        console.error("Error fetching user:", error);
-        return res
-          .status(500)
-          .json({ success: false, message: "Error fetching user" });
-      }
-
-      if (results.length === 0) {
-        return res
-          .status(404)
-          .json({ success: false, message: "User not found" });
-      }
-
-      const user = results[0];
-
-      // Assuming you're comparing the hashed password stored in your database
-      if (user.password === hashedPassword && user.otp === otp) {
-        try {
-          pool.query(
-            "Update users set is_authenticated = 1 WHERE email = ?",
-            [email],
-            async (error, results) => {
-              if (error) {
-                console.error("Error authenticating user", error);
-                return res
-                  .status(500)
-                  .json({
-                    success: false,
-                    message: "Error authenticating user",
-                  });
-              } else {
-                console.log("User authentication was successful");
-              }
-            }
-          );
-          // Use the Directus client to create a new user in Directus
-          const directusResponse = await directusClient.post("/users", {
-            email: email,
-            password: user.first_name + "123", // Send the plain password for Directus to hash
-            first_name: user.first_name,
-            last_name: user.last_name,
-          });
-
-          // Optionally, update anything else in your database post-creation in Directus
-
-          return res.json({
-            success: true,
-            message: "OTP verification successful, user added to Directus",
-            data: directusResponse.data,
-          });
-        } catch (directusError) {
-          console.error("Error adding user to Directus:", directusError);
-          return res
-            .status(500)
-            .json({
-              success: false,
-              message: "Failed to add user to Directus",
-            });
-        }
-      } else {
-        return res
-          .status(401)
-          .json({ success: false, message: "Invalid credentials or OTP" });
-      }
+  try {
+    // Perform the query using await
+    const [results] = await pool.query("SELECT * FROM users WHERE email = ?", [email]);
+    const otp_int = parseInt(otp)
+    if (results.length === 0) {
+      return res.status(404).json({ success: false, message: "User not found" });
     }
-  );
+
+    const user = results[0];
+
+    // Check password and OTP
+    if (user.password === hashedPassword && user.otp === otp_int) {
+      // Update the user authentication status
+      await pool.query("UPDATE users SET is_authenticated = 1 WHERE email = ?", [email]);
+      console.log("User authentication was successful");
+
+      // Use the Directus client to create a new user in Directus
+      const directusResponse = await directusClient.post("/users", {
+        email: email,
+        password: user.first_name + "123", // Example password concatenation
+        first_name: user.first_name,
+        last_name: user.last_name,
+      });
+
+      return res.json({
+        success: true,
+        message: "OTP verification successful, user added to Directus",
+        data: directusResponse.data,
+      });
+
+    } else {
+      return res.status(401).json({ success: false, message: "Invalid credentials or OTP" });
+    }
+  } catch (error) {
+    console.error("Error in user authentication process:", error);
+    return res.status(500).json({ success: false, message: "Error processing request" });
+  }
 });
 
 router.get("/users", async (req, res) => {

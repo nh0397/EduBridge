@@ -1,5 +1,5 @@
 import React from "react";
-import {BrowserRouter as Router, Route, Routes, useLocation} from "react-router-dom";
+import {BrowserRouter as Router, Route, Routes, useLocation, Navigate} from "react-router-dom";
 import Login from "./components/login/Login";
 import Signup from './components/signup/Signup';
 import StudentLandingPage from "./components/Landing/StudentLanding/StudentLandingPage";
@@ -38,6 +38,7 @@ function App() {
         <div className="app">
             <Layout/>
             <Routes>
+                <Route path="/" element={<Navigate replace to="/login" />} />
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/signup" element={<Signup/>}/>
                 <Route path="/forgot-password" element={<ForgotPassword/>}/>
