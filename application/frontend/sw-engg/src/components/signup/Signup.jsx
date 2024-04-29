@@ -26,6 +26,8 @@ function Signup() {
   const [confirmedPassword, setConfirmedPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const isValidEmail = email.endsWith('.edu');
+  const isFormFilled = email && password && isValidEmail && confirmedPassword && termsAccepted && firstName && lastName;
 
   const navigate = useNavigate();
 
@@ -247,6 +249,9 @@ function Signup() {
                             boxShadow: 'none', // Remove button box shadow
                             fontSize: '20px', // Adjust font size
                             padding: '8px 20px', // Adjust padding to make the button smaller
+                            cursor: isFormFilled ? 'pointer' : 'not-allowed',
+                            opacity: isFormFilled ? 1 : 0.5,
+                            pointerEvents: isFormFilled ? 'auto' : 'none', // Ensure button is not clickable when disabled
                         }}>
                         Sign Up
                     </Button>

@@ -24,6 +24,8 @@ function Login() {
   const [otp, setOtp] = useState('');
   const [requireOtp, setRequireOtp] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const isValidEmail = email.endsWith('.edu');
+  const isFormFilled = email && password && isValidEmail;
 
   useEffect(() => {
     setRequireOtp(false);
@@ -174,20 +176,24 @@ function Login() {
             Forgot Password?
           </Link>
           <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              sx={{
-                mt: 3,
-                mb: 2,
-                fontWeight: 'bold',
-                borderRadius: '25px',
-                textTransform: 'none',
-                border: 'none',
-                boxShadow: 'none',
-                fontSize: '20px',
-                padding: '8px 20px',
-              }}>
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{
+              mt: 3,
+              mb: 2,
+              fontWeight: 'bold',
+              borderRadius: '25px',
+              textTransform: 'none',
+              border: 'none',
+              boxShadow: 'none',
+              fontSize: '20px',
+              padding: '8px 20px',
+              cursor: isFormFilled ? 'pointer' : 'not-allowed',
+              opacity: isFormFilled ? 1 : 0.5,
+              pointerEvents: isFormFilled ? 'auto' : 'none', // Ensure button is not clickable when disabled
+            }}
+          >
             Sign In
           </Button>
         </Box>

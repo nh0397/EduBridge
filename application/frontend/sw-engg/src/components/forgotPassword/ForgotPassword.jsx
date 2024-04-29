@@ -14,6 +14,8 @@ function ForgotPassword() {
     const [newPassword, setNewPassword] = useState('');
     const [message, setMessage] = useState('');
     const [resetSent, setResetSent] = useState(false);
+    const isValidEmail = email.endsWith('.edu');
+    const isFormFilled = otp && newPassword;
 
     const handleRequestReset = async (e) => {
         e.preventDefault();
@@ -93,7 +95,13 @@ function ForgotPassword() {
                                     fullWidth
                                     variant="contained"
                                     color="primary"
-                                    sx={{ mt: 3, mb: 2 }}
+                                    sx={{ 
+                                        mt: 3, 
+                                        mb: 2,
+                                        cursor: isFormFilled ? 'pointer' : 'not-allowed',
+                                        opacity: isFormFilled ? 1 : 0.5,
+                                        pointerEvents: isFormFilled ? 'auto' : 'none', 
+                                    }}
                                     startIcon={<LockOutlinedIcon />}
                                 >
                                     Reset Password
@@ -123,7 +131,13 @@ function ForgotPassword() {
                                     fullWidth
                                     variant="contained"
                                     color="primary"
-                                    sx={{ mt: 3, mb: 2 }}
+                                    sx={{ 
+                                        mt: 3, 
+                                        mb: 2, 
+                                        cursor: isValidEmail ? 'pointer' : 'not-allowed',
+                                        opacity: isValidEmail ? 1 : 0.5,
+                                        pointerEvents: isValidEmail ? 'auto' : 'none',
+                                    }}
                                 >
                                     Send Reset Link
                                 </Button>
