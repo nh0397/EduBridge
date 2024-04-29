@@ -25,7 +25,7 @@ const AdminPage = () => {
     }
   };
 
-  const handleRoleChange = (email, newRole) => {
+  const handleRoleChange = async (email, newRole) => {
     // Prevent changing the role of admins
     if (users.find(user => user.email === email && user.role === 'Admin')) {
       setFeedback({ open: true, message: 'Admin role cannot be changed.', severity: 'error' });
@@ -33,9 +33,24 @@ const AdminPage = () => {
     }
 
     // Change role and show feedback
-    const updatedUsers = users.map(user =>
-      user.email === email ? { ...user, role: newRole } : user
-    );
+      const updatedUsers = users.map(user =>
+        user.email === email ? { ...user, role: newRole } : user
+      );
+      try {
+      const response = await apiService.updateUserRole(email, newRole);
+      // Assuming response indicates success, then update local state
+      if (response.success) {
+        const updatedUsers = users.map(user =>
+          user.email === email ? { ...user, role: newRole } : user
+        );
+        setUsers(updatedUsers);
+      } else {
+        console.error('Failed to update user role in the database.');
+      }
+    } catch (error) {
+      console.error('Error updating user role:', error);
+    }
+    loadUsers()
     setUsers(updatedUsers);
     setFeedback({ open: true, message: 'Role updated successfully.', severity: 'success' });
   };

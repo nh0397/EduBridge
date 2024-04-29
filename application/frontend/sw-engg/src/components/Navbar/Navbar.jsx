@@ -81,7 +81,7 @@ function Navbar() {
                 sx={{ borderRadius: '20px', width: '300px', alignSelf: 'center' }} // Adjusted for better proportion
             />
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                {userRole === 'instructor' && (
+                {userRole?.toLowerCase() === 'instructor' && (
                     <Button onClick={() => navigate('/upload')} sx={buttonStyle}>
                         <FontAwesomeIcon icon={faCloudUploadAlt} size="sm" />
                         <Typography variant="body1">Upload New Content</Typography>
