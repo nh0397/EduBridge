@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material/styles';
+import backgroundImage from '../src/images/Background2.webp'; 
 
 const theme = createTheme({
   palette: {
@@ -10,6 +11,7 @@ const theme = createTheme({
     },
     background: {
       default: '#f4f5f7',
+      paper: '#ffffff',
     },
   },
   typography: {
@@ -61,9 +63,10 @@ const theme = createTheme({
       },
     },
   },
-  backgroundImage: `url('../src/images/Background2.webp')`,
+  backgroundImage: `url(${backgroundImage})`, // Adjust this path to your actual background image
   backgroundSize: 'cover',
   backgroundPosition: 'center',
+  backgroundAttachment: 'scroll', // Ensures the background scrolls with the content
 });
 
 export default theme;

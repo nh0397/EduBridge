@@ -96,7 +96,7 @@ function Signup() {
           <Typography variant="h6" sx={{ color: theme.palette.primary.contrastText }}>
               To where education connects — log in to continue your journey.
         </Typography>
-            <Button variant="outlined" color="primary" sx={{ mt: 7.95, bgcolor:'#B3CBB4', color: '#FFFFFF', borderColor:'secondary'}} onClick={() => navigate('/login')}>
+            <Button variant="outlined" color="primary" sx={{ mt: 7.95, bgcolor:'#86ac87', color: '#FFFFFF', borderColor:'secondary'}} onClick={() => navigate('/login')}>
               Sign In
             </Button>
           </Box>

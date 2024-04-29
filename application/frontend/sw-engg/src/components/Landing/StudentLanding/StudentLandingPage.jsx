@@ -69,7 +69,7 @@ const StudentLandingPage = () => {
   useEffect(() => {
     const fetchFilesData = async () => {
       try {
-        const filesData = await apiService.fetchAllFiles();
+        const filesData = await apiService.fetchFolders();
         setFiles(filesData.data);
       } catch (error) {
         console.error('Error fetching files:', error);

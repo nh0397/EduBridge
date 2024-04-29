@@ -217,7 +217,7 @@ function Login() {
           <Typography variant="h6" sx={{ color: theme.palette.primary.contrastText }}>
           Inspire Your Teaching - Become Part of Our Vision Today.
           </Typography>
-          <Button variant="outlined" color="primary" sx={{ mt: 7.95, bgcolor:'#B3CBB4', color: '#FFFFFF', borderColor:'secondary'}} onClick={() => navigate('/signup')}>
+          <Button variant="outlined" color="primary" sx={{ mt: 7.95, bgcolor:'#86ac87', color: '#FFFFFF', borderColor:'primary'}} onClick={() => navigate('/signup')}>
             Sign Up
           </Button>
         </Box>

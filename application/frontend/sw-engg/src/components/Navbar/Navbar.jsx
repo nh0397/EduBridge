@@ -1,108 +1,129 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import './Navbar.css';
+import { Link, useNavigate } from 'react-router-dom';
+import { ThemeProvider, Box, TextField, Typography, Button, Avatar, Menu, MenuItem } from '@mui/material';
+import theme from '../../theme'; // Make sure this path is correct
 import logo from '../../images/eduBridge.webp';
-import apiService from "../../services/apiService";
-import DiscussionForum from "../DiscussionForum/DiscussionForum"; // Import DiscussionForum component
-import UploadContentPage from '../Landing/InstructorLanding/UploadContentPage';
+import backgroundImage from '../../images/Backgroundimage.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons'; // Import necessary icons
+import { faCloudUploadAlt, faPlus, faBook } from '@fortawesome/free-solid-svg-icons';
 
 function Navbar() {
     const [searchTerm, setSearchTerm] = useState('');
-    const [activeTab, setActiveTab] = useState(null); // State to control the active tab
-    const [isModalOpen, setModalOpen] = useState(false); // Define isModalOpen state
-    const userRole = sessionStorage.getItem('role'); // Retrieve the user's role
-    const homePath = userRole === 'instructor' ? '/instructor' : '/student'; // Determine the home path
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const userRole = sessionStorage.getItem('role');
+    const firstName = sessionStorage.getItem('firstName'); // Fetching firstName from sessionStorage
+    const lastName = sessionStorage.getItem('lastName'); // Fetching lastName from sessionStorage
+    const navigate = useNavigate();
+    const homePath = userRole === 'instructor' ? '/instructor' : '/student'; // Define homePath based on userRole
 
     const handleLogout = () => {
         sessionStorage.clear();
-        window.location.href = '/login';
+        navigate('/login');
     };
 
-    const handleSearch = async (e) => {
-        e.preventDefault();
-        try {
-            const searchedFiles = await apiService.fetchSearchedFiles(searchTerm);
-            console.log('Searched files:', searchedFiles);
-        } catch (error) {
-            console.error('Error searching files:', error);
-        }
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
     };
 
-    const handleTabClick = (tabName) => {
-        setActiveTab(tabName === activeTab ? null : tabName); // Toggle active tab
+    const handleClose = () => {
+        setAnchorEl(null);
     };
 
-    const closeTab = () => {
-        setActiveTab(null);
+    const getInitials = (firstName, lastName) => {
+        return firstName && lastName ? `${firstName[0]}${lastName[0]}`.toUpperCase() : 'U';
     };
 
-    const toggleModal = () => {
-        setModalOpen(!isModalOpen); // Toggle modal state
+    const toggleCreateDiscussion = () => {
+        console.log("Toggle Create Discussion Modal");
     };
 
-    const fetchFiles = async () => {
-        try {
-            const filesData = await apiService.fetchAllFiles();
-        } catch (error) {
-            console.error('Error fetching files:', error);
-            // Display error message to the user
-        }
+    const buttonStyle = {
+        fontWeight: 'bold',
+        borderRadius: '50px',
+        textTransform: 'none',
+        fontSize: '16px',
+        padding: '8px 32px',
+        margin: '0 4px', // Add space around the buttons
+        display: 'flex', // Ensure button content is displayed as flex
+        alignItems: 'center', // Align button content vertically
+        gap: '8px', // Add space between icon and text
+        color: 'white',
+        whiteSpace: 'nowrap',
     };
 
     return (
-        <div className="navbar-container">
-            <div className="navbar-left">
-                {/* Link the logo and app name to the correct homepage based on the user's role */}
-                <Link to={homePath} className="home-link">
-                    <img src={logo} alt="App Logo" className="app-logo" />
+        <ThemeProvider theme={theme}>
+            <Box sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                p: 1.5,
+                backgroundColor: 'background.paper',
+                color: 'text.primary',
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                
+            }}>
+                <Link to={homePath} style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', marginLeft: 16 }}>
+                    <Avatar sx={{ width: 75, height: 75 }}>
+                        <img src={logo} alt="App Logo" style={{ width: '100%' }} />
+                    </Avatar>
                 </Link>
-            </div>
-            <div className="search-bar">
-                <input 
-                    type="search"
+                <TextField
+                    size="small"
                     placeholder="Search"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    onInput={handleSearch}
+                    sx={{ borderRadius: '20px', width: '300px', alignSelf: 'center' }} // Adjusted for better proportion
                 />
-            </div>
-            <div className="navbar-right">
-                <div className="user-info">
-                    <span className="username">{sessionStorage.getItem('firstName')}</span>
-                    <span className="role">{userRole}</span>
-                </div>
-                {/* Render "Upload New Content" link only for instructors */}
-                {userRole === 'instructor' && (
-                    <button onClick={toggleModal} className="upload-button">
-                        <FontAwesomeIcon icon={isModalOpen ? faTimes : faCloudUploadAlt} />
-                        {isModalOpen ? 'Close' : 'Upload New Content'}
-                    </button>
-                )}
-                <button onClick={() => handleTabClick('discussionForum')} className={activeTab === 'discussionForum' ? 'active-tab' : 'tab-button'}>Discussion Forum</button>
-                <button onClick={handleLogout} className="logout-button">Logout</button>
-            </div>
-            {/* Render discussion forum tab based on the activeTab state */}
-            {activeTab === 'discussionForum' && (
-                <div className="tab-content">
-                    <DiscussionForum onClose={closeTab} /> {/* Pass onClose prop to close the tab */}
-                </div>
-            )}
-            {/* Render upload modal */}
-            {isModalOpen && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <span className="close" onClick={toggleModal}><FontAwesomeIcon icon={faTimes} /></span>
-                        <UploadContentPage onSuccess={fetchFiles} onClose={toggleModal} />
-                    </div>
-                </div>
-            )}
-        </div>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    {userRole === 'instructor' && (
+                        <Button onClick={() => navigate('/upload')} sx={buttonStyle}>
+                            <FontAwesomeIcon icon={faCloudUploadAlt} size="sm" />
+                            <Typography variant="body1">Upload New Content</Typography>
+                        </Button>
+                    )}
+                    <Button onClick={toggleCreateDiscussion} sx={buttonStyle}>
+                        <FontAwesomeIcon icon={faPlus} size="sm" />
+                        <Typography variant="body1">Create Discussion</Typography>
+                    </Button>
+                    <Button onClick={() => navigate('/courses')} sx={buttonStyle}>
+                        <FontAwesomeIcon icon={faBook} size="sm" />
+                        <Typography variant="body1">Courses</Typography>
+                    </Button>
+                    <Button onClick={handleClick} sx={buttonStyle}>
+                        <Avatar sx={{ bgcolor: theme.palette.primary.main, width: 50, height: 50, alignItems: 'right', marginLeft:-16, marginRight:-16}}>
+                            {getInitials(firstName, lastName)}
+                        </Avatar>
+                    </Button>
+                    <Menu
+                        id="account-menu"
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                        MenuListProps={{
+                            'aria-labelledby': 'account-button',
+                        }}
+                    >
+                        <MenuItem onClick={handleClose}>{userRole}</MenuItem>
+                        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                    </Menu>
+                </Box>
+            </Box>
+        </ThemeProvider>
     );
 }
 
 export default Navbar;
+
+
+
+
 
 
 
