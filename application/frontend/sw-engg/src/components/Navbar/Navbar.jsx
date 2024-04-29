@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
-import logo from '../../images/eduBridge-logo.webp';
+import logo from '../../images/eduBridge.webp';
 import apiService from "../../services/apiService";
 import DiscussionForum from "../DiscussionForum/DiscussionForum"; // Import DiscussionForum component
 import UploadContentPage from '../Landing/InstructorLanding/UploadContentPage';
