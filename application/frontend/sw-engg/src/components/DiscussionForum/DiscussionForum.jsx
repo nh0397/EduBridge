@@ -34,7 +34,7 @@ const DiscussionForum = ({ onClose }) => {
     }
   
     try {
-      const userEmail = localStorage.getItem('userEmail'); // Retrieve the user's email from local storage or any other suitable storage mechanism
+      const userEmail = sessionStorage.getItem('userEmail'); // Retrieve the user's email from local storage or any other suitable storage mechanism
       const data = await apiService.createDiscussion(title, text, userEmail); // Pass the userEmail to the createDiscussion function
       setConfirmation('Discussion created successfully!');
       navigate(`/discussion/${data.id}`);

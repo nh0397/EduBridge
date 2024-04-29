@@ -48,15 +48,19 @@ function Login() {
       console.log('Login successful:', response.data);
       sessionStorage.setItem('isAuthenticated', 'true');
       alert('Login successful!');
-      localStorage.setItem('userEmail', email);
+      sessionStorage.setItem('userEmail', email);
       // Fetch user role after successful login
       const roleResponse = await apiService.fetchUserRole(email);
       const role = roleResponse[0].role; // Ensure the role is directly accessible
 
       const firstNameResponse = await apiService.fetchUserFirstName(email);
       const firstName = firstNameResponse.data.data[0].first_name;
+      const lastName = firstNameResponse.data.data[0].last_name;
+
 
       sessionStorage.setItem('firstName', firstName);
+      sessionStorage.setItem('lastName', lastName);
+
 
       // Store the role in session storage
       sessionStorage.setItem('role', role.toLowerCase());

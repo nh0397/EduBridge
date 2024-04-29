@@ -286,7 +286,7 @@ router.get("/userFirstName/:email", async (req, res) => {
   const { email } = req.params; // Extract email from params using destructuring
   try {
     const [results] = await pool.query(
-        "SELECT first_name FROM users WHERE email = ?",
+        "SELECT first_name, last_name FROM users WHERE email = ?",
         [email]
     );
 

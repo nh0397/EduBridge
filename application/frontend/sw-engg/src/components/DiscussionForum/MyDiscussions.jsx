@@ -15,7 +15,7 @@ const MyDiscussions = () => {
 
   const fetchMyDiscussionsFromApi = async () => {
     try {
-      const userEmail = localStorage.getItem('userEmail');
+      const userEmail = sessionStorage.getItem('userEmail');
       const data = await apiService.fetchMyDiscussions(userEmail);
       setDiscussions(data);
     } catch (error) {
@@ -79,7 +79,7 @@ const MyDiscussions = () => {
 
   const handleSaveEdit = async () => {
     try {
-      const userEmail = localStorage.getItem('userEmail');
+      const userEmail = sessionStorage.getItem('userEmail');
       const updatedDiscussion = await apiService.updateDiscussion(discussionToEdit.id, editedTitle, editedText, userEmail);
       const updatedDiscussions = discussions.map((discussion) =>
         discussion.id === updatedDiscussion.id ? updatedDiscussion : discussion
