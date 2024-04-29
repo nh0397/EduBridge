@@ -67,7 +67,7 @@ function Login() {
         case 'instructor':
           navigate('/instructor');
           break;
-        case 'administrator':
+        case 'admin':
           navigate('/admin');
           break;
         default:
