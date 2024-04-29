@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './homepage.css';
+
 import apiService from '../../services/apiService';
 
 function Homepage() {

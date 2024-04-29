@@ -13,7 +13,7 @@ import ProtectedRoute from "./components/routing/ProtectedRoute";
 import StudentRoute from "./components/routing/StudentRoute";
 import InstructorRoute from "./components/routing/InstructorRoute";
 import Navbar from "./components/Navbar/Navbar";
-import './App.css';
+
 import ForgotPassword from "./components/forgotPassword/ForgotPassword";
 import AdministratorRoute from "./components/routing/AdministratorRoute";
 import MyDiscussions from './components/DiscussionForum/MyDiscussions';

@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faUpload, faComments } from '@fortawesome/free-solid-svg-icons';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import './InstructorLandingPage.css'; // Adjust if it's different from StudentLandingPage.css
+
+
 import apiService from '../../../services/apiService'; // Ensure the correct path
 
 const PopularFilesCarousel = ({ files }) => {

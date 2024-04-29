@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import apiService from '../../services/apiService';
-import './DiscussionList.css';
+
 
 const DiscussionList = () => {
   const [discussions, setDiscussions] = useState([]);

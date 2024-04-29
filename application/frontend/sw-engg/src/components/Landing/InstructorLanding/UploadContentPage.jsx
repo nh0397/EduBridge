@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { FaFileUpload } from 'react-icons/fa'; // Import the file upload icon
-import "./UploadContentPage.css"; // Ensure this is correct
+
 import apiService from "../../../services/apiService"; // Ensure this is correct
 
 const UploadContentPage = ({ onSuccess, onClose }) => {

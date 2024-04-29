@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import apiService from '../../services/apiService'; // Adjust the path as necessary
-import './CoursesPage.css'; // Create and import CSS for styling as necessary
+
 
 const CoursesPage = () => {
     const [courses, setCourses] = useState([]);

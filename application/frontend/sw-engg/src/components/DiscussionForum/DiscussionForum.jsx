@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import apiService from '../../services/apiService'; // Ensure the path to apiService is correct
-import './DiscussionForum.css';
+
 
 const DiscussionForum = ({ onClose }) => {
   const [title, setTitle] = useState('');

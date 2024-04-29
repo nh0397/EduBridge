@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import apiService from '../../services/apiService';
-import { ThemeProvider, Box, Button, Link, Paper, TextField, Typography, Avatar } from '@mui/material';
+import { Box, Button, Link, Paper, TextField, Typography, Avatar } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import logo from '../../images/eduBridge.webp';
 import EmailIcon from '@mui/icons-material/Email';
@@ -41,106 +41,104 @@ function ForgotPassword() {
     };
 
     return (
-        <ThemeProvider theme={theme}>
-            <Box
-                sx={{
-                    height: '100vh',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundImage: `url(${backgroundImage})`,
-                    backgroundSize: theme.backgroundSize,
-                    backgroundPosition: theme.backgroundPosition,
-                }}
-            >
-                <Paper elevation={6} square sx={{
-                    padding: '40px',
-                    borderRadius: '20px',
-                    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                    backdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    maxWidth: '450px'
-                }}>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-                        <Avatar src={logo} sx={{ width: 100, height: 100, mb: 2 }} />
-                        <Typography variant="h5" gutterBottom>Forgot Your Password?</Typography>
-                        <form onSubmit={resetSent ? handleResetPassword : handleRequestReset} noValidate sx={{ mt: 1 }}>
-                            {resetSent ? (
-                                <>
-                                    <TextField
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        name="otp"
-                                        label="OTP"
-                                        type="text"
-                                        id="otp"
-                                        value={otp}
-                                        onChange={(e) => setOtp(e.target.value)}
-                                    />
-                                    <TextField
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        name="newPassword"
-                                        label="New Password"
-                                        type="password"
-                                        id="newPassword"
-                                        value={newPassword}
-                                        onChange={(e) => setNewPassword(e.target.value)}
-                                    />
-                                    <Button
-                                        type="submit"
-                                        fullWidth
-                                        variant="contained"
-                                        color="primary"
-                                        sx={{ mt: 3, mb: 2 }}
-                                        startIcon={<LockOutlinedIcon />}
-                                    >
-                                        Reset Password
-                                    </Button>
-                                </>
-                            ) : (
-                                <>
-                                    <TextField
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        id="email"
-                                        label="Email Address"
-                                        name="email"
-                                        autoComplete="email"
-                                        autoFocus
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        InputProps={{
-                                            startAdornment: (
-                                                <EmailIcon color="action" sx={{ mr: 2 }} />
-                                            ),
-                                        }}
-                                    />
-                                    <Button
-                                        type="submit"
-                                        fullWidth
-                                        variant="contained"
-                                        color="primary"
-                                        sx={{ mt: 3, mb: 2 }}
-                                    >
-                                        Send Reset Link
-                                    </Button>
-                                </>
-                            )}
-                            <Link href="/login" variant="body2">
-                                <ArrowBackIcon sx={{ mr: 1 }} />Go back to Login
-                            </Link>
-                        </form>
-                        <Box sx={{ mt: 2 }}>
-                            {message && <Typography color="secondary">{message}</Typography>}
-                        </Box>
+        <Box
+            sx={{
+                height: '100vh',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: theme.backgroundSize,
+                backgroundPosition: theme.backgroundPosition,
+            }}
+        >
+            <Paper elevation={6} square sx={{
+                padding: '40px',
+                borderRadius: '20px',
+                backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                maxWidth: '450px'
+            }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                    <Avatar src={logo} sx={{ width: 100, height: 100, mb: 2 }} />
+                    <Typography variant="h5" gutterBottom>Forgot Your Password?</Typography>
+                    <form onSubmit={resetSent ? handleResetPassword : handleRequestReset} noValidate sx={{ mt: 1 }}>
+                        {resetSent ? (
+                            <>
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="otp"
+                                    label="OTP"
+                                    type="text"
+                                    id="otp"
+                                    value={otp}
+                                    onChange={(e) => setOtp(e.target.value)}
+                                />
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="newPassword"
+                                    label="New Password"
+                                    type="password"
+                                    id="newPassword"
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                />
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    sx={{ mt: 3, mb: 2 }}
+                                    startIcon={<LockOutlinedIcon />}
+                                >
+                                    Reset Password
+                                </Button>
+                            </>
+                        ) : (
+                            <>
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    label="Email Address"
+                                    name="email"
+                                    autoComplete="email"
+                                    autoFocus
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <EmailIcon color="action" sx={{ mr: 2 }} />
+                                        ),
+                                    }}
+                                />
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    sx={{ mt: 3, mb: 2 }}
+                                >
+                                    Send Reset Link
+                                </Button>
+                            </>
+                        )}
+                        <Link href="/login" variant="body2">
+                            <ArrowBackIcon sx={{ mr: 1 }} />Go back to Login
+                        </Link>
+                    </form>
+                    <Box sx={{ mt: 2 }}>
+                        {message && <Typography color="secondary">{message}</Typography>}
                     </Box>
-                </Paper>
-            </Box>
-        </ThemeProvider>
+                </Box>
+            </Paper>
+        </Box>
     );
 }
 
