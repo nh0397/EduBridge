@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-import SearchComponent from './Search';
 import apiService from '../../../services/apiService';
-import Conversations from '../Landing/StudentLanding/Conversations';
 
 
 const SearchComponent = ({ data }) => {

@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import apiService from '../../services/apiService';
 import {
   Grid, Paper, Box, Typography, TextField, Button,
-  CssBaseline, ThemeProvider, Link, FormControlLabel, Checkbox,
-  InputAdornment
+  Link, InputAdornment
 } from '@mui/material';
 import theme from '../../theme'; 
 
@@ -91,70 +90,68 @@ function Login() {
 
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Grid container component="main" sx={{ height: '100vh' }}>
-    
-        {/* Left Side (Login Form) */}
-        <Grid item xs={12} sm={8} md={7} component={Paper} elevation={6} square sx={{ backgroundImage: `url(${backgroundImage2})`,      
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover', // Adjust to fit the background image as portrait
-          backgroundPosition: 'center',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column', }}>
-          <Box sx={{
-            my: 8,
-            mx: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}>
-            <Typography component="h1" variant="h3" gutterBottom sx={{ fontFamily: 'AudioWide', fontWeight: 'bold' }}>
-              Log in to Your Account
-            </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1, width: '100%', '& .MuiTextField-root': { backgroundColor: '#fff' } }}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="User ID"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                InputProps={{
-                  startAdornment: (
+  <Grid container component="main" sx={{ height: '100vh' }}>
+
+    {/* Left Side (Login Form) */}
+    <Grid item xs={12} sm={8} md={7} component={Paper} elevation={6} square sx={{ backgroundImage: `url(${backgroundImage2})`,
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover', // Adjust to fit the background image as portrait
+      backgroundPosition: 'center',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'column', }}>
+      <Box sx={{
+        my: 8,
+        mx: 4,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}>
+        <Typography component="h1" variant="h3" gutterBottom sx={{ fontFamily: 'AudioWide', fontWeight: 'bold' }}>
+          Log in to Your Account
+        </Typography>
+        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1, width: '100%', '& .MuiTextField-root': { backgroundColor: '#fff' } }}>
+          <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="User ID"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              InputProps={{
+                startAdornment: (
                     <InputAdornment position="start">
                       <AccountCircleIcon />
                     </InputAdornment>
-                  ),
-                }}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                InputProps={{
-                  startAdornment: (
+                ),
+              }}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              InputProps={{
+                startAdornment: (
                     <InputAdornment position="start">
                       <LockIcon />
                     </InputAdornment>
-                  ),
-                }}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              {requireOtp && (
-                <TextField
+                ),
+              }}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+          />
+          {requireOtp && (
+              <TextField
                   margin="normal"
                   required
                   fullWidth
@@ -164,67 +161,66 @@ function Login() {
                   id="otp"
                   InputProps={{
                     startAdornment: (
-                      <InputAdornment position="start">
-                        <LockOutlinedIcon />
-                      </InputAdornment>
+                        <InputAdornment position="start">
+                          <LockOutlinedIcon />
+                        </InputAdornment>
                     ),
                   }}
                   value={otp}
                   onChange={(e) => setOtp(e.target.value)}
-                />
-              )}
-              <Link href="/forgot-password" variant="body2">
-                Forgot Password?
-              </Link>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                sx={{
-                  mt: 3,
-                  mb: 2,
-                  fontWeight: 'bold',
-                  borderRadius: '25px',
-                  textTransform: 'none',
-                  border: 'none',
-                  boxShadow: 'none',
-                  fontSize: '20px',
-                  padding: '8px 20px',
-                }}>
-                Sign In
-              </Button>
-            </Box>
-          </Box>
-        </Grid>
-    
-        {/* Right Side (Logo and Signup CTA) */}
-        <Grid item xs={false} sm={4} md={5} sx={{
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-    
-        <Box sx={{ textAlign: 'center', maxWidth: 360 }}>
-          <img src={logo} alt="Logo" style={{ width: '100%', height: 'auto', marginBottom: theme.spacing(2), borderRadius: '50%', boxShadow: `0px 0px 10px ${theme.palette.secondary.main}` }} />
-            <Typography variant="h3" gutterBottom sx={{ fontFamily: 'AudioWide', fontWeight: 'bold', color: theme.palette.primary.contrastText }}>
-            Elevate Your Learning
-            </Typography>
-          <Typography variant="h6" sx={{ color: theme.palette.primary.contrastText }}>
-          Inspire Your Teaching - Become Part of Our Vision Today.
-          </Typography>
-          <Button variant="outlined" color="primary" sx={{ mt: 7.95, bgcolor:'#86ac87', color: '#FFFFFF', borderColor:'primary'}} onClick={() => navigate('/signup')}>
-            Sign Up
+              />
+          )}
+          <Link href="/forgot-password" variant="body2">
+            Forgot Password?
+          </Link>
+          <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              sx={{
+                mt: 3,
+                mb: 2,
+                fontWeight: 'bold',
+                borderRadius: '25px',
+                textTransform: 'none',
+                border: 'none',
+                boxShadow: 'none',
+                fontSize: '20px',
+                padding: '8px 20px',
+              }}>
+            Sign In
           </Button>
         </Box>
-        </Grid>
-      </Grid>
-    </ThemeProvider>
-  );
+      </Box>
+    </Grid>
+
+    {/* Right Side (Logo and Signup CTA) */}
+    <Grid item xs={false} sm={4} md={5} sx={{
+      backgroundImage: `url(${backgroundImage})`,
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}>
+
+      <Box sx={{ textAlign: 'center', maxWidth: 360 }}>
+        <img src={logo} alt="Logo" style={{ width: '100%', height: 'auto', marginBottom: theme.spacing(2), borderRadius: '50%', boxShadow: `0px 0px 10px ${theme.palette.secondary.main}` }} />
+        <Typography variant="h3" gutterBottom sx={{ fontFamily: 'AudioWide', fontWeight: 'bold', color: theme.palette.primary.contrastText }}>
+          Elevate Your Learning
+        </Typography>
+        <Typography variant="h6" sx={{ color: theme.palette.primary.contrastText }}>
+          Inspire Your Teaching - Become Part of Our Vision Today.
+        </Typography>
+        <Button variant="outlined" color="primary" sx={{ mt: 7.95, bgcolor:'#86ac87', color: '#FFFFFF', borderColor:'primary'}} onClick={() => navigate('/signup')}>
+          Sign Up
+        </Button>
+      </Box>
+    </Grid>
+  </Grid>
+);
   
   
 }

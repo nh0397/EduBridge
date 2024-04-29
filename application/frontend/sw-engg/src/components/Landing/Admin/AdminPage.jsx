@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import apiService from '../../../services/apiService';
-import { ThemeProvider, Box, Paper, TextField, Typography, Table, TableHead, TableBody, TableRow, TableCell, Select, MenuItem, Snackbar, Alert } from '@mui/material';
+import { Box, Paper, TextField, Typography, Table, TableHead, TableBody, TableRow, TableCell, Select, MenuItem, Snackbar, Alert } from '@mui/material';
 import theme from '../../../theme'; // Ensure the theme is imported correctly
 
 const AdminPage = () => {
@@ -51,20 +51,19 @@ const AdminPage = () => {
   );
 
   return (
-    <ThemeProvider theme={theme}>
       <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          padding: theme.spacing(3),
-          height: 'auto',
-          backgroundImage: theme.backgroundImage,
-          backgroundSize: theme.backgroundSize,
-          backgroundPosition: theme.backgroundPosition,
-          backgroundAttachment: theme.backgroundAttachment,
-          backgroundColor: theme.palette.background.default,
-        }}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            padding: theme.spacing(3),
+            height: 'auto',
+            backgroundImage: theme.backgroundImage,
+            backgroundSize: theme.backgroundSize,
+            backgroundPosition: theme.backgroundPosition,
+            backgroundAttachment: theme.backgroundAttachment,
+            backgroundColor: theme.palette.background.default,
+          }}
       >
         <Paper elevation={6} square sx={{
           width: '100%',
@@ -78,12 +77,12 @@ const AdminPage = () => {
             Admin Page
           </Typography>
           <TextField
-            fullWidth
-            variant="outlined"
-            label="Search users..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            sx={{ marginBottom: theme.spacing(2) }}
+              fullWidth
+              variant="outlined"
+              label="Search users..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              sx={{ marginBottom: theme.spacing(2) }}
           />
           <Table sx={{ marginBottom: theme.spacing(2) }}>
             <TableHead>
@@ -96,26 +95,26 @@ const AdminPage = () => {
             </TableHead>
             <TableBody>
               {filteredUsers.map(user => (
-                <TableRow key={user.id}>
-                  <TableCell>{user.first_name}</TableCell>
-                  <TableCell>{user.last_name}</TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>
-                    {user.role === 'Admin' ? (
-                      'Admin' // Display text only for admins
-                    ) : (
-                      <Select
-                        value={user.role}
-                        onChange={(e) => handleRoleChange(user.email, e.target.value)}
-                        fullWidth
-                        sx={{ textAlign: 'left' }}
-                      >
-                        <MenuItem value="Student">Student</MenuItem>
-                        <MenuItem value="Instructor">Instructor</MenuItem>
-                      </Select>
-                    )}
-                  </TableCell>
-                </TableRow>
+                  <TableRow key={user.id}>
+                    <TableCell>{user.first_name}</TableCell>
+                    <TableCell>{user.last_name}</TableCell>
+                    <TableCell>{user.email}</TableCell>
+                    <TableCell>
+                      {user.role === 'Admin' ? (
+                          'Admin' // Display text only for admins
+                      ) : (
+                          <Select
+                              value={user.role}
+                              onChange={(e) => handleRoleChange(user.email, e.target.value)}
+                              fullWidth
+                              sx={{ textAlign: 'left' }}
+                          >
+                            <MenuItem value="Student">Student</MenuItem>
+                            <MenuItem value="Instructor">Instructor</MenuItem>
+                          </Select>
+                      )}
+                    </TableCell>
+                  </TableRow>
               ))}
             </TableBody>
           </Table>
@@ -126,7 +125,6 @@ const AdminPage = () => {
           </Alert>
         </Snackbar>
       </Box>
-    </ThemeProvider>
   );
 };
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ThemeProvider, Box, TextField, Typography, Button, Avatar, Menu, MenuItem } from '@mui/material';
+import { Box, TextField, Typography, Button, Avatar, Menu, MenuItem } from '@mui/material';
 import theme from '../../theme'; // Make sure this path is correct
 import logo from '../../images/eduBridge.webp';
 import backgroundImage from '../../images/Backgroundimage.png';
@@ -53,69 +53,67 @@ function Navbar() {
     };
 
     return (
-        <ThemeProvider theme={theme}>
-            <Box sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                p: 1.5,
-                backgroundColor: 'background.paper',
-                color: 'text.primary',
-                backgroundImage: `url(${backgroundImage})`,
-                backgroundSize: 'cover',
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center',
-                marginLeft: 'auto',
-                marginRight: 'auto',
-                
-            }}>
-                <Link to={homePath} style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', marginLeft: 16 }}>
-                    <Avatar sx={{ width: 75, height: 75 }}>
-                        <img src={logo} alt="App Logo" style={{ width: '100%' }} />
+        <Box sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            p: 1.5,
+            backgroundColor: 'background.paper',
+            color: 'text.primary',
+            backgroundImage: `url(${backgroundImage})`,
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+
+        }}>
+            <Link to={homePath} style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', marginLeft: 16 }}>
+                <Avatar sx={{ width: 75, height: 75 }}>
+                    <img src={logo} alt="App Logo" style={{ width: '100%' }} />
+                </Avatar>
+            </Link>
+            <TextField
+                size="small"
+                placeholder="Search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                sx={{ borderRadius: '20px', width: '300px', alignSelf: 'center' }} // Adjusted for better proportion
+            />
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                {userRole === 'instructor' && (
+                    <Button onClick={() => navigate('/upload')} sx={buttonStyle}>
+                        <FontAwesomeIcon icon={faCloudUploadAlt} size="sm" />
+                        <Typography variant="body1">Upload New Content</Typography>
+                    </Button>
+                )}
+                <Button onClick={toggleCreateDiscussion} sx={buttonStyle}>
+                    <FontAwesomeIcon icon={faPlus} size="sm" />
+                    <Typography variant="body1">Create Discussion</Typography>
+                </Button>
+                <Button onClick={() => navigate('/courses')} sx={buttonStyle}>
+                    <FontAwesomeIcon icon={faBook} size="sm" />
+                    <Typography variant="body1">Courses</Typography>
+                </Button>
+                <Button onClick={handleClick} sx={buttonStyle}>
+                    <Avatar sx={{ bgcolor: theme.palette.primary.main, width: 50, height: 50, alignItems: 'right', marginLeft:-16, marginRight:-16}}>
+                        {getInitials(firstName, lastName)}
                     </Avatar>
-                </Link>
-                <TextField
-                    size="small"
-                    placeholder="Search"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    sx={{ borderRadius: '20px', width: '300px', alignSelf: 'center' }} // Adjusted for better proportion
-                />
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    {userRole === 'instructor' && (
-                        <Button onClick={() => navigate('/upload')} sx={buttonStyle}>
-                            <FontAwesomeIcon icon={faCloudUploadAlt} size="sm" />
-                            <Typography variant="body1">Upload New Content</Typography>
-                        </Button>
-                    )}
-                    <Button onClick={toggleCreateDiscussion} sx={buttonStyle}>
-                        <FontAwesomeIcon icon={faPlus} size="sm" />
-                        <Typography variant="body1">Create Discussion</Typography>
-                    </Button>
-                    <Button onClick={() => navigate('/courses')} sx={buttonStyle}>
-                        <FontAwesomeIcon icon={faBook} size="sm" />
-                        <Typography variant="body1">Courses</Typography>
-                    </Button>
-                    <Button onClick={handleClick} sx={buttonStyle}>
-                        <Avatar sx={{ bgcolor: theme.palette.primary.main, width: 50, height: 50, alignItems: 'right', marginLeft:-16, marginRight:-16}}>
-                            {getInitials(firstName, lastName)}
-                        </Avatar>
-                    </Button>
-                    <Menu
-                        id="account-menu"
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        MenuListProps={{
-                            'aria-labelledby': 'account-button',
-                        }}
-                    >
-                        <MenuItem onClick={handleClose}>{userRole}</MenuItem>
-                        <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                    </Menu>
-                </Box>
+                </Button>
+                <Menu
+                    id="account-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                        'aria-labelledby': 'account-button',
+                    }}
+                >
+                    <MenuItem onClick={handleClose}>{userRole}</MenuItem>
+                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </Menu>
             </Box>
-        </ThemeProvider>
+        </Box>
     );
 }
 

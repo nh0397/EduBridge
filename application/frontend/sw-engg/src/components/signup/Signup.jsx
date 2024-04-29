@@ -4,7 +4,7 @@ import CryptoJS from 'crypto-js';
 import apiService from '../../services/apiService';
 import {
   Grid, Paper, Box, Typography, TextField, Button,
-  CssBaseline, ThemeProvider, Checkbox, FormControlLabel,
+  Checkbox, FormControlLabel,
   InputAdornment, IconButton
 } from '@mui/material';
 import theme from '../../theme'; 
@@ -75,189 +75,186 @@ function Signup() {
   
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Grid container component="main" sx={{ height: '100vh' }}>
+    <Grid container component="main" sx={{ height: '100vh' }}>
         <Grid item xs={false} sm={4} md={5} sx={{
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
-          backgroundPosition: 'left',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column',
-        }}>
-        <Box sx={{ textAlign: 'center', maxWidth: 360 }}>
-          <img src={logo} alt="Logo" style={{ width: '100%', height: 'auto', marginBottom: theme.spacing(2), borderRadius: '50%', boxShadow: `0px 0px 10px ${theme.palette.secondary.main}` }} />
-            <Typography variant="h3" gutterBottom sx={{ fontFamily: 'AudioWide', fontWeight: 'bold', color: theme.palette.primary.contrastText }}>
-              Welcome Back!
-            </Typography>
-          <Typography variant="h6" sx={{ color: theme.palette.primary.contrastText }}>
-              To where education connects — log in to continue your journey.
-        </Typography>
-            <Button variant="outlined" color="primary" sx={{ mt: 7.95, bgcolor:'#86ac87', color: '#FFFFFF', borderColor:'secondary'}} onClick={() => navigate('/login')}>
-              Sign In
-            </Button>
-          </Box>
-        </Grid>
-        
-        <Grid item xs={12} sm={8} md={7} component={Paper} elevation={6} square sx={{ backgroundImage: `url(${backgroundImage2})`,      
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover', // Adjust to fit the background image as portrait
-          backgroundPosition: 'center',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column', }}>
-          <Box sx={{
-            my: -16,
-            mx: 32,
-            mt: 1,
+            backgroundImage: `url(${backgroundImage})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            backgroundPosition: 'left',
             display: 'flex',
-            flexDirection: 'column',
+            justifyContent: 'center',
             alignItems: 'center',
-          }}>
-            <Typography component="h1" variant="h3" gutterBottom sx={{ fontFamily: 'AudioWide', fontWeight: 'bold' }}>
-              Create an Account
-            </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ my: 16, mx: 32, mt: 1, width: '100%' }}>
-              {/* First Name */}
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                label="First Name"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <AccountCircleIcon />
-                    </InputAdornment>
-                  ),
-                }}
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-              />
-              {/* Last Name */}
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                label="Last Name"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <AccountCircleIcon />
-                    </InputAdornment>
-                  ),
-                }}
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-              />
-              {/* Email */}
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                label="Email Address"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <EmailIcon />
-                    </InputAdornment>
-                  ),
-                }}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              {/* Password */}
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                label="Password"
-                type={showPassword ? 'text' : 'password'}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <LockIcon />
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              {/* Confirm Password */}
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                label="Confirm Password"
-                type={showPassword ? 'text' : 'password'}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <LockIcon />
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-                value={confirmedPassword}
-                onChange={(e) => setConfirmedPassword(e.target.value)}
-              />
-              {/* Terms and Conditions */}
-              <FormControlLabel
-                control={<Checkbox color="primary" />}
-                label="I accept the Terms of Service and Privacy Policy"
-                checked={termsAccepted}
-                onChange={(e) => setTermsAccepted(e.target.checked)}
-                sx={{ mt: 3, mb: 2 }}
-              />
-              {/* Sign Up Button */}
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                sx={{
-                  mt: 3,
-                  mb: 2,
-                  fontWeight: 'bold',
-                  borderRadius: '25px', // Adjust border radius to make the button smaller
-                  textTransform: 'none', // Remove text transformation
-                  border: 'none', // Remove button border
-                  boxShadow: 'none', // Remove button box shadow
-                  fontSize: '20px', // Adjust font size
-                  padding: '8px 20px', // Adjust padding to make the button smaller 
-                }}>
-                Sign Up
-              </Button>
+            flexDirection: 'column',
+        }}>
+            <Box sx={{ textAlign: 'center', maxWidth: 360 }}>
+                <img src={logo} alt="Logo" style={{ width: '100%', height: 'auto', marginBottom: theme.spacing(2), borderRadius: '50%', boxShadow: `0px 0px 10px ${theme.palette.secondary.main}` }} />
+                <Typography variant="h3" gutterBottom sx={{ fontFamily: 'AudioWide', fontWeight: 'bold', color: theme.palette.primary.contrastText }}>
+                    Welcome Back!
+                </Typography>
+                <Typography variant="h6" sx={{ color: theme.palette.primary.contrastText }}>
+                    To where education connects — log in to continue your journey.
+                </Typography>
+                <Button variant="outlined" color="primary" sx={{ mt: 7.95, bgcolor:'#86ac87', color: '#FFFFFF', borderColor:'secondary'}} onClick={() => navigate('/login')}>
+                    Sign In
+                </Button>
             </Box>
-          </Box>
         </Grid>
-      </Grid>
-    </ThemeProvider>
-  );  
+
+        <Grid item xs={12} sm={8} md={7} component={Paper} elevation={6} square sx={{ backgroundImage: `url(${backgroundImage2})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover', // Adjust to fit the background image as portrait
+            backgroundPosition: 'center',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column', }}>
+            <Box sx={{
+                my: -16,
+                mx: 32,
+                mt: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}>
+                <Typography component="h1" variant="h3" gutterBottom sx={{ fontFamily: 'AudioWide', fontWeight: 'bold' }}>
+                    Create an Account
+                </Typography>
+                <Box component="form" noValidate onSubmit={handleSubmit} sx={{ my: 16, mx: 32, mt: 1, width: '100%' }}>
+                    {/* First Name */}
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="First Name"
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <AccountCircleIcon />
+                                </InputAdornment>
+                            ),
+                        }}
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                    />
+                    {/* Last Name */}
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Last Name"
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <AccountCircleIcon />
+                                </InputAdornment>
+                            ),
+                        }}
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                    />
+                    {/* Email */}
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Email Address"
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <EmailIcon />
+                                </InputAdornment>
+                            ),
+                        }}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    {/* Password */}
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Password"
+                        type={showPassword ? 'text' : 'password'}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <LockIcon />
+                                </InputAdornment>
+                            ),
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                    >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    {/* Confirm Password */}
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Confirm Password"
+                        type={showPassword ? 'text' : 'password'}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <LockIcon />
+                                </InputAdornment>
+                            ),
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                    >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
+                        value={confirmedPassword}
+                        onChange={(e) => setConfirmedPassword(e.target.value)}
+                    />
+                    {/* Terms and Conditions */}
+                    <FormControlLabel
+                        control={<Checkbox color="primary" />}
+                        label="I accept the Terms of Service and Privacy Policy"
+                        checked={termsAccepted}
+                        onChange={(e) => setTermsAccepted(e.target.checked)}
+                        sx={{ mt: 3, mb: 2 }}
+                    />
+                    {/* Sign Up Button */}
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        sx={{
+                            mt: 3,
+                            mb: 2,
+                            fontWeight: 'bold',
+                            borderRadius: '25px', // Adjust border radius to make the button smaller
+                            textTransform: 'none', // Remove text transformation
+                            border: 'none', // Remove button border
+                            boxShadow: 'none', // Remove button box shadow
+                            fontSize: '20px', // Adjust font size
+                            padding: '8px 20px', // Adjust padding to make the button smaller
+                        }}>
+                        Sign Up
+                    </Button>
+                </Box>
+            </Box>
+        </Grid>
+    </Grid>
+);
 }
 
 export default Signup;
