@@ -75,13 +75,24 @@ function Navbar() {
                     <img src={logo} alt="App Logo" style={{ width: '100%' }} />
                 </Avatar>
             </Link>
-            <TextField
+            <div> 
+				<TextField
+				variant="standard"
+				margin="normal"
+				className='search-field'
                 size="small"
                 placeholder="Search"
+				InputProps={{
+					disableUnderline: true,
+					  style: {
+						height:40,
+						paddingLeft: 15
+					}
+				}}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                sx={{ borderRadius: '20px', width: '300px', alignSelf: 'center' }} // Adjusted for better proportion
             />
+			</div>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 {userRole?.toLowerCase() === 'instructor' && (
                     <Button onClick={() => navigate('/upload')} sx={buttonStyle}>
