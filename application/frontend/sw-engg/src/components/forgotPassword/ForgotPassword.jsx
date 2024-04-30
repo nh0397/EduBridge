@@ -7,6 +7,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import backgroundImage from '../../images/Backgroundimage.png';
 import theme from '../../theme';
+import './ForgotPassword.css'
 
 function ForgotPassword() {
     const [email, setEmail] = useState('');
@@ -126,6 +127,11 @@ function ForgotPassword() {
                                         ),
                                     }}
                                 />
+                                <div className='login-text'>
+                                    <Link href="/login" variant="body2" >
+                                    Go back to Login
+                                    </Link>
+                                </div>
                                 <Button
                                     type="submit"
                                     fullWidth
@@ -143,9 +149,6 @@ function ForgotPassword() {
                                 </Button>
                             </>
                         )}
-                        <Link href="/login" variant="body2">
-                            <ArrowBackIcon sx={{ mr: 1 }} />Go back to Login
-                        </Link>
                     </form>
                     <Box sx={{ mt: 2 }}>
                         {message && <Typography color="secondary">{message}</Typography>}
