@@ -104,7 +104,7 @@ function Navbar() {
                     <FontAwesomeIcon icon={faCloudUploadAlt} size="sm"/>
                     <Typography variant="body1">Upload New Content</Typography>
                 </Button>)}
-            <Button onClick={toggleCreateDiscussion} sx={buttonStyle}>
+            <Button onClick={() => navigate('/forum')} sx={buttonStyle}>
                 <FontAwesomeIcon icon={faPlus} size="sm"/>
                 <Typography variant="body1">Create Discussion</Typography>
             </Button>
