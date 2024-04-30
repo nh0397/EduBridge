@@ -17,6 +17,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import logo from '../../images/eduBridge.webp';
 import backgroundImage from '../../images/Backgroundimage.png';
 import backgroundImage2 from '../../images/Background2.webp';
+import './Signup.css'
 
 function Signup() {
   const [firstName, setFirstName] = useState('');
@@ -96,7 +97,7 @@ function Signup() {
                 <Typography variant="h6" sx={{ color: theme.palette.primary.contrastText }}>
                     To where education connects — log in to continue your journey.
                 </Typography>
-                <Button variant="outlined" color="primary" sx={{ mt: 7.95, bgcolor:'#86ac87', color: '#FFFFFF', borderColor:'secondary'}} onClick={() => navigate('/login')}>
+                <Button className='sign-in' sx={{ mt: 7.95}} variant="contained" onClick={() => navigate('/login')}>
                     Sign In
                 </Button>
             </Box>
@@ -227,14 +228,14 @@ function Signup() {
                         onChange={(e) => setConfirmedPassword(e.target.value)}
                     />
                     {/* Terms and Conditions */}
-                    <FormControlLabel
+                        <div className='last-row'>
+                            <FormControlLabel
                         control={<Checkbox color="primary" />}
                         label="I accept the Terms of Service and Privacy Policy"
                         checked={termsAccepted}
                         onChange={(e) => setTermsAccepted(e.target.checked)}
                         sx={{ mt: 3, mb: 2 }}
                     />
-                    {/* Sign Up Button */}
                     <Button
                         type="submit"
                         variant="contained"
@@ -255,6 +256,7 @@ function Signup() {
                         }}>
                         Sign Up
                     </Button>
+                        </div>
                 </Box>
             </Box>
         </Grid>
