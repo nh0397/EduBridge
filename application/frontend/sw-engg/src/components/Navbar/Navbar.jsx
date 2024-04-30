@@ -5,7 +5,9 @@ import theme from '../../theme'; // Make sure this path is correct
 import logo from '../../images/eduBridge.webp';
 import backgroundImage from '../../images/Backgroundimage.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCloudUploadAlt, faPlus, faBook } from '@fortawesome/free-solid-svg-icons';
+import { faCloudUploadAlt, faPlus, faBook, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+
+import './Navbar.css'
 
 function Navbar() {
     const [searchTerm, setSearchTerm] = useState('');
@@ -101,17 +103,53 @@ function Navbar() {
                     </Avatar>
                 </Button>
                 <Menu
-                    id="account-menu"
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    MenuListProps={{
-                        'aria-labelledby': 'account-button',
-                    }}
-                >
-                    <MenuItem onClick={handleClose}>{userRole}</MenuItem>
-                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                </Menu>
+    className='menu-box'
+    id="account-menu"
+    anchorEl={anchorEl}
+    open={open}
+    onClose={handleClose}
+    MenuListProps={{
+        'aria-labelledby': 'account-button',
+    }}
+    PaperProps={{
+        style: {
+            width: '300px', // Increase the width as needed
+            padding: '20px',  // Optional: add some padding around the items
+			paddingBottom:'0px'
+        }
+    }}
+>
+    <div className='name-box'>
+        <div>
+            <Avatar 
+                sx={{ 
+                    bgcolor: theme.palette.primary.main, 
+                    width: 60,  // Increased width
+                    height: 60, // Increased height
+                }}
+            >
+                {getInitials(firstName, lastName)}
+            </Avatar>
+        </div>
+        <div>
+            <div className='name-text'>
+            <div className='firstName'>{sessionStorage.getItem("firstName")}</div>
+            <div className='lastName'>{sessionStorage.getItem("lastName")}</div>
+        </div>
+        <div>
+            {sessionStorage.getItem('userEmail')}
+        </div>
+        <div>
+            {userRole[0].toUpperCase()}{userRole.substring(1, userRole.length)}
+        </div>
+        </div>
+    </div>
+    <MenuItem onClick={handleLogout} className='logout-text'>
+            <FontAwesomeIcon icon={faSignOutAlt} style={{ marginRight: '8px' }} />
+            Logout
+    </MenuItem>
+</Menu>
+
             </Box>
         </Box>
     );
