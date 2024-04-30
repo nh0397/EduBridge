@@ -7,6 +7,7 @@ const AdminPage = () => {
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [feedback, setFeedback] = useState({ open: false, message: '', severity: 'info' });
+  const root = theme.components.MuiBox.styleOverrides.root;
 
   useEffect(() => {
     loadUsers();
@@ -73,11 +74,11 @@ const AdminPage = () => {
             alignItems: 'center',
             padding: theme.spacing(3),
             height: 'auto',
-            backgroundImage: theme.backgroundImage,
-            backgroundSize: theme.backgroundSize,
-            backgroundPosition: theme.backgroundPosition,
-            backgroundAttachment: theme.backgroundAttachment,
-            backgroundColor: theme.palette.background.default,
+            backgroundImage: root.backgroundImage, // Use background image from theme
+            backgroundSize: root.backgroundSize,
+            backgroundPosition: root.backgroundPosition,
+            backgroundAttachment: root.backgroundAttachment,
+            backgroundColor: theme.palette.background.default, // Set background color here if needed
           }}
       >
         <Paper elevation={6} square sx={{
@@ -88,7 +89,7 @@ const AdminPage = () => {
           borderRadius: theme.shape.borderRadius,
           backgroundColor: theme.palette.background.paper
         }}>
-          <Typography variant="h4" gutterBottom sx={{ textAlign: 'center', marginBottom: theme.spacing(2) }}>
+          <Typography variant="h4" gutterBottom sx={{ color: theme.primary, textAlign: 'center', marginBottom: theme.spacing(2) }}>
             Admin Page
           </Typography>
           <TextField
