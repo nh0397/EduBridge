@@ -28,7 +28,7 @@ function Navbar() {
 
     const handleNavigateMyDiscussions = () => {
         handleClose();
-        navigate('/my-discussions'); // Ensure this route is configured in your router
+        navigate('/my-discussions');
     };
 
     const handleClick = (event) => {
