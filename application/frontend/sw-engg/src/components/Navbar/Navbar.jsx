@@ -9,7 +9,7 @@ import { faCloudUploadAlt, faPlus, faBook, faSignOutAlt } from '@fortawesome/fre
 
 import './Navbar.css'
 
-function Navbar() {
+function Navbar(props) {
     const [searchTerm, setSearchTerm] = useState('');
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -36,8 +36,10 @@ function Navbar() {
         return firstName && lastName ? `${firstName[0]}${lastName[0]}`.toUpperCase() : 'U';
     };
 
-    const toggleCreateDiscussion = () => {
-        console.log("Toggle Create Discussion Modal");
+    const openDiscussionModal = () => {
+        console.log("Toggle clicked");
+		props.toggleModal()
+        props.modalType('Discussions')
     };
 
     const buttonStyle = {
@@ -95,16 +97,16 @@ function Navbar() {
 			</div>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 {userRole?.toLowerCase() === 'instructor' && (
-                    <Button onClick={() => navigate('/upload')} sx={buttonStyle}>
+                    <Button onClick={() => null} sx={buttonStyle}>
                         <FontAwesomeIcon icon={faCloudUploadAlt} size="sm" />
                         <Typography variant="body1">Upload New Content</Typography>
                     </Button>
                 )}
-                <Button onClick={toggleCreateDiscussion} sx={buttonStyle}>
+                <Button onClick={openDiscussionModal} sx={buttonStyle}>
                     <FontAwesomeIcon icon={faPlus} size="sm" />
                     <Typography variant="body1">Create Discussion</Typography>
                 </Button>
-                <Button onClick={() => navigate('/courses')} sx={buttonStyle}>
+                <Button onClick={() => null} sx={buttonStyle}>
                     <FontAwesomeIcon icon={faBook} size="sm" />
                     <Typography variant="body1">Courses</Typography>
                 </Button>
@@ -151,7 +153,11 @@ function Navbar() {
             {sessionStorage.getItem('userEmail')}
         </div>
         <div>
-            {userRole[0].toUpperCase()}{userRole.substring(1, userRole.length)}
+            {userRole && (
+    <div>
+        {userRole[0].toUpperCase() + userRole.substring(1)}
+    </div>
+)}
         </div>
         </div>
     </div>

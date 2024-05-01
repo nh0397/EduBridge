@@ -17,7 +17,7 @@ const AdminPage = () => {
       const fetchedUsers = await apiService.fetchUsers();
       const usersWithDefaultRole = fetchedUsers.map(user => ({
         ...user,
-        role: user.role.toLowerCase || 'Student' // Set default to 'Student' if not specified
+        role: user.role || 'Student' // Set default to 'Student' if not specified
       }));
       setUsers(usersWithDefaultRole);
     } catch (error) {
@@ -27,7 +27,7 @@ const AdminPage = () => {
 
   const handleRoleChange = async (email, newRole) => {
     // Prevent changing the role of admins
-    if (users.find(user => user.email === email && user.role === 'Admin')) {
+    if (users.find(user => user.email === email && user.role === 'admin')) {
       setFeedback({ open: true, message: 'Admin role cannot be changed.', severity: 'error' });
       return;
     }
@@ -115,7 +115,7 @@ const AdminPage = () => {
                     <TableCell>{user.last_name}</TableCell>
                     <TableCell>{user.email}</TableCell>
                     <TableCell>
-                      {user.role.toLowerCase === 'Admin' ? (
+                      {user.role === 'admin' ? (
                           'Admin' // Display text only for admins
                       ) : (
                           <Select
