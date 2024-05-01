@@ -15,17 +15,29 @@ const AdminPage = () => {
   const loadUsers = async () => {
     try {
       const fetchedUsers = await apiService.fetchUsers();
+
+      const usersWithDefaultRole = fetchedUsers.map(user => ({
+        ...user,
+        role: user.role || 'Student' // Set default to 'Student' if not specified
+      }));
+      setUsers(usersWithDefaultRole);
+
       setUsers(fetchedUsers);
+
     } catch (error) {
       console.error('Failed to fetch users:', error);
     }
   };
 
   const handleRoleChange = async (email, newRole) => {
+
+    // Prevent changing the role of admins
+    if (users.find(user => user.email === email && user.role === 'admin')) {
+
     const user = users.find(user => user.email === email);
 
 
-    if (user.role.toLowerCase().trim() === 'admin') {
+
       setFeedback({ open: true, message: 'Admin role cannot be changed.', severity: 'error' });
       return;
     }
@@ -95,7 +107,10 @@ const AdminPage = () => {
                     <TableCell>{user.last_name}</TableCell>
                     <TableCell>{user.email}</TableCell>
                     <TableCell>
-                      {user.role === 'Admin' ? 'Admin' : (
+                      {user.role === 'admin' ? (
+                          'Admin' // Display text only for admins
+                      ) : (
+
                           <Select
                               value={user.role}
                               onChange={(e) => handleRoleChange(user.email, e.target.value)}
