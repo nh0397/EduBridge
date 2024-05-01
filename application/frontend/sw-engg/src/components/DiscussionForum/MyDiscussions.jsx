@@ -1,110 +1,152 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import apiService from '../../services/apiService';
-import {Box, Paper, Typography} from "@mui/material";
+import {Box, Button, IconButton, Paper, TextField, Typography} from "@mui/material";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import CommentIcon from "@mui/icons-material/Comment";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import SaveIcon from "@mui/icons-material/Save";
+import CancelIcon from "@mui/icons-material/Cancel";
+import apiService from '../../services/apiService';
 
 const MyDiscussions = () => {
-  const [discussions, setDiscussions] = useState([]);
-  const navigate = useNavigate();
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedTitle, setEditedTitle] = useState('');
-  const [editedText, setEditedText] = useState('');
-  const [discussionToEdit, setDiscussionToEdit] = useState(null);
+    const [discussions, setDiscussions] = useState([]);
+    const navigate = useNavigate();
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedTitle, setEditedTitle] = useState('');
+    const [editedText, setEditedText] = useState('');
+    const [discussionToEdit, setDiscussionToEdit] = useState(null);
 
-  useEffect(() => {
-    fetchMyDiscussionsFromApi();
-  }, []);
+    useEffect(() => {
+        fetchMyDiscussionsFromApi();
+    }, []);
 
+    const fetchMyDiscussionsFromApi = async () => {
+        const userEmail = sessionStorage.getItem('userEmail');
+        try {
+            const response = await apiService.fetchMyDiscussions(userEmail);
+            if (response && response.discussion && response.replies) {
+                const discussionsWithRepliesCount = response.discussion.map(discussion => {
+                    const repliesCount = response.replies.filter(reply => reply.discussion_id === discussion.id).length;
+                    return {...discussion, repliesCount};
+                });
+                setDiscussions(discussionsWithRepliesCount);
+            } else {
+                console.error('Unexpected response structure:', response);
+            }
+        } catch (error) {
+            console.error('Error fetching discussions:', error);
+        }
+    };
 
+    const deleteDiscussion = async (id, event) => {
+        event.stopPropagation();
+        try {
+            await apiService.deleteDiscussion(id);
+            setDiscussions(discussions.filter((discussion) => discussion.id !== id));
+        } catch (error) {
+            console.error('Error deleting discussion:', error);
+        }
+    };
 
-  const fetchMyDiscussionsFromApi = async () => {
-    try {
-      const userEmail = sessionStorage.getItem('userEmail');
-      const response =  await apiService.fetchMyDiscussions(userEmail);
-      if (response && response.discussion && response.replies) {
-        const discussionsWithRepliesCount = response.discussion.map(discussion => {
-          const repliesCount = response.replies.filter(reply => reply.discussion_id === discussion.id).length;
-          return {...discussion, repliesCount};
-        });
-        setDiscussions(discussionsWithRepliesCount);
-      } else {
-        console.error('Unexpected response structure:', response);
-      }
-    } catch (error) {
-      console.error('Error fetching discussions:', error);
-    }
-  };
+    const handleEditClick = (discussion, event) => {
+        event.stopPropagation();
+        setIsEditing(true);
+        setEditedTitle(discussion.title);
+        setEditedText(discussion.content);
+        setDiscussionToEdit(discussion);
+    };
 
-  const deleteDiscussion = async (id) => {
-    try {
-      await apiService.deleteDiscussion(id);
-      setDiscussions(discussions.filter((discussion) => discussion.id !== id));
-    } catch (error) {
-      console.error('Error deleting discussion:', error);
-    }
-  };
+    const handleCancelEdit = () => {
+        setIsEditing(false);
+        setEditedTitle('');
+        setEditedText('');
+        setDiscussionToEdit(null);
+    };
 
+    const handleSaveEdit = async () => {
+        const userEmail = sessionStorage.getItem('userEmail');
+        try {
+            const updatedDiscussion = await apiService.updateDiscussion(discussionToEdit.id, editedTitle, editedText, userEmail);
+            const updatedDiscussions = discussions.map((discussion) =>
+                discussion.id === updatedDiscussion.id ? {
+                    ...discussion,
+                    title: editedTitle,
+                    content: editedText
+                } : discussion
+            );
+            setDiscussions(updatedDiscussions);
+            handleCancelEdit();
+        } catch (error) {
+            console.error('Error updating discussion:', error);
+        }
+    };
 
+    const handleDiscussionClick = (id) => {
+        if (!isEditing) {
+            navigate(`/discussion/${id}`);
+        }
+    };
 
-  const handleEditClick = (discussion) => {
-    setIsEditing(true);
-    setEditedTitle(discussion.title);
-    setEditedText(discussion.text);
-    setDiscussionToEdit(discussion);
-  };
-
-  const handleCancelEdit = () => {
-    setIsEditing(false);
-    setEditedTitle('');
-    setEditedText('');
-    setDiscussionToEdit(null);
-  };
-
-  const handleSaveEdit = async () => {
-    try {
-      const userEmail = sessionStorage.getItem('userEmail');
-      const updatedDiscussion = await apiService.updateDiscussion(discussionToEdit.id, editedTitle, editedText, userEmail);
-      const updatedDiscussions = discussions.map((discussion) =>
-        discussion.id === updatedDiscussion.id ? updatedDiscussion : discussion
-      );
-      setDiscussions(updatedDiscussions);
-      setIsEditing(false);
-      setEditedTitle('');
-      setEditedText('');
-      setDiscussionToEdit(null);
-    } catch (error) {
-      console.error('Error updating discussion:', error);
-    }
-  };
-
-  const handleDiscussionClick = (id) => {
-    navigate(`/discussion/${id}`);
-  };
-
-  return (
-      <Box sx={{maxWidth: 800, margin: 'auto', mt: 2}}>
-        {discussions.map((discussion) => (
-            <Paper key={discussion.id} elevation={2} sx={{p: 2, mb: 2, cursor: 'pointer'}}
-                   onClick={() => handleDiscussionClick(discussion.id)}>
-              <Typography variant="h6" sx={{mb: 1}}>{discussion.title}</Typography>
-              <Typography variant="body2" sx={{mb: 2}}>{discussion.content}</Typography>
-              <Box sx={{display: 'flex', alignItems: 'center'}}>
-                <ThumbUpAltIcon sx={{mr: 0.5, color: 'primary.main'}}/>
-
-                <Typography sx={{mx: 2}}>{discussion.likes - discussion.dislikes}</Typography>
-                <ThumbDownAltIcon sx={{mr: 0.5, color: 'secondary.main'}}/>
-
-                <CommentIcon sx={{ml: 2, mr: 0.5, color: 'action.active'}}/>
-                <Typography>{discussion.repliesCount}</Typography>
-              </Box>
-            </Paper>
-        ))}
-      </Box>
-  );
+    return (
+        <Box sx={{maxWidth: 800, margin: 'auto', mt: 2}}>
+            {discussions.map((discussion) => (
+                <Paper key={discussion.id} elevation={2} sx={{p: 2, mb: 2}}
+                       onClick={() => handleDiscussionClick(discussion.id)}>
+                    {isEditing && discussion.id === discussionToEdit.id ? (
+                        <>
+                            <TextField
+                                variant="outlined"
+                                fullWidth
+                                label="Title"
+                                value={editedTitle}
+                                onChange={(e) => setEditedTitle(e.target.value)}
+                                sx={{mb: 2}}
+                            />
+                            <TextField
+                                variant="outlined"
+                                fullWidth
+                                multiline
+                                rows={4}
+                                label="Content"
+                                value={editedText}
+                                onChange={(e) => setEditedText(e.target.value)}
+                                sx={{mb: 2}}
+                            />
+                            <Button startIcon={<SaveIcon/>} onClick={handleSaveEdit} color="primary">Save</Button>
+                            <Button startIcon={<CancelIcon/>} onClick={handleCancelEdit}
+                                    color="secondary">Cancel</Button>
+                        </>
+                    ) : (
+                        <>
+                            <Typography variant="h6" sx={{
+                                mb: 1,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between'
+                            }}>
+                                {discussion.title}
+                                <Box>
+                                    <IconButton onClick={(e) => handleEditClick(discussion, e)}><EditIcon/></IconButton>
+                                    <IconButton
+                                        onClick={(e) => deleteDiscussion(discussion.id, e)}><DeleteIcon/></IconButton>
+                                </Box>
+                            </Typography>
+                            <Typography variant="body2" sx={{mb: 2}}>{discussion.content}</Typography>
+                            <Box sx={{display: 'flex', alignItems: 'center'}}>
+                                <ThumbUpAltIcon sx={{mr: 0.5, color: 'primary.main'}}/>
+                                <Typography sx={{mx: 2}}>{discussion.likes - discussion.dislikes}</Typography>
+                                <ThumbDownAltIcon sx={{mr: 0.5, color: 'secondary.main'}}/>
+                                <CommentIcon sx={{ml: 2, mr: 0.5, color: 'action.active'}}/>
+                                <Typography>{discussion.repliesCount}</Typography>
+                            </Box>
+                        </>
+                    )}
+                </Paper>
+            ))}
+        </Box>
+    );
 };
 
 export default MyDiscussions;
