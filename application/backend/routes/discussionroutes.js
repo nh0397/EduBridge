@@ -158,10 +158,14 @@ router.put('/:id', async (req, res) => {
 router.get('/my/:userEmail', async (req, res) => {
   const { userEmail } = req.params;
 
-  const selectMyDiscussionsQuery = 'SELECT id, title FROM discussions WHERE user_id = ?';
+
+  const selectDiscussionsQuery = 'SELECT id, title, content, likes, dislikes FROM discussions WHERE user_id = ?';
+  const selectRepliesQuery = 'SELECT * FROM replies';
   try {
-    const [rows] = await pool.execute(selectMyDiscussionsQuery, [userEmail]);
-    res.status(200).json(rows);
+
+    const [discussions] = await pool.execute(selectDiscussionsQuery, [userEmail]);
+    const [replies] = await pool.execute(selectRepliesQuery);
+    res.status(200).json({ discussion: discussions, replies });
   } catch (error) {
     console.error('Database error:', error);
     res.status(500).json({ message: 'Error fetching my discussions' });
