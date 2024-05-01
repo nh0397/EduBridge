@@ -26,6 +26,11 @@ function Navbar() {
         navigate('/login');
     };
 
+    const handleNavigateMyDiscussions = () => {
+        handleClose();
+        navigate('/my-discussions'); // Ensure this route is configured in your router
+    };
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -201,6 +206,9 @@ function Navbar() {
                         </div>
                     </div>
                 </div>
+                <MenuItem onClick={handleNavigateMyDiscussions}>
+                    My Discussions
+                </MenuItem>
                 <MenuItem onClick={handleLogout} className='logout-text'>
                     <FontAwesomeIcon icon={faSignOutAlt} style={{marginRight: '8px'}}/>
                     Logout
