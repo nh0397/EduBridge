@@ -12,7 +12,7 @@ import {Dropdown, DropdownMenuItem, DropdownNestedMenuItem} from "./Dropdown";
 import apiService from "../../services/apiService";
 
 
-function Navbar(props) {
+function Navbar() {
     const [searchTerm, setSearchTerm] = useState('');
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -85,10 +85,8 @@ function Navbar(props) {
         return firstName && lastName ? `${firstName[0]}${lastName[0]}`.toUpperCase() : 'U';
     };
 
-    const openDiscussionModal = () => {
-        console.log("Toggle clicked");
-		props.toggleModal()
-        props.modalType('Discussions')
+    const toggleCreateDiscussion = () => {
+        console.log("Toggle Create Discussion Modal");
     };
 
     const buttonStyle = {
@@ -146,20 +144,20 @@ function Navbar(props) {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
             />
-			</div>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                {userRole?.toLowerCase() === 'instructor' && (
-                    <Button onClick={() => null} sx={buttonStyle}>
-                        <FontAwesomeIcon icon={faCloudUploadAlt} size="sm" />
-                        <Typography variant="body1">Upload New Content</Typography>
-                    </Button>
-                )}
-                <Button onClick={openDiscussionModal} sx={buttonStyle}>
-                    <FontAwesomeIcon icon={faPlus} size="sm" />
-                    <Typography variant="body1">Create Discussion</Typography>
-                </Button>
-                <Button onClick={() => null} sx={buttonStyle}>
-                    <FontAwesomeIcon icon={faBook} size="sm" />
+        </div>
+        <Box sx={{display: 'flex', alignItems: 'center'}}>
+            {userRole?.toLowerCase() === 'instructor' && (
+                <Button onClick={() => navigate('/upload')} sx={buttonStyle}>
+                    <FontAwesomeIcon icon={faCloudUploadAlt} size="sm"/>
+                    <Typography variant="body1">Upload New Content</Typography>
+                </Button>)}
+            <Button onClick={() => navigate('/forum')} sx={buttonStyle}>
+                <FontAwesomeIcon icon={faPlus} size="sm"/>
+                <Typography variant="body1">Create Discussion</Typography>
+            </Button>
+            <Dropdown
+                trigger={<Button sx={buttonStyle}>
+                    <FontAwesomeIcon icon={faBook} size="sm"/>
                     <Typography variant="body1">Courses</Typography>
                 </Button>}
                 menu={courseMenuItems}
@@ -193,33 +191,39 @@ function Navbar(props) {
                     }
                 }}
             >
-                {getInitials(firstName, lastName)}
-            </Avatar>
-        </div>
-        <div>
-            <div className='name-text'>
-            <div className='firstName'>{sessionStorage.getItem("firstName")}</div>
-            <div className='lastName'>{sessionStorage.getItem("lastName")}</div>
-        </div>
-        <div>
-            {sessionStorage.getItem('userEmail')}
-        </div>
-        <div>
-            {userRole && (
-    <div>
-        {userRole[0].toUpperCase() + userRole.substring(1)}
-    </div>
-)}
-        </div>
-        </div>
-    </div>
-    <MenuItem onClick={handleLogout} className='logout-text'>
-            <FontAwesomeIcon icon={faSignOutAlt} style={{ marginRight: '8px' }} />
-            Logout
-    </MenuItem>
-</Menu>
+                <div className='name-box'>
+                    <div>
+                        <Avatar
+                            sx={{
+                                bgcolor: theme.palette.primary.main, width: 60,  // Increased width
+                                height: 60, // Increased height
+                            }}
+                        >
+                            {getInitials(firstName, lastName)}
+                        </Avatar>
+                    </div>
+                    <div>
+                        <div className='name-text'>
+                            <div className='firstName'>{sessionStorage.getItem("firstName")}</div>
+                            <div className='lastName'>{sessionStorage.getItem("lastName")}</div>
+                        </div>
+                        <div>
+                            {sessionStorage.getItem('userEmail')}
+                        </div>
+                        <div>
+                            {userRole[0].toUpperCase()}{userRole.substring(1, userRole.length)}
+                        </div>
+                    </div>
+                </div>
+                <MenuItem onClick={handleNavigateMyDiscussions}>
+                    My Discussions
+                </MenuItem>
+                <MenuItem onClick={handleLogout} className='logout-text'>
+                    <FontAwesomeIcon icon={faSignOutAlt} style={{marginRight: '8px'}}/>
+                    Logout
+                </MenuItem>
+            </Menu>
 
-            </Box>
         </Box>
     </Box>);
 }

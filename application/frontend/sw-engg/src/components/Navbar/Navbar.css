@@ -43,21 +43,3 @@
 .Mui-focused{
     border: 0px !important;
 }
-
-.navbar-first{
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-}
-
-.main-Navbar{
-    display: flex;
-    left: 0;
-    flex-direction: column;
-    width: 99vw;
-    background-image: url('../../images/Backgroundimage.png');
-    border: 1px solid black;
-    padding: 10px;
-    
-}
-

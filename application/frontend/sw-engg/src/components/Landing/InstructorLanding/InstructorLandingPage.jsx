@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faUpload, faComments } from '@fortawesome/free-solid-svg-icons';
-import './InstructorLandingPage.css'
-import Modal from '../../DiscussionForum/Modal';
+
+
 import apiService from '../../../services/apiService'; // Ensure the correct path
 
 const PopularFilesCarousel = ({ files }) => {
@@ -54,18 +54,9 @@ const PopularFilesCarousel = ({ files }) => {
   );
 };
 
-const InstructorLandingPage = (props) => {
+const InstructorLandingPage = () => {
   const [files, setFiles] = useState([]);
   const Name = sessionStorage.getItem('firstName'); // Fetch the name from sessionStorage
-  const [activeTab, setActiveTab] = useState('tab1');
-  const { modalOpen, setModal } = props;
-
-  const handleTabClick = (tab) => {
-        setActiveTab(tab);
-    };
-  const closeModal = () => {
-        setModal(false);
-    };
 
   const fetchFiles = async () => {
     try {
@@ -83,39 +74,19 @@ const InstructorLandingPage = (props) => {
 
   return (
     <div className="instructor-landing-page">
-      <div>
-        {modalOpen && (
-                <Modal toggleModal={() => props.toggleModal()}>
-                </Modal>
-            )}
-            <div className="tabs">
-                <button
-                    className={`tab-button ${activeTab === 'tab1' ? 'active' : ''}`}
-                    onClick={() => handleTabClick('tab1')}
-                >
-                    Content
-                </button>
-                <button
-                    className={`tab-button ${activeTab === 'tab2' ? 'active' : ''}`}
-                    onClick={() => handleTabClick('tab2')}
-                >
-                    Discussions
-                </button>
-            </div>
-            <div className="tab-content">
-                {activeTab === 'tab1' ? (
-                    <div>
-                        <h1>Content of Tab 1</h1>
-                        <p>This is the content for Tab 1. You can put any components or content here.</p>
-                    </div>
-                ) : (
-                    <div>
-                        <h1>Content of Tab 2</h1>
-                        <p>This is the content for Tab 2. Customize as needed.</p>
-                    </div>
-                )}
-            </div>
-        </div>
+      <section className="instructions-section">
+        <h2>Getting Started</h2>
+        <p>Manage your courses, engage with students, and track progress using the tools provided:</p>
+        <ul>
+          <li><FontAwesomeIcon icon={faUpload} /> Upload new course content</li> {/* Added upload icon */}
+          <li><FontAwesomeIcon icon={faComments} /> Participate in discussions</li> {/* Added comments/discussion icon */}
+        </ul>
+      </section>
+
+      <section className="featured-courses">
+        <h3>Popular Files</h3>
+        <PopularFilesCarousel files={files} />
+      </section>
 
       <footer className="instructor-footer">
         <p>© 2024 Your Learning Platform. All rights reserved.</p>
