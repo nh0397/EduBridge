@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import apiService from '../../../services/apiService';
 import { Box, Paper, TextField, Typography, Table, TableHead, TableBody, TableRow, TableCell, Select, MenuItem, Snackbar, Alert } from '@mui/material';
-import theme from '../../../theme';
-import apiService from "../../../services/apiService";
+import theme from '../../../theme'; // Ensure the theme is imported correctly
 
 const AdminPage = () => {
   const [users, setUsers] = useState([]);
@@ -15,46 +15,55 @@ const AdminPage = () => {
   const loadUsers = async () => {
     try {
       const fetchedUsers = await apiService.fetchUsers();
-      setUsers(fetchedUsers);
+      const usersWithDefaultRole = fetchedUsers.map(user => ({
+        ...user,
+        role: user.role || 'Student' // Set default to 'Student' if not specified
+      }));
+      setUsers(usersWithDefaultRole);
     } catch (error) {
       console.error('Failed to fetch users:', error);
     }
   };
 
   const handleRoleChange = async (email, newRole) => {
-    const user = users.find(user => user.email === email);
-
-
-    if (user.role.toLowerCase().trim() === 'admin') {
+    // Prevent changing the role of admins
+    if (users.find(user => user.email === email && user.role === 'admin')) {
       setFeedback({ open: true, message: 'Admin role cannot be changed.', severity: 'error' });
       return;
     }
 
-    try {
+    // Change role and show feedback
+      const updatedUsers = users.map(user =>
+        user.email === email ? { ...user, role: newRole } : user
+      );
+      try {
       const response = await apiService.updateUserRole(email, newRole);
+      // Assuming response indicates success, then update local state
       if (response.success) {
         const updatedUsers = users.map(user =>
-            user.email === email ? { ...user, role: newRole } : user
+          user.email === email ? { ...user, role: newRole } : user
         );
         setUsers(updatedUsers);
-        setFeedback({ open: true, message: 'Role updated successfully.', severity: 'success' });
       } else {
         console.error('Failed to update user role in the database.');
       }
     } catch (error) {
       console.error('Error updating user role:', error);
     }
+    loadUsers()
+    setUsers(updatedUsers);
+    setFeedback({ open: true, message: 'Role updated successfully.', severity: 'success' });
   };
 
   const handleCloseFeedback = () => {
     setFeedback({ ...feedback, open: false });
   };
 
-  const filteredUsers = searchQuery ? users.filter(user =>
-      user.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.last_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchQuery.toLowerCase())
-  ) : users;
+  const filteredUsers = users.filter(user =>
+    user.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    user.last_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    user.email.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
       <Box
@@ -64,11 +73,22 @@ const AdminPage = () => {
             alignItems: 'center',
             padding: theme.spacing(3),
             height: 'auto',
+            backgroundImage: theme.backgroundImage,
+            backgroundSize: theme.backgroundSize,
+            backgroundPosition: theme.backgroundPosition,
+            backgroundAttachment: theme.backgroundAttachment,
             backgroundColor: theme.palette.background.default,
           }}
       >
-        <Paper elevation={6} sx={{ width: '100%', maxWidth: 800, margin: theme.spacing(2), padding: theme.spacing(3) }}>
-          <Typography variant="h4" sx={{ textAlign: 'center', marginBottom: theme.spacing(2) }}>
+        <Paper elevation={6} square sx={{
+          width: '100%',
+          maxWidth: 800,
+          margin: theme.spacing(2),
+          padding: theme.spacing(3),
+          borderRadius: theme.shape.borderRadius,
+          backgroundColor: theme.palette.background.paper
+        }}>
+          <Typography variant="h4" gutterBottom sx={{ textAlign: 'center', marginBottom: theme.spacing(2) }}>
             Admin Page
           </Typography>
           <TextField
@@ -79,7 +99,7 @@ const AdminPage = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               sx={{ marginBottom: theme.spacing(2) }}
           />
-          <Table>
+          <Table sx={{ marginBottom: theme.spacing(2) }}>
             <TableHead>
               <TableRow>
                 <TableCell>First Name</TableCell>
@@ -95,11 +115,14 @@ const AdminPage = () => {
                     <TableCell>{user.last_name}</TableCell>
                     <TableCell>{user.email}</TableCell>
                     <TableCell>
-                      {user.role === 'Admin' ? 'Admin' : (
+                      {user.role === 'admin' ? (
+                          'Admin' // Display text only for admins
+                      ) : (
                           <Select
                               value={user.role}
                               onChange={(e) => handleRoleChange(user.email, e.target.value)}
                               fullWidth
+                              sx={{ textAlign: 'left' }}
                           >
                             <MenuItem value="Student">Student</MenuItem>
                             <MenuItem value="Instructor">Instructor</MenuItem>

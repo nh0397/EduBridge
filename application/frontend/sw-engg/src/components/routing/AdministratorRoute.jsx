@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 
 const isAdministrator = () => {
-    return sessionStorage.getItem('role') === 'admin';
+    return sessionStorage.getItem('role') === 'administrator';
 };
 
 const InstructorRoute = ({ children}) => {

@@ -1,4 +1,4 @@
-import React from "react";
+import {React, useState} from "react";
 import {BrowserRouter as Router, Route, Routes, useLocation, Navigate} from "react-router-dom";
 import Login from "./components/login/Login";
 import Signup from './components/signup/Signup';
@@ -19,22 +19,24 @@ import AdministratorRoute from "./components/routing/AdministratorRoute";
 import MyDiscussions from './components/DiscussionForum/MyDiscussions';
 import CoursesPage from "./components/CoursesPage/CoursesPage";
 
-const Layout = ({children}) => {
-    const location = useLocation();
-    const hideNavbarOnRoutes = ["/login","/", "/signup",'/forgot-password'];
-    const showNavbar = !hideNavbarOnRoutes.includes(location.pathname);
-
-
-    return (<>
-        {showNavbar && <Navbar/>}
-        <div>{children}</div>
-    </>);
-};
-
 function App() {
+    const [modalOpen, setModalState] = useState(false);
+    const [discussion, setDiscussion] = useState(null);
+
+    const Layout = ({children}) => {
+        const location = useLocation();
+        const hideNavbarOnRoutes = ["/login", "/signup", '/forgot-password'];
+        const showNavbar = !hideNavbarOnRoutes.includes(location.pathname);
+
+        return (
+            <>
+                {showNavbar && <Navbar toggleModal={() => setModalState(!modalOpen)} modalOpen={modalOpen} />}
+                <div>{children}</div>
+            </>
+        );
+    };
+
     return (<Router>
-
-
         <div className="app">
             <Layout/>
             <Routes>
@@ -45,13 +47,13 @@ function App() {
                 {/* Protected and role-based routes for Student */}
                 <Route path="/student" element={<ProtectedRoute>
                     <StudentRoute>
-                        <StudentLandingPage/>
+                        <StudentLandingPage toggleModal={() => setModalState(!modalOpen)} modalOpen={modalOpen}/>
                     </StudentRoute>
                 </ProtectedRoute>}/>
                 {/* Protected and role-based routes for Instructor */}
                 <Route path="/instructor" element={<ProtectedRoute>
                     <InstructorRoute>
-                        <InstructorLandingPage/>
+                        <InstructorLandingPage toggleModal={() => setModalState(!modalOpen)} modalOpen={modalOpen}/>
                     </InstructorRoute>
                 </ProtectedRoute>}/>
                 <Route path="/instructor/upload-content" element={<ProtectedRoute>

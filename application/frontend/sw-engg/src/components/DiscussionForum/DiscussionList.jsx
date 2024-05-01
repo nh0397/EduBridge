@@ -1,61 +1,87 @@
-import React, {useEffect, useState} from 'react';
-import {useNavigate} from 'react-router-dom';
-import {Box, Paper, Typography} from "@mui/material";
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
-import CommentIcon from '@mui/icons-material/Comment';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import apiService from '../../services/apiService';
 
+
 const DiscussionList = () => {
-    const [discussions, setDiscussions] = useState([]);
-    const navigate = useNavigate();
+  const [discussions, setDiscussions] = useState([]);
 
-    useEffect(() => {
-        fetchDiscussionsFromApi();
-    }, []);
+  useEffect(() => {
+    fetchDiscussionsFromApi();
+  }, []);
 
-    const fetchDiscussionsFromApi = async () => {
-        try {
-            const response = await apiService.fetchDiscussions();
-            if (response && response.discussion && response.replies) {
-                const discussionsWithRepliesCount = response.discussion.map(discussion => {
-                    const repliesCount = response.replies.filter(reply => reply.discussion_id === discussion.id).length;
-                    return {...discussion, repliesCount};
-                });
-                setDiscussions(discussionsWithRepliesCount);
-            } else {
-                console.error('Unexpected response structure:', response);
-            }
-        } catch (error) {
-            console.error('Error fetching discussions:', error);
+  const fetchDiscussionsFromApi = async () => {
+    try {
+      const data = await apiService.fetchDiscussions();
+      setDiscussions(data);
+    } catch (error) {
+      console.error('Error fetching discussions:', error);
+    }
+  };
+
+  const likeDiscussion = async (id) => {
+    try {
+      await apiService.handleLike(id);
+      // Optimistically update the UI
+      setDiscussions(discussions.map(discussion => {
+        if (discussion.id === id) {
+          return { ...discussion, likes: (discussion.likes || 0) + 1 };
         }
-    };
+        return discussion;
+      }));
+    } catch (error) {
+      console.error('Error liking discussion:', error);
+    }
+  };
 
+  const handleDislike = async (id) => {
+    try {
+      await apiService.dislikeDiscussion(id);
+      // Update the discussions state with the new dislike count
+      const updatedDiscussions = discussions.map((discussion) => {
+        if (discussion.id === id) {
+          return { ...discussion, dislikes: discussion.dislikes + 1 };
+        }
+        return discussion;
+      });
+      setDiscussions(updatedDiscussions);
+    } catch (error) {
+      console.error('Error disliking discussion:', error);
+    }
+  };
 
-    const handleDiscussionClick = (id) => {
-        navigate(`/discussion/${id}`);
-    };
-
-    return (
-        <Box sx={{maxWidth: 800, margin: 'auto', mt: 2}}>
-            {discussions.map((discussion) => (
-                <Paper key={discussion.id} elevation={2} sx={{p: 2, mb: 2, cursor: 'pointer'}}
-                       onClick={() => handleDiscussionClick(discussion.id)}>
-                    <Typography variant="h6" sx={{mb: 1}}>{discussion.title}</Typography>
-                    <Typography variant="body2" sx={{mb: 2}}>{discussion.content}</Typography>
-                    <Box sx={{display: 'flex', alignItems: 'center'}}>
-                        <ThumbUpAltIcon sx={{mr: 0.5, color: 'primary.main'}}/>
-
-                        <Typography sx={{mx: 2}}>{discussion.likes - discussion.dislikes}</Typography>
-                        <ThumbDownAltIcon sx={{mr: 0.5, color: 'secondary.main'}}/>
-
-                        <CommentIcon sx={{ml: 2, mr: 0.5, color: 'action.active'}}/>
-                        <Typography>{discussion.repliesCount}</Typography>
-                    </Box>
-                </Paper>
-            ))}
-        </Box>
-    );
+  return (
+    <div className="discussion-container">
+      <h2 className="discussion-heading">All Discussions</h2>
+      <ul className="discussion-list">
+        {discussions.map((discussion) => (
+          <li key={discussion.id} className="discussion-item">
+            <Link to={`/discussion/${discussion.id}`} className="discussion-link">{discussion.title}</Link>
+            <div className="discussion-actions">
+              <button
+                onClick={() => likeDiscussion(discussion.id)}
+                className="discussion-like"
+                title="Like"
+              >
+                👍
+              </button>
+              <button
+                onClick={() => handleDislike(discussion.id)}
+                className="discussion-dislike"
+                title="Dislike"
+              >
+                👎
+              </button>
+            </div>
+            <p className="discussion-stats">Likes: {discussion.likes || 0} | Dislikes: {discussion.dislikes || 0}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 };
 
 export default DiscussionList;
+
+
+
