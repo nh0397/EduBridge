@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Paper, TextField, Typography, Table, TableHead, TableBody, TableRow, TableCell, Select, MenuItem, Snackbar, Alert } from '@mui/material';
 import theme from '../../../theme';
-import apiService from "../../../services/apiService"; // Ensure the theme is imported correctly
+import apiService from "../../../services/apiService";
 
 const AdminPage = () => {
   const [users, setUsers] = useState([]);
@@ -24,7 +24,7 @@ const AdminPage = () => {
   const handleRoleChange = async (email, newRole) => {
     const user = users.find(user => user.email === email);
 
-    // Use toLowerCase() to ensure case insensitivity and trim() to remove any extra spaces
+
     if (user.role.toLowerCase().trim() === 'admin') {
       setFeedback({ open: true, message: 'Admin role cannot be changed.', severity: 'error' });
       return;

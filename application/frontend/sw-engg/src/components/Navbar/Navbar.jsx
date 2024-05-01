@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {Avatar, Box, Button, Menu, MenuItem, TextField, Typography} from '@mui/material';
 import theme from '../../theme'; // Make sure this path is correct
@@ -9,6 +9,7 @@ import {faBook, faCloudUploadAlt, faPlus, faSignOutAlt} from '@fortawesome/free-
 
 import './Navbar.css'
 import {Dropdown, DropdownMenuItem, DropdownNestedMenuItem} from "./Dropdown";
+import apiService from "../../services/apiService";
 
 
 function Navbar() {
@@ -20,6 +21,47 @@ function Navbar() {
     const lastName = sessionStorage.getItem('lastName'); // Fetching lastName from sessionStorage
     const navigate = useNavigate();
     const homePath = userRole === 'instructor' ? '/instructor' : '/student'; // Define homePath based on userRole
+    const [courses, setCourses] = useState([]);
+
+
+    useEffect(() => {
+        const fetchCoursesData = async () => {
+            try {
+                const fetchedCourses = await apiService.fetchCourses();
+                if (fetchedCourses) {
+                    setCourses(fetchedCourses);
+                    console.log(fetchedCourses);
+                } else {
+                    console.log("No courses fetched, check API and response structure");
+                    setCourses([]);
+                }
+            } catch (error) {
+                console.error('Error fetching courses:', error);
+                setCourses([]);
+            }
+        };
+
+        fetchCoursesData();
+    }, []);
+
+
+    const defaultMenu = [<DropdownMenuItem key="none">No Courses Available</DropdownMenuItem>];
+    const buildMenuItems = (courses) => {
+        return courses.map(course => {
+            if (course.children && course.children.length > 0) {
+                return <DropdownNestedMenuItem
+                    key={course.id}
+                    label={course.name}
+                    menu={buildMenuItems(course.children)}
+                />;
+            } else {
+                return <DropdownMenuItem key={course.id}>{course.name}</DropdownMenuItem>;
+            }
+        });
+    };
+
+    const courseMenuItems = buildMenuItems(courses);
+
 
     const handleLogout = () => {
         sessionStorage.clear();
@@ -118,40 +160,7 @@ function Navbar() {
                     <FontAwesomeIcon icon={faBook} size="sm"/>
                     <Typography variant="body1">Courses</Typography>
                 </Button>}
-
-                menu={[<DropdownNestedMenuItem
-                    label="Development"
-                    menu={[<DropdownNestedMenuItem
-                        label="Web Development"
-
-                        menu={[<DropdownMenuItem>
-
-                            Javascript
-
-                        </DropdownMenuItem>, <DropdownMenuItem>
-                            React
-                        </DropdownMenuItem>]}
-                    />]}
-                />, <DropdownNestedMenuItem
-                    label="Business"
-                    menu={[
-
-
-                        <DropdownNestedMenuItem
-                            label="Marketing"
-
-                            menu={[<DropdownMenuItem>
-
-                                Online Marketing
-
-                            </DropdownMenuItem>, <DropdownMenuItem>
-                                Google Adsense
-                            </DropdownMenuItem>]}
-                        />
-
-
-                    ]}
-                />]}
+                menu={courseMenuItems}
             />
             <Button onClick={handleClick} sx={buttonStyle}>
                 <Avatar sx={{

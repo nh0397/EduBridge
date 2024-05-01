@@ -249,6 +249,46 @@ router.get("/folders", async (req, res) => {
   }
 });
 
+router.get("/courses", async (req, res) => {
+  try {
+    let {data} = await directusClient.get("/folders");
+    if (!data) {
+      return res.status(404).json({message: "No folders found"});
+    }
+
+    data = data.data;
+
+
+    const courseMap = {};
+    const rootCourses = [];
+
+
+    data.forEach(course => {
+      courseMap[course.id] = {...course, children: []};
+    });
+
+
+    data.forEach(course => {
+      if (course.parent) {
+        if (courseMap[course.parent]) {
+          courseMap[course.parent].children.push(courseMap[course.id]);
+        } else {
+
+          console.warn("Orphaned course found, missing parent: ", course);
+        }
+      } else {
+
+        rootCourses.push(courseMap[course.id]);
+      }
+    });
+
+    res.json(rootCourses);
+  } catch (error) {
+    console.error("Failed to fetch folders from Directus:", error);
+    res.status(500).json({message: "Failed to fetch folders from Directus"});
+  }
+});
+
 router.post("/updateRole", async (req, res) => {
   const { role, email } = req.body;
   try {
@@ -381,6 +421,7 @@ router.post('/discussions/:id/like', async (req, res) => {
 router.get("/files", async (req, res) => {
   try {
     const response = await directusClient.get('/files');
+    console.log(response);
     res.json(response.data);
   } catch (error) {
     console.error("Error fetching files from Directus:", error);
