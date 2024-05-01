@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Box, TextField, Typography, Button, Avatar, Menu, MenuItem } from '@mui/material';
+import React, {useEffect, useState} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
+import {Avatar, Box, Button, Menu, MenuItem, TextField, Typography} from '@mui/material';
 import theme from '../../theme'; // Make sure this path is correct
 import logo from '../../images/eduBridge.webp';
 import backgroundImage from '../../images/Backgroundimage.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCloudUploadAlt, faPlus, faBook, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faBook, faCloudUploadAlt, faPlus, faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
 
 import './Navbar.css'
+import {Dropdown, DropdownMenuItem, DropdownNestedMenuItem} from "./Dropdown";
+import apiService from "../../services/apiService";
+
 
 function Navbar(props) {
     const [searchTerm, setSearchTerm] = useState('');
@@ -18,10 +21,56 @@ function Navbar(props) {
     const lastName = sessionStorage.getItem('lastName'); // Fetching lastName from sessionStorage
     const navigate = useNavigate();
     const homePath = userRole === 'instructor' ? '/instructor' : '/student'; // Define homePath based on userRole
+    const [courses, setCourses] = useState([]);
+
+
+    useEffect(() => {
+        const fetchCoursesData = async () => {
+            try {
+                const fetchedCourses = await apiService.fetchCourses();
+                if (fetchedCourses) {
+                    setCourses(fetchedCourses);
+                    console.log(fetchedCourses);
+                } else {
+                    console.log("No courses fetched, check API and response structure");
+                    setCourses([]);
+                }
+            } catch (error) {
+                console.error('Error fetching courses:', error);
+                setCourses([]);
+            }
+        };
+
+        fetchCoursesData();
+    }, []);
+
+
+    const defaultMenu = [<DropdownMenuItem key="none">No Courses Available</DropdownMenuItem>];
+    const buildMenuItems = (courses) => {
+        return courses.map(course => {
+            if (course.children && course.children.length > 0) {
+                return <DropdownNestedMenuItem
+                    key={course.id}
+                    label={course.name}
+                    menu={buildMenuItems(course.children)}
+                />;
+            } else {
+                return <DropdownMenuItem key={course.id}>{course.name}</DropdownMenuItem>;
+            }
+        });
+    };
+
+    const courseMenuItems = buildMenuItems(courses);
+
 
     const handleLogout = () => {
         sessionStorage.clear();
         navigate('/login');
+    };
+
+    const handleNavigateMyDiscussions = () => {
+        handleClose();
+        navigate('/my-discussions');
     };
 
     const handleClick = (event) => {
@@ -56,41 +105,44 @@ function Navbar(props) {
         whiteSpace: 'nowrap',
     };
 
-    return (
-        <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            p: 1.5,
-            backgroundColor: 'background.paper',
-            color: 'text.primary',
-            backgroundImage: `url(${backgroundImage})`,
-            backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
-            marginLeft: 'auto',
-            marginRight: 'auto',
+    return (<Box sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        p: 1.5,
+        backgroundColor: 'background.paper',
+        color: 'text.primary',
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        marginLeft: 'auto',
+        marginRight: 'auto',
 
+    }}>
+        <Link to={homePath} style={{
+            textDecoration: 'none',
+            color: 'inherit',
+            display: 'flex',
+            alignItems: 'center',
+            marginLeft: 16
         }}>
-            <Link to={homePath} style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', marginLeft: 16 }}>
-                <Avatar sx={{ width: 75, height: 75 }}>
-                    <img src={logo} alt="App Logo" style={{ width: '100%' }} />
-                </Avatar>
-            </Link>
-            <div> 
-				<TextField
-				variant="standard"
-				margin="normal"
-				className='search-field'
+            <Avatar sx={{width: 75, height: 75}}>
+                <img src={logo} alt="App Logo" style={{width: '100%'}}/>
+            </Avatar>
+        </Link>
+        <div>
+            <TextField
+                variant="standard"
+                margin="normal"
+                className='search-field'
                 size="small"
                 placeholder="Search"
-				InputProps={{
-					disableUnderline: true,
-					  style: {
-						height:40,
-						paddingLeft: 15
-					}
-				}}
+                InputProps={{
+                    disableUnderline: true, style: {
+                        height: 40, paddingLeft: 15
+                    }
+                }}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -109,36 +161,36 @@ function Navbar(props) {
                 <Button onClick={() => null} sx={buttonStyle}>
                     <FontAwesomeIcon icon={faBook} size="sm" />
                     <Typography variant="body1">Courses</Typography>
-                </Button>
-                <Button onClick={handleClick} sx={buttonStyle}>
-                    <Avatar sx={{ bgcolor: theme.palette.primary.main, width: 50, height: 50, alignItems: 'right', marginLeft:-16, marginRight:-16}}>
-                        {getInitials(firstName, lastName)}
-                    </Avatar>
-                </Button>
-                <Menu
-    className='menu-box'
-    id="account-menu"
-    anchorEl={anchorEl}
-    open={open}
-    onClose={handleClose}
-    MenuListProps={{
-        'aria-labelledby': 'account-button',
-    }}
-    PaperProps={{
-        style: {
-            width: '300px', // Increase the width as needed
-            padding: '20px',  // Optional: add some padding around the items
-			paddingBottom:'0px'
-        }
-    }}
->
-    <div className='name-box'>
-        <div>
-            <Avatar 
-                sx={{ 
-                    bgcolor: theme.palette.primary.main, 
-                    width: 60,  // Increased width
-                    height: 60, // Increased height
+                </Button>}
+                menu={courseMenuItems}
+            />
+            <Button onClick={handleClick} sx={buttonStyle}>
+                <Avatar sx={{
+                    bgcolor: theme.palette.primary.main,
+                    width: 50,
+                    height: 50,
+                    alignItems: 'right',
+                    marginLeft: -16,
+                    marginRight: -16
+                }}>
+                    {getInitials(firstName, lastName)}
+                </Avatar>
+            </Button>
+            <Menu
+                className='menu-box'
+                id="account-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                    'aria-labelledby': 'account-button',
+                }}
+                PaperProps={{
+                    style: {
+                        width: '300px', // Increase the width as needed
+                        padding: '20px',  // Optional: add some padding around the items
+                        paddingBottom: '0px'
+                    }
                 }}
             >
                 {getInitials(firstName, lastName)}
@@ -169,7 +221,7 @@ function Navbar(props) {
 
             </Box>
         </Box>
-    );
+    </Box>);
 }
 
 export default Navbar;

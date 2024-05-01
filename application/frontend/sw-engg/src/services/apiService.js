@@ -63,6 +63,11 @@ const fetchFolders = async () => {
   return response.data.data;
 };
 
+const fetchCourses = async () => {
+  const response = await axios.get(`${config.BASE_URL}/courses`);
+  return response.data;
+};
+
 const fetchUserRole = async (email) => {
   const response = await axios.get(`${config.BASE_URL}/userRole/${email}`);
   return response.data.data;
@@ -164,6 +169,8 @@ const fetchAllFiles = async (searchTerm) => {
   }
 };
 
+
+
 // Export the service functions
 export default {
   signup,
@@ -187,5 +194,6 @@ export default {
   fetchMyDiscussions,
   dislikeDiscussion,
   updateDiscussion,
+  fetchCourses,
   fetchAllFiles
 }

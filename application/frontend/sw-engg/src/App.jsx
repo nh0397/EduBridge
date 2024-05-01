@@ -21,7 +21,7 @@ import CoursesPage from "./components/CoursesPage/CoursesPage";
 
 const Layout = ({children}) => {
     const location = useLocation();
-    const hideNavbarOnRoutes = ["/login", "/signup",'/forgot-password'];
+    const hideNavbarOnRoutes = ["/login","/", "/signup",'/forgot-password'];
     const showNavbar = !hideNavbarOnRoutes.includes(location.pathname);
 
 
@@ -72,8 +72,7 @@ function App() {
                 <Route path="/my-discussions" element={<MyDiscussions />} />
                 {/* Courses page route */}
                 <Route path="/courses" element={<CoursesPage />} />
-                {/* Redirect / to Login for now */}
-                <Route path="/" element={<Login/>}/>
+
             </Routes>
         </div>
     </Router>);
