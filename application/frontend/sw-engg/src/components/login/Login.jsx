@@ -29,6 +29,22 @@ function Login() {
   const isFormFilled = email && password && isValidEmail;
 
   useEffect(() => {
+    function handleEnterKey(event) {
+      if (event.key === 'Enter' && !isFormFilled) {
+        event.preventDefault();
+      }
+    }
+
+    // Attach the event listener conditionally
+    window.addEventListener('keydown', handleEnterKey);
+
+    // Cleanup function to remove the event listener
+    return () => {
+      window.removeEventListener('keydown', handleEnterKey);
+    };
+  }, [isFormFilled]);  // Dependency on isFormFilled
+
+  useEffect(() => {
     setRequireOtp(false);
   }, []);
 

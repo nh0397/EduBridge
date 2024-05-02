@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import apiService from '../../services/apiService';
 import { Box, Button, Link, Paper, TextField, Typography, Avatar } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -17,6 +17,23 @@ function ForgotPassword() {
     const [resetSent, setResetSent] = useState(false);
     const isValidEmail = email.endsWith('.edu');
     const isFormFilled = otp && newPassword;
+
+    useEffect(() => {
+        function handleEnterKey(event) {
+
+          if (event.key == 'Enter' && (isFormFilled || !isValidEmail)){
+            event.preventDefault();
+          }
+        }
+    
+        // Attach the event listener conditionally
+        window.addEventListener('keydown', handleEnterKey);
+    
+        // Cleanup function to remove the event listener
+        return () => {
+          window.removeEventListener('keydown', handleEnterKey);
+        };
+      }, [isValidEmail] || [isFormFilled]);  // Dependency on isValidEmail or isFormFilled
 
     const handleRequestReset = async (e) => {
         e.preventDefault();

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CryptoJS from 'crypto-js';
 import apiService from '../../services/apiService';
@@ -30,6 +30,22 @@ function Signup() {
   const isValidEmail = email.endsWith('.edu');
   const isFormFilled = email && password && isValidEmail && confirmedPassword && termsAccepted && firstName && lastName;
 
+  useEffect(() => {
+    function handleEnterKey(event) {
+      if (event.key === 'Enter' && !isFormFilled) {
+        event.preventDefault();
+      }
+    }
+
+    // Attach the event listener conditionally
+    window.addEventListener('keydown', handleEnterKey);
+
+    // Cleanup function to remove the event listener
+    return () => {
+      window.removeEventListener('keydown', handleEnterKey);
+    };
+  }, [isFormFilled]);  // Dependency on isFormFilled
+  
   const navigate = useNavigate();
 
   const handleClickShowPassword = () => {
