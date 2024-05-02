@@ -46,7 +46,7 @@ router.post('/:id/replies', async (req, res) => {
 
 // Get discussions
 router.get('/', async (req, res) => {
-  const selectDiscussionsQuery = 'SELECT id, title, content, likes, dislikes FROM discussions';
+  const selectDiscussionsQuery = 'select d.id, d.title, d.content, u.first_name, u.last_name, d.likes, d.dislikes, d.created_at from  discussions d inner join users u  on d.user_id = u.email order by d.created_at desc;';
   const selectRepliesQuery = 'SELECT * FROM replies';
   try {
     const [discussions] = await pool.execute(selectDiscussionsQuery);

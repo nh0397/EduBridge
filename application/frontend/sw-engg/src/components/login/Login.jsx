@@ -70,17 +70,11 @@ function Login() {
       
 
       switch (role) {
-        case "student":
-          navigate('/student');
-          break;
-        case "instructor":
-          navigate('/instructor');
-          break;
         case "admin":
           navigate('/admin');
           break;
         default:
-          navigate('/');
+          navigate('/landingPage');
       }
 
       setIsLoggingIn(false);

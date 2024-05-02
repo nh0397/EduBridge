@@ -44,22 +44,11 @@ function App() {
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/signup" element={<Signup/>}/>
                 <Route path="/forgot-password" element={<ForgotPassword/>}/>
-                {/* Protected and role-based routes for Student */}
-                <Route path="/student" element={<ProtectedRoute>
-                    <StudentRoute>
-                        <StudentLandingPage toggleModal={() => setModalState(!modalOpen)} modalOpen={modalOpen} modalTypeFunc={(value)=> setModalType(value)} modalType={modalType}/>
-                    </StudentRoute>
-                </ProtectedRoute>}/>
-                {/* Protected and role-based routes for Instructor */}
-                <Route path="/instructor" element={
+                <Route path="/landingPage" element={
+                    <ProtectedRoute>
                         <InstructorLandingPage toggleModal={() => setModalState(!modalOpen)} modalOpen={modalOpen} modalTypeFunc={(value)=> setModalType(value)} modalType={modalType}/>
+                    </ProtectedRoute>
                     }/>
-                <Route path="/instructor/upload-content" element={<ProtectedRoute>
-                    <InstructorRoute>
-                        <UploadContentPage/>
-                    </InstructorRoute>
-                </ProtectedRoute>}/>
-                {/* Admin route */}
                 <Route path="/admin" element={
                         <AdminPage/>
                     

@@ -99,3 +99,20 @@ button:hover {
     width: 120px;
     margin-bottom: 15px;
 }
+
+
+.text-area{
+    resize: none;
+    overflow: auto;
+}
+
+.title-box{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 5px;
+}
+
+.red-color{
+    color: red;
+}

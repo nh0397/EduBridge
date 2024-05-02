@@ -1,5 +1,6 @@
 // Modal.jsx
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Modal.css';
 import {
   Grid, Paper, Box, Typography, TextField, Button,
@@ -7,13 +8,15 @@ import {
   InputAdornment, IconButton
 } from '@mui/material';
 import backgroundImage from '../../images/Backgroundimage.png';
-
+import apiService from '../../services/apiService';
 
 function Modal(props) {
+    const navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [imageUrl, setImageUrl] = useState('');
     const [imageError, setImageError] = useState(false);
+ 
 
     const handleTitleChange = (event) => {
         const value = event.target.value;
@@ -25,18 +28,20 @@ function Modal(props) {
         setDescription(value);
     };
 
-    const handleImageUrlChange = (event) => {
-        const url = event.target.value;
-        setImageUrl(url);
-        // Check if the URL is valid
-        const img = new Image();
-        img.onload = () => setImageError(false);
-        img.onerror = () => setImageError(true);
-        img.src = url;
-    };
 
-  
-    const isSubmitDisabled = title.length < 30 || description.length < 250 || !imageUrl || imageError;
+    const submitPost = async () =>{
+         try {
+            const userEmail = sessionStorage.getItem('userEmail');
+            const data = await apiService.createDiscussion(title, description, userEmail);
+            if (data) {
+                navigate('/discussion/${data.id}');
+                props.toggleModal()
+            }
+        } catch (error) {
+            console.error('Error creating discussion:', error);        
+    }
+}
+    const isSubmitDisabled = title.length > 0 && title.length < 255 && description.length > 0;
 
     return (
         <div className="modal-overlay" onClick={()=> props.toggleModal}>
@@ -48,15 +53,20 @@ function Modal(props) {
                 <div className="input-group">
                     <label htmlFor="title">Title:</label>
                     <input type="text" id="title" value={title} onChange={handleTitleChange} />
-                    <span className="character-count">{title.length}/30</span>
+                    <div className='title-box '>
+                        <span className="character-count">{title.length} characters</span>
+                        {title.length > 255 && (
+                        <span className="character-count red-color">Keep the characters below 255</span>
+                        )}
+                    </div>
                 </div>
                 <div className="input-group">
                     <label htmlFor="description">Description:</label>
-                    <textarea id="description" value={description} onChange={handleDescriptionChange} />
-                    <span className="character-count">{description.length}/250</span>
+                    <textarea className='text-area' id="description" value={description} onChange={handleDescriptionChange} />
+                    <span className="character-count">{description.length} characters</span>
                 </div>
                 <div className='buttonDiv'>
-                    <Button className='sign-in' sx={{ mt: 7.95}} variant="contained">
+                    <Button onClick={submitPost} disabled={!isSubmitDisabled} className='sign-in' sx={{ mt: 7.95}} variant="contained">
                         Post
                     </Button>
                     <Button onClick={()=> props.toggleModal()} className='sign-in' sx={{ mt: 7.95}} variant="contained">
