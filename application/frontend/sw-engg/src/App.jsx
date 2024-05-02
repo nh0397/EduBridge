@@ -13,6 +13,7 @@ import ProtectedRoute from "./components/routing/ProtectedRoute";
 import StudentRoute from "./components/routing/StudentRoute";
 import InstructorRoute from "./components/routing/InstructorRoute";
 import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/footer";
 
 import ForgotPassword from "./components/forgotPassword/ForgotPassword";
 import AdministratorRoute from "./components/routing/AdministratorRoute";
@@ -23,48 +24,47 @@ function App() {
     const [modalOpen, setModalState] = useState(false);
     const [modalType, setModalType] = useState("");
 
-    const Layout = ({children}) => {
+    const Layout = ({ children }) => {
         const location = useLocation();
-        const hideNavbarOnRoutes = ["/login", "/signup", '/forgot-password'];
-        const showNavbar = !hideNavbarOnRoutes.includes(location.pathname);
+        const hideNavbarAndFooterOnRoutes = ["/login", "/signup", "/forgot-password"];
+        const showNavbarAndFooter = !hideNavbarAndFooterOnRoutes.includes(location.pathname);
 
         return (
             <>
-                {showNavbar && <Navbar toggleModal={() => setModalState(!modalOpen)} modalOpen={modalOpen} modalTypeFunc={(value)=> setModalType(value)}/>}
-                <div>{children}</div>
+                {showNavbarAndFooter && <Navbar toggleModal={() => setModalState(!modalOpen)} modalOpen={modalOpen} modalTypeFunc={(value) => setModalType(value)} />}
+                <div>{children}</div> {/* Render children here */}
+                {showNavbarAndFooter && <Footer />}
             </>
         );
     };
 
-    return (<Router>
-        <div className="app">
-            <Layout/>
-            <Routes>
-                <Route path="/" element={<Navigate replace to="/login" />} />
-                <Route path="/login" element={<Login/>}/>
-                <Route path="/signup" element={<Signup/>}/>
-                <Route path="/forgot-password" element={<ForgotPassword/>}/>
-                <Route path="/landingPage" element={
-                    <ProtectedRoute>
-                        <InstructorLandingPage toggleModal={() => setModalState(!modalOpen)} modalOpen={modalOpen} modalTypeFunc={(value)=> setModalType(value)} modalType={modalType}/>
-                    </ProtectedRoute>
-                    }/>
-                <Route path="/admin" element={
-                        <AdminPage/>
-                    
-                }/>
-                {/* Discussion Forum routes */}
-                <Route path="/forum" element={<DiscussionForum/>}/>
-                <Route path="/discussions" element={<DiscussionList/>}/>
-                <Route path="/discussion/:id" element={<DiscussionDetail/>}/>
-                <Route path="/my-discussions" element={<MyDiscussions />} />
-                {/* Courses page route */}
-                <Route path="/courses" element={<CoursesPage />} />
-
-            </Routes>
-        </div>
-    </Router>);
+    return (
+        <Router>
+            <div className="app">
+                <Layout> {/* Render Layout component here */}
+                    <Routes>
+                        <Route path="/" element={<Navigate replace to="/login" />} />
+                        <Route path="/login" element={<Login/>}/>
+                        <Route path="/signup" element={<Signup/>}/>
+                        <Route path="/forgot-password" element={<ForgotPassword/>}/>
+                        <Route path="/landingPage" element={
+                            <ProtectedRoute>
+                                <InstructorLandingPage toggleModal={() => setModalState(!modalOpen)} modalOpen={modalOpen} modalTypeFunc={(value)=> setModalType(value)} modalType={modalType}/>
+                            </ProtectedRoute>
+                            }/>
+                        <Route path="/admin" element={<AdminPage/>} />
+                        {/* Discussion Forum routes */}
+                        <Route path="/forum" element={<DiscussionForum/>}/>
+                        <Route path="/discussions" element={<DiscussionList/>}/>
+                        <Route path="/discussion/:id" element={<DiscussionDetail/>}/>
+                        <Route path="/my-discussions" element={<MyDiscussions />} />
+                        {/* Courses page route */}
+                        <Route path="/courses" element={<CoursesPage />} />
+                    </Routes>
+                </Layout>
+            </div>
+        </Router>
+    );
 }
 
 export default App;
-
