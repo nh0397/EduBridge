@@ -39,9 +39,14 @@ function Navbar(props) {
     const openDiscussionModal = () => {
         console.log("Toggle clicked");
 		props.toggleModal()
-        // props.modalType('Discussions')
+        props.modalTypeFunc('Discussions')
     };
 
+    const openFileUploadModal = () => {
+        console.log("Toggle clicked");
+		props.toggleModal()
+        props.modalTypeFunc('File-Upload')
+    };
     const buttonStyle = {
         fontWeight: 'bold',
         borderRadius: '50px',
@@ -97,7 +102,7 @@ function Navbar(props) {
 			</div>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 {userRole?.toLowerCase() === 'instructor' && (
-                    <Button onClick={() => null} sx={buttonStyle}>
+                    <Button onClick={openFileUploadModal} sx={buttonStyle}>
                         <FontAwesomeIcon icon={faCloudUploadAlt} size="sm" />
                         <Typography variant="body1">Upload New Content</Typography>
                     </Button>

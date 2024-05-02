@@ -40,7 +40,8 @@ function Modal(props) {
 
     return (
         <div className="modal-overlay" onClick={()=> props.toggleModal}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            {props.modalType ==='Discussions' ? (
+                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                 <div>
                     <h2 >Add Post</h2>
                 </div>
@@ -63,6 +64,30 @@ function Modal(props) {
                     </Button>
                 </div>
             </div>
+            ) : (
+                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                <div>
+                    <h2 >Upload File</h2>
+                </div>
+               <form>
+                    <div>
+                    <input type="file" />
+                    </div>
+                    <div>
+                    <input type="text" placeholder="Enter the path" />
+                    </div>
+                    <button type="submit">Upload File</button>
+                </form>
+                <div className='buttonDiv'>
+                    <Button className='sign-in' sx={{ mt: 7.95}} variant="contained">
+                        Post
+                    </Button>
+                    <Button onClick={()=> props.toggleModal()} className='sign-in' sx={{ mt: 7.95}} variant="contained">
+                        Cancel
+                    </Button>
+                </div>
+            </div>
+            )}
         </div>
     );
 }

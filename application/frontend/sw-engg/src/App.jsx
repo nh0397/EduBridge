@@ -21,7 +21,7 @@ import CoursesPage from "./components/CoursesPage/CoursesPage";
 
 function App() {
     const [modalOpen, setModalState] = useState(false);
-    const [discussion, setDiscussion] = useState(null);
+    const [modalType, setModalType] = useState("");
 
     const Layout = ({children}) => {
         const location = useLocation();
@@ -30,7 +30,7 @@ function App() {
 
         return (
             <>
-                {showNavbar && <Navbar toggleModal={() => setModalState(!modalOpen)} modalOpen={modalOpen} />}
+                {showNavbar && <Navbar toggleModal={() => setModalState(!modalOpen)} modalOpen={modalOpen} modalTypeFunc={(value)=> setModalType(value)}/>}
                 <div>{children}</div>
             </>
         );
@@ -47,26 +47,23 @@ function App() {
                 {/* Protected and role-based routes for Student */}
                 <Route path="/student" element={<ProtectedRoute>
                     <StudentRoute>
-                        <StudentLandingPage toggleModal={() => setModalState(!modalOpen)} modalOpen={modalOpen}/>
+                        <StudentLandingPage toggleModal={() => setModalState(!modalOpen)} modalOpen={modalOpen} modalTypeFunc={(value)=> setModalType(value)} modalType={modalType}/>
                     </StudentRoute>
                 </ProtectedRoute>}/>
                 {/* Protected and role-based routes for Instructor */}
-                <Route path="/instructor" element={<ProtectedRoute>
-                    <InstructorRoute>
-                        <InstructorLandingPage toggleModal={() => setModalState(!modalOpen)} modalOpen={modalOpen}/>
-                    </InstructorRoute>
-                </ProtectedRoute>}/>
+                <Route path="/instructor" element={
+                        <InstructorLandingPage toggleModal={() => setModalState(!modalOpen)} modalOpen={modalOpen} modalTypeFunc={(value)=> setModalType(value)} modalType={modalType}/>
+                    }/>
                 <Route path="/instructor/upload-content" element={<ProtectedRoute>
                     <InstructorRoute>
                         <UploadContentPage/>
                     </InstructorRoute>
                 </ProtectedRoute>}/>
                 {/* Admin route */}
-                <Route path="/admin" element={<ProtectedRoute>
-                    <AdministratorRoute>
+                <Route path="/admin" element={
                         <AdminPage/>
-                    </AdministratorRoute>
-                </ProtectedRoute>}/>
+                    
+                }/>
                 {/* Discussion Forum routes */}
                 <Route path="/forum" element={<DiscussionForum/>}/>
                 <Route path="/discussions" element={<DiscussionList/>}/>

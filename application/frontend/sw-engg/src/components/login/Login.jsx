@@ -64,17 +64,19 @@ function Login() {
 
 
       // Store the role in session storage
-      sessionStorage.setItem('role', role.toLowerCase());
+      sessionStorage.setItem('role',role);
 
-      // Redirect based on user role
-      switch (role.toLowerCase()) {
-        case 'student':
+      // Redirect based on user 
+      
+
+      switch (role) {
+        case "student":
           navigate('/student');
           break;
-        case 'instructor':
+        case "instructor":
           navigate('/instructor');
           break;
-        case 'admin':
+        case "admin":
           navigate('/admin');
           break;
         default:

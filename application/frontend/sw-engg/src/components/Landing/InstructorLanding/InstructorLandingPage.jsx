@@ -85,7 +85,7 @@ const InstructorLandingPage = (props) => {
     <div className="instructor-landing-page">
       <div>
         {modalOpen && (
-                <Modal toggleModal={() => props.toggleModal()}>
+                <Modal toggleModal={() => props.toggleModal()} modalType={props.modalType}>
                 </Modal>
             )}
             <div className="tabs">
