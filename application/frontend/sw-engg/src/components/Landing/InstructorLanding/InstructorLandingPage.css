@@ -1,24 +1,87 @@
+body {
+    background-image: url('../../../images/Background2.webp');
+    background-size: cover; /* Ensures the background covers the entire viewport */
+    background-position: center; /* Centers the background image */
+    background-repeat: no-repeat; /* Makes sure the image does not repeat */
+    background-attachment: fixed; /* Gives a parallax effect on scroll */
+    min-height: 100vh; /* Ensures the minimum height is full viewport height */
+    margin: 0; /* Removes default margin from the body */
+    padding: 0; /* Removes default padding from the body */
+}
+
 .tabs {
-    display: flex;
-    margin-bottom: 20px;
+    display: float;
+    margin-bottom: 10px;
 }
 
 .tab-button {
-    padding: 10px 20px;
+    padding: 12px 24px; /* Slightly larger padding for better touch targets */
     cursor: pointer;
     border: none;
-    background-color: lightgray;
-    transition: background-color 0.3s ease;
-    font-size: 2rem;
+    color: white; /* Ensures text is readable on dark background */
+    background-color: #2A6B58;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-size: 1.25 em; /* Reduced font size for better fit */
+    border-radius: 5px; /* Softens the corners */
+    margin-right: 10px; /* Adds space between tabs */
+    text-align: center; /* Ensures text is centered */
+}
+
+.tab-button:hover, .tab-button:focus {
+    background-color: #539d87; /* Darker shade for hover/focus */
+    color: #FFFFFF; /* Keeps text color white for contrast */
+    outline: none; /* Removes default focus outline */
 }
 
 .tab-button.active {
-    background-color: white;
-    border-bottom: 2px solid #005B4B;
+    position: relative;
+    
 }
 
-.tab-content {
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-top: none;
+.photo-slide {
+    padding: 15px; /* Consistent padding */
+    box-sizing: border-box;
+}
+
+.photo-image {
+    width: 100%; /* Full width for responsiveness */
+    height: auto; /* Maintains aspect ratio */
+    display: block; /* Ensures images are block level for proper spacing */
+    border-radius: 15px; /* Consistent corner rounding */
+    margin: auto; /* Centers image in the slide */
+}
+
+.slick-slider {
+    margin: auto; /* Adds vertical margin for spacing */
+    position: relative;
+}
+
+.slick-prev, .slick-next {
+    position: absolute;
+    top: 50%;
+    z-index: 10;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Full rounding for circle appearance */
+    color: white; /* White icons for contrast */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none; /* No border */
+    cursor: pointer; /* Indicates that the element is clickable */
+}
+
+.slick-prev {
+    left: 10px; /* Distance from the left edge of the container */
+    
+}
+
+.slick-next {
+    right: 10px; /* Distance from the right edge of the container */
+    transform: translateX(50%) translateY(-50%); /* Adjusts right arrow's horizontal positioning */
+}
+
+.slick-disabled {
+    opacity: 0.3; /* Dim disabled arrows for better user feedback */
+    cursor: default; /* Changes cursor to indicate non-interactive element */
 }

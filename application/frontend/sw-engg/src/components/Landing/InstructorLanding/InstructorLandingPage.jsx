@@ -1,94 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import {useNavigate} from 'react-router-dom';
-import Slider from 'react-slick';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight, faUpload, faComments } from '@fortawesome/free-solid-svg-icons';
-import './InstructorLandingPage.css'
+import { useNavigate } from 'react-router-dom';
+import './InstructorLandingPage.css';  // Ensure your CSS path is correct
 import Modal from '../../DiscussionForum/Modal';
-import apiService from '../../../services/apiService'; // Ensure the correct path
-import {Box, Paper, Typography} from "@mui/material";
+import apiService from '../../../services/apiService';
+import { Box, Paper, Typography } from "@mui/material";
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import CommentIcon from '@mui/icons-material/Comment';
-
-const PopularFilesCarousel = ({ files }) => {
-  // Same settings as in StudentLandingPage
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2000,
-    prevArrow: <PrevArrow />,
-    nextArrow: <NextArrow />,
-    responsive: [
-      {
-        breakpoint: 768, // Adjust breakpoint as needed
-        settings: {
-          slidesToShow: 2
-        }
-      },
-      {
-        breakpoint: 480, // Adjust breakpoint as needed
-        settings: {
-          slidesToShow: 1
-        }
-      }
-    ]
-  };
-
-  return (
-    <Slider {...settings}>
-      {files.map((file) => (
-        <div key={file.id} className="file-card">
-          <img src={file.thumbnail} alt={file.title} className="file-thumbnail" />
-          <div className="file-info">
-            <h3>{file.title}</h3>
-            <p>{file.description}</p>
-            <div className="file-meta">
-              <span>{file.category}</span>
-              <span>{file.fileSize}</span>
-              <span>{file.uploadDate}</span>
-            </div>
-          </div>
-        </div>
-      ))}
-    </Slider>
-  );
-};
+import PhotoCarousel from './PhotoCarousel'; // Make sure you have this component properly set up
 
 const InstructorLandingPage = (props) => {
-  const [files, setFiles] = useState([]);
-  const Name = sessionStorage.getItem('firstName'); // Fetch the name from sessionStorage
-  const [activeTab, setActiveTab] = useState('tab1');
-  const { modalOpen, setModal } = props;
-  const [discussions, setDiscussions] = useState([]);
-  const navigate = useNavigate();
+    const [files, setFiles] = useState([]);
+    const [discussions, setDiscussions] = useState([]);
+    const navigate = useNavigate();
+    const role = sessionStorage.getItem('role'); // Fetching role from sessionStorage
 
-
-  const handleTabClick = (tab) => {
-        setActiveTab(tab);
+    const fetchFiles = async () => {
+        try {
+            const filesData = await apiService.fetchAllFiles();
+            setFiles(filesData.data);
+        } catch (error) {
+            console.error('Error fetching files:', error);
+        }
     };
-  const closeModal = () => {
-        setModal(false);
-    };
 
-  const fetchFiles = async () => {
-    try {
-      const filesData = await apiService.fetchAllFiles();
-      setFiles(filesData.data);
-    } catch (error) {
-      console.error('Error fetching files:', error);
-      // Display error message to the user
-    }
-  };
-
-  useEffect(() => {
-    fetchFiles();
-    fetchDiscussionsFromApi();
-  }, []);
+    useEffect(() => {
+        fetchFiles();
+        fetchDiscussionsFromApi();
+    }, []);
 
     const fetchDiscussionsFromApi = async () => {
         try {
@@ -106,19 +45,21 @@ const InstructorLandingPage = (props) => {
             console.error('Error fetching discussions:', error);
         }
     };
-  
-     const handleDiscussionClick = (id) => {
+
+    const handleDiscussionClick = (id) => {
         navigate(`/discussion/${id}`);
     };
 
+    const [activeTab, setActiveTab] = useState('tab1');
+    const handleTabClick = (tab) => setActiveTab(tab);
+    const closeModal = () => props.setModal(false);
 
-  return (
-    <div className="instructor-landing-page">
-      <div>
-        {modalOpen && (
-                <Modal toggleModal={() => props.toggleModal()} modalType={props.modalType}>
-                </Modal>
+    return (
+        <div className="instructor-landing-page">
+            {props.modalOpen && (
+                <Modal toggleModal={() => props.toggleModal()} modalType={props.modalType} />
             )}
+
             <div className="tabs">
                 <button
                     className={`tab-button ${activeTab === 'tab1' ? 'active' : ''}`}
@@ -133,66 +74,36 @@ const InstructorLandingPage = (props) => {
                     Discussions
                 </button>
             </div>
+
             <div className="tab-content">
                 {activeTab === 'tab1' ? (
                     <div>
-                        <h1>Content of Tab 1</h1>
-                        <p>This is the content for Tab 1. You can put any components or content here.</p>
+                        {role === 'Student' && (
+                            <PhotoCarousel photos={[
+                        ]} />
+                    )}
                     </div>
                 ) : (
-                    <div>
-                        <Box sx={{maxWidth: 800, margin: 'auto', mt: 2}}>
-            {discussions.map((discussion) => (
-                <Paper key={discussion.id} elevation={2} sx={{p: 2, mb: 2, cursor: 'pointer'}}
-                       onClick={() => handleDiscussionClick(discussion.id)}>
-                    <Typography variant="h6" sx={{mb: 1}}>{discussion.title}</Typography>
-                    <Typography variant="body2" sx={{mb: 2}}>{discussion.content}</Typography>
-                    <Box sx={{display: 'flex', alignItems: 'center'}}>
-                        <ThumbUpAltIcon sx={{mr: 0.5, color: 'primary.main'}}/>
-
-                        <Typography sx={{mx: 2}}>{discussion.likes - discussion.dislikes}</Typography>
-                        <ThumbDownAltIcon sx={{mr: 0.5, color: 'secondary.main'}}/>
-
-                        <CommentIcon sx={{ml: 2, mr: 0.5, color: 'action.active'}}/>
-                        <Typography>{discussion.repliesCount}</Typography>
+                    <Box sx={{ maxWidth: 800, margin: 'auto', mt: 2 }}>
+                        {discussions.map((discussion) => (
+                            <Paper key={discussion.id} elevation={2} sx={{ p: 2, mb: 2, cursor: 'pointer' }}
+                                   onClick={() => handleDiscussionClick(discussion.id)}>
+                                <Typography variant="h6" sx={{ mb: 1 }}>{discussion.title}</Typography>
+                                <Typography variant="body2" sx={{ mb: 2 }}>{discussion.content}</Typography>
+                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                    <ThumbUpAltIcon sx={{ mr: 0.5, color: 'primary.main' }} />
+                                    <Typography sx={{ mx: 2 }}>{discussion.likes - discussion.dislikes}</Typography>
+                                    <ThumbDownAltIcon sx={{ mr: 0.5, color: 'secondary.main' }} />
+                                    <CommentIcon sx={{ ml: 2, mr: 0.5, color: 'action.active' }} />
+                                    <Typography>{discussion.repliesCount}</Typography>
+                                </Box>
+                            </Paper>
+                        ))}
                     </Box>
-                </Paper>
-            ))}
-        </Box>
-                    </div>
                 )}
             </div>
         </div>
-
-      <footer className="instructor-footer">
-        <p>© 2024 Your Learning Platform. All rights reserved.</p>
-      </footer>
-    </div>
-  );
-};
-
-// Custom arrow components for Slider
-const PrevArrow = (props) => {
-  const { className, onClick } = props;
-  return (
-    <div className={className} onClick={onClick}>
-      <FontAwesomeIcon icon={faChevronLeft} />
-    </div>
-  );
-};
-
-const NextArrow = (props) => {
-  const { className, onClick } = props;
-  return (
-    <div className={className} onClick={onClick}>
-      <FontAwesomeIcon icon={faChevronRight} />
-    </div>
-  );
+    );
 };
 
 export default InstructorLandingPage;
-
-
-
-
-
