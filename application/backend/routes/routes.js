@@ -268,6 +268,35 @@ router.get("/courses", async (req, res) => {
     });
 
 
+    router.get("/courses", async (req, res) => {
+  try {
+    let {data} = await directusClient.get("/folders");
+    if (!data) {
+      return res.status(404).json({message: "No folders found"});
+    }
+
+    data.forEach(course => {
+      if (course.parent) {
+        if (courseMap[course.parent]) {
+          courseMap[course.parent].children.push(courseMap[course.id]);
+        } else {
+
+          console.warn("Orphaned course found, missing parent: ", course);
+        }
+      } else {
+
+        rootCourses.push(courseMap[course.id]);
+      }
+    });
+
+    res.json(rootCourses);
+  } catch (error) {
+    console.error("Failed to fetch folders from Directus:", error);
+    res.status(500).json({message: "Failed to fetch folders from Directus"});
+  }
+});
+
+
     data.forEach(course => {
       if (course.parent) {
         if (courseMap[course.parent]) {
