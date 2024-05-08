@@ -1,103 +1,119 @@
-// Modal.jsx
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Button, TextField } from '@mui/material';
+import { useDropzone } from 'react-dropzone';
 import './Modal.css';
-import {
-  Grid, Paper, Box, Typography, TextField, Button,
-  Checkbox, FormControlLabel,
-  InputAdornment, IconButton
-} from '@mui/material';
-import backgroundImage from '../../images/Backgroundimage.png';
 import apiService from '../../services/apiService';
 
 function Modal(props) {
     const navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [imageUrl, setImageUrl] = useState('');
-    const [imageError, setImageError] = useState(false);
- 
+    const [fileName, setFileName] = useState('');
+    const [fileDescription, setFileDescription] = useState('');
+    const [files, setFiles] = useState([]);
+    const [error, setError] = useState('');
 
     const handleTitleChange = (event) => {
-        const value = event.target.value;
-        setTitle(value);
+        setTitle(event.target.value);
     };
 
     const handleDescriptionChange = (event) => {
-        const value = event.target.value;
-        setDescription(value);
+        setDescription(event.target.value);
     };
 
+    const handleFileNameChange = (event) => {
+        setFileName(event.target.value);
+    };
 
-    const submitPost = async () =>{
-         try {
+    const handleFileDescriptionChange = (event) => {
+        setFileDescription(event.target.value);
+    };
+
+    const onDrop = useCallback(acceptedFiles => {
+        setFiles(acceptedFiles);
+    }, []);
+
+    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
+
+    const submitPost = async () => {
+        try {
             const userEmail = sessionStorage.getItem('userEmail');
-            const data = await apiService.createDiscussion(title, description, userEmail);
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('description', description);
+            formData.append('userEmail', userEmail);
+            formData.append('fileName', fileName);
+            formData.append('fileDescription', fileDescription);
+            files.forEach(file => {
+                formData.append('files', file);
+            });
+
+            const data = await apiService.createDiscussion(formData);
             if (data) {
-                navigate('/discussion/${data.id}');
-                props.toggleModal()
+                navigate(`/discussion/${data.id}`);
+                props.toggleModal();
             }
         } catch (error) {
-            console.error('Error creating discussion:', error);        
-    }
-}
-    const isSubmitDisabled = title.length > 0 && title.length < 255 && description.length > 0;
+            console.error('Error creating discussion:', error);
+            setError('Failed to create discussion. Please try again.');
+        }
+    };
+
+    const isSubmitDisabled = props.modalType === 'Discussions' ?
+        !(title.length > 0 && description.length > 0) :
+        !(fileName.length > 0 && fileDescription.length > 0 && files.length > 0);
 
     return (
-        <div className="modal-overlay" onClick={()=> props.toggleModal}>
-            {props.modalType ==='Discussions' ? (
-                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                <div>
-                    <h2 >Add Post</h2>
-                </div>
-                <div className="input-group">
-                    <label htmlFor="title">Title:</label>
-                    <input type="text" id="title" value={title} onChange={handleTitleChange} />
-                    <div className='title-box '>
-                        <span className="character-count">{title.length} characters</span>
-                        {title.length > 255 && (
-                        <span className="character-count red-color">Keep the characters below 255</span>
-                        )}
-                    </div>
-                </div>
-                <div className="input-group">
-                    <label htmlFor="description">Description:</label>
-                    <textarea className='text-area' id="description" value={description} onChange={handleDescriptionChange} />
-                    <span className="character-count">{description.length} characters</span>
-                </div>
+        <div className="modal-overlay" onClick={() => props.toggleModal()}>
+            <div className="modal-content" onClick={e => e.stopPropagation()}>
+                <h2>{props.modalType === 'Discussions' ? 'Add Post' : 'Upload File'}</h2>
+                {props.modalType === 'Discussions' ? (
+                    <>
+                        <TextField label="Title" value={title} onChange={handleTitleChange} fullWidth margin="normal" />
+                        <TextField
+                            label="Description"
+                            value={description}
+                            onChange={handleDescriptionChange}
+                            fullWidth
+                            margin="normal"
+                            multiline
+                            rows={4}
+                        />
+                    </>
+                ) : (
+                    <>
+                        <TextField label="File Name" value={fileName} onChange={handleFileNameChange} fullWidth margin="normal" />
+                        <TextField
+                            label="File Description"
+                            value={fileDescription}
+                            onChange={handleFileDescriptionChange}
+                            fullWidth
+                            margin="normal"
+                            multiline
+                            rows={4}
+                        />
+                        <div {...getRootProps()} className="dropzone">
+                            <input {...getInputProps()} />
+                            {
+                                isDragActive ?
+                                <p>Drop the files here...</p> :
+                                <p>Drag 'n' drop some files here, or click to select files</p>
+                            }
+                        </div>
+                        {files.length > 0 && <p>Uploaded file: {files[0].name}</p>}
+                    </>
+                )}
                 <div className='buttonDiv'>
-                    <Button onClick={submitPost} disabled={!isSubmitDisabled} className='sign-in' sx={{ mt: 7.95}} variant="contained">
-                        Post
+                    <Button onClick={submitPost} disabled={isSubmitDisabled} variant="contained">
+                        {props.modalType === 'Discussions' ? 'Post' : 'Upload'}
                     </Button>
-                    <Button onClick={()=> props.toggleModal()} className='sign-in' sx={{ mt: 7.95}} variant="contained">
+                    <Button onClick={() => props.toggleModal()} variant="contained">
                         Cancel
                     </Button>
                 </div>
+                {error && <p className="error">{error}</p>}
             </div>
-            ) : (
-                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                <div>
-                    <h2 >Upload File</h2>
-                </div>
-               <form>
-                    <div>
-                    <input type="file" />
-                    </div>
-                    <div>
-                    <input type="text" placeholder="Enter the path" />
-                    </div>
-                    <button type="submit">Upload File</button>
-                </form>
-                <div className='buttonDiv'>
-                    <Button className='sign-in' sx={{ mt: 7.95}} variant="contained">
-                        Post
-                    </Button>
-                    <Button onClick={()=> props.toggleModal()} className='sign-in' sx={{ mt: 7.95}} variant="contained">
-                        Cancel
-                    </Button>
-                </div>
-            </div>
-            )}
         </div>
     );
 }
