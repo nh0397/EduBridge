@@ -124,7 +124,10 @@ router.post("/login", async (req, res) => {
           .status(403)
           .json({ success: false, message: "OTP verification required" });
       }
-      res.json({ success: true, message: "Login successful" });
+      const resp = await directusClient.get("/users");
+      const user_list = resp.data.data;
+      const user_id = user_list.filter((entry)=> entry.email == user.email)[0].id
+      res.json({ success: true, message: "Login successful", user_id : user_id });
     } else {
       res.status(401).json({ success: false, message: "Invalid credentials" });
     }

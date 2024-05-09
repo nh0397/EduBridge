@@ -63,6 +63,7 @@ function Login() {
       }
 
       console.log('Login successful:', response.data);
+      sessionStorage.setItem('userId', response.data.user_id);
       sessionStorage.setItem('isAuthenticated', 'true');
       alert('Login successful!');
       sessionStorage.setItem('userEmail', email);

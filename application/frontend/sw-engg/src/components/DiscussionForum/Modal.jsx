@@ -97,7 +97,7 @@ function Modal(props) {
         formData.append('title', uploadFileName);
         formData.append('description', uploadFileDescription);
         formData.append('tags', 'exampleTag'); // Example tag, change as necessary
-        formData.append('uploaded_by', '25effe36-2b45-44e4-b19f-80efbdd78d57'); // Hardcoded user ID
+        formData.append('uploaded_by', sessionStorage.getItem('userId')); // Hardcoded user ID
 
         const response = await apiService.uploadFile(formData);
         if (response.data.success) {
