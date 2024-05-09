@@ -50,7 +50,7 @@ const updateUserRole = async (email, newRole) => {
   return response.data;
 };
 
-const uploadFile = (formData) => {
+export const uploadFile = (formData) => {
   return axios.post(`${config.BASE_URL}/upload`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',

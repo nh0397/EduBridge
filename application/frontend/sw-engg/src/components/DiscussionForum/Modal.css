@@ -5,21 +5,22 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .modal-content {
-    background-color: #f9f9f9;
+    background-color: #fff;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Box shadow for a floating effect */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
     position: relative;
-    z-index: 999; /* Ensure modal appears above other content */
-    max-width: 400px;
-    width: 100%;
+    z-index: 999;
+    max-width: 500px;
+    width: 90%;
+    overflow: hidden;
 }
 
 .modal-content h2 {
@@ -28,6 +29,7 @@
     color: #ffffff;
     background-image: url('../../images/Backgroundimage.png');
     padding: 10px;
+    border-radius: 5px 5px 0 0;
     text-align: center;
 }
 
@@ -39,12 +41,12 @@
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: #555;
+    color: #333;
 }
 
 .input-group input,
 .input-group textarea {
-    width: 100% !important;
+    width: 100%;
     padding: 10px;
     font-size: 1em;
     border: 1px solid #ccc;
@@ -54,30 +56,14 @@
 
 .input-group textarea {
     height: 100px;
-    background-color: #f9f9f9; /* Same background color as title */
-    color: black; /* Black font color */
 }
-
-/* .modal-button {
-    padding: 0.5rem 1rem;
-    background-color: #0d1b89;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-family: "Poppins", sans-serif;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    border-radius: 30px;
-    width: 6rem;
-    text-align: center;
-    height: 3rem;
-} */
 
 .buttonDiv{
     display: flex;
     flex-direction: row;
     gap: 10px;
     justify-content: center;
+    margin-top: 20px;
 }
 
 button:hover {
@@ -85,34 +71,50 @@ button:hover {
 }
 
 .modal-content button[disabled] {
-    opacity: 0.5; /* Reduce opacity of disabled button */
+    opacity: 0.5;
 }
 
 .character-count {
     font-size: 0.8em;
     color: #555;
-    margin-left: 5px;
 }
-
-.image-preview{
-    height: 70px;
-    width: 120px;
-    margin-bottom: 15px;
-}
-
 
 .text-area{
     resize: none;
-    overflow: auto;
 }
 
 .title-box{
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
     padding-top: 5px;
 }
 
 .red-color{
     color: red;
+}
+
+.error {
+    color: #b00020;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.dropzone {
+    border: 2px dashed #1a73e8;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    margin: 10px 0;
+    background-color: #f4f4f4;
+    color: #333;
+    cursor: pointer;
+}
+
+.dropzone:hover {
+    background-color: #e8f0fe;
+}
+
+.MuiTextField-root {
+    margin-bottom: 16px;
 }

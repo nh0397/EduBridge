@@ -188,52 +188,65 @@ router.get("/users", async (req, res) => {
   }
 });
 
+
 router.post("/upload", upload.single("file"), async (req, res) => {
   try {
-    const { folderId, title, description, tags } = req.body; // Extract data from the FormData object
-    console.log("Folder ID:", folderId); // Print folder ID
-    console.log("Title:", title); // Print title
-    console.log("Description:", description); // Print description
-    console.log("Tags:", tags); // Print tags
+      const { folderId, title, description, tags, uploaded_by } = req.body;
+      console.log("Folder ID:", folderId);
+      console.log("Title:", title);
+      console.log("Description:", description);
+      console.log("Tags:", tags);
+      console.log("Uploaded by:", uploaded_by);
 
-    const file = req.file; // The uploaded file
-    console.log("file", file);
+      const file = req.file;
+      if (!file) {
+          return res.status(400).json({ message: "No file uploaded" });
+      }
 
-    if (!file) {
-      return res.status(400).json({ message: "No file uploaded" });
-    }
+      // Create the FormData object and append the file
+      const formData = new FormData();
+      formData.append("file", file.buffer, { filename: file.originalname, contentType: file.mimetype });
 
-    // Upload the file to Directus
-    const formData = new FormData();
-    formData.append("file", file.buffer, file.originalname);
+      // Upload the file to Directus using the pre-configured Axios client
+      const uploadResponse = await directusClient.post("/files", formData, {
+          headers: {
+              ...formData.getHeaders(),
+          }
+      });
 
-    const uploadResponse = await directusClient.post("/files", formData, {
-      headers: formData.getHeaders(),
-    });
+      if (uploadResponse.status !== 200) {
+          throw new Error('Failed to upload file to Directus');
+      }
 
-    const fileId = uploadResponse.data.data.id; // Assuming Directus response structure
+      const fileId = uploadResponse.data.data.id;
 
-    // Update the file's metadata to assign it to the folder and add additional details
-    const metadata = {
-      folder: folderId,
-      title: title,
-      description: description,
-      tags: tags,
-      // Add more metadata fields as needed
-    };
+      // Update the file's metadata
+      const metadata = {
+          folder: folderId,
+          title: title,
+          description: description,
+          tags: tags,
+          uploaded_by: uploaded_by
+      };
 
-    await directusClient.patch(`/files/${fileId}`, metadata);
+      const updateResponse = await directusClient.patch(`/files/${fileId}`, metadata);
 
-    // Respond with success
-    res.json({
-      success: true,
-      message: "File uploaded and metadata assigned successfully",
-    });
+      if (updateResponse.status !== 200) {
+          throw new Error('Failed to update metadata in Directus');
+      }
+
+      // Respond with success
+      res.json({
+          success: true,
+          message: "File uploaded and metadata assigned successfully",
+          data: updateResponse.data
+      });
   } catch (error) {
-    console.error("Error handling file upload to Directus:", error);
-    res.status(500).json({
-      message: "Failed to upload file to Directus and assign metadata",
-    });
+      console.error("Error handling file upload to Directus:", error);
+      res.status(500).json({
+          message: "Failed to upload file to Directus and assign metadata",
+          error: error.message
+      });
   }
 });
 
@@ -478,6 +491,16 @@ router.get('/searchFiles', async (req, res) => {
   } catch (error) {
     console.error('Error fetching files:', error);
     res.status(500).json({ message: 'Failed to fetch files' });
+  }
+});
+
+router.get("/directusUsers", async (req, res) => {
+  try {
+    const response = await directusClient.get("/users");
+    res.json(response.data);
+  } catch (error) {
+    console.error("Failed to fetch users from Directus:", error);
+    res.status(500).json({ message: "Failed to fetch users from Directus" });
   }
 });
 

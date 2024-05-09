@@ -42,16 +42,15 @@ function Navbar(props) {
 
     const openDiscussionModal = () => {
         console.log("Toggle clicked");
-        props.toggleModal();
-        props.modalTypeFunc('Discussions');
+		props.toggleModal()
+        props.modalTypeFunc('Discussions')
     };
 
     const openFileUploadModal = () => {
         console.log("Toggle clicked");
-        props.toggleModal();
-        props.modalTypeFunc('File-Upload');
-    }
-
+		props.toggleModal()
+        props.modalTypeFunc('File-Upload')
+    };
     const buttonStyle = {
         fontWeight: 'bold',
         borderRadius: '50px',
@@ -131,28 +130,25 @@ function Navbar(props) {
                 <Avatar sx={{ width: 75, height: 75 }}>
                     <img src={logo} alt="App Logo" style={{ width: '100%' }} />
                 </Avatar>
-                </Link>
-                {userRole?.toLowerCase() !== 'admin' && (
-                <div>
-                    <TextField
-                        variant="standard"
-                        margin="normal"
-                        className='search-field'
-                        size="small"
-                        placeholder="Search"
-                        InputProps={{
-                            disableUnderline: true,
-                            style: {
-                                height: 40,
-                                paddingLeft: 15
-                            }
-                        }}
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
-                )}
-            
+            </Link>
+            <div> 
+				<TextField
+				variant="standard"
+				margin="normal"
+				className='search-field'
+                size="small"
+                placeholder="Search"
+				InputProps={{
+					disableUnderline: true,
+					  style: {
+						height:40,
+						paddingLeft: 15
+					}
+				}}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+            />
+			</div>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 {userRole?.toLowerCase() === 'instructor' && (
                     <Button onClick={openFileUploadModal} sx={buttonStyle}>
@@ -160,77 +156,85 @@ function Navbar(props) {
                     <Typography variant="body1">Upload New Content</Typography>
                 </Button>
                 )}
-                {userRole?.toLowerCase() !== 'admin' && (
-                <>
                 <Button onClick={openDiscussionModal} sx={buttonStyle}>
-                            <FontAwesomeIcon icon={faPlus} size="sm" />
-                            <Typography variant="body1">Create Discussion</Typography>
-                        </Button>
-                <Dropdown
-                    trigger={<Button sx={buttonStyle}>
-                        <FontAwesomeIcon icon={faBook} size="sm" />
-                        <Typography variant="body1">Courses</Typography>
-                    </Button>}
-                    menu={courseMenuItems}
-                />
-                </>
-                )}
+                    <FontAwesomeIcon icon={faPlus} size="sm" />
+                    <Typography variant="body1">Create Discussion</Typography>
+                </Button>
+                <Button onClick={() => null} sx={buttonStyle}>
+                    <FontAwesomeIcon icon={faBook} size="sm" />
+                    <Typography variant="body1">Courses</Typography>
+                </Button>
                 <Button onClick={handleClick} sx={buttonStyle}>
                     <Avatar sx={{ bgcolor: theme.palette.primary.main, width: 50, height: 50, alignItems: 'right', marginLeft: -16, marginRight: -16 }}>
                         {getInitials(firstName, lastName)}
                     </Avatar>
                 </Button>
                 <Menu
-                    className='menu-box'
-                    id="account-menu"
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    MenuListProps={{
-                        'aria-labelledby': 'account-button',
-                    }}
-                    PaperProps={{
-                        style: {
-                            width: '300px', // Increase the width as needed
-                            padding: '20px',  // Optional: add some padding around the items
-                            paddingBottom: '0px'
-                        }
-                    }}
-                >
-                    <div className='name-box'>
-                        <Avatar
-                            sx={{
-                                bgcolor: theme.palette.primary.main,
-                                width: 60,  // Increased width
-                                height: 60, // Increased height
-                            }}
-                        >
-                            {getInitials(firstName, lastName)}
-                        </Avatar>
-                        <div>
-                            <div className='name-text'>
-                                <div className='firstName'>{sessionStorage.getItem("firstName")}</div>
-                                <div className='lastName'>{sessionStorage.getItem("lastName")}</div>
-                            </div>
-                            <div>
-                                {sessionStorage.getItem('userEmail')}
-                            </div>
-                            <div>
-                                {userRole && (
-                                    <div>
-                                        {userRole[0].toUpperCase() + userRole.substring(1)}
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                    <MenuItem onClick={handleLogout} className='logout-text'>
-                        <FontAwesomeIcon icon={faSignOutAlt} style={{ marginRight: '8px' }} />
-                        Logout
-                    </MenuItem>
-                </Menu>
+    className='menu-box'
+    id="account-menu"
+    anchorEl={anchorEl}
+    open={open}
+    onClose={handleClose}
+    MenuListProps={{
+        'aria-labelledby': 'account-button',
+    }}
+    PaperProps={{
+        style: {
+            width: '300px', // Increase the width as needed
+            padding: '20px',  // Optional: add some padding around the items
+			paddingBottom:'0px'
+        }
+    }}
+>
+    <div className='name-box'>
+        <div>
+            <Avatar 
+                sx={{ 
+                    bgcolor: theme.palette.primary.main, 
+                    width: 60,  // Increased width
+                    height: 60, // Increased height
+                }}
+            >
+                {getInitials(firstName, lastName)}
+            </Avatar>
+        </div>
+        <div>
+            <div className='name-text'>
+            <div className='firstName'>{sessionStorage.getItem("firstName")}</div>
+            <div className='lastName'>{sessionStorage.getItem("lastName")}</div>
+        </div>
+        <div>
+            {sessionStorage.getItem('userEmail')}
+        </div>
+        <div>
+            {userRole && (
+    <div>
+        {userRole[0].toUpperCase() + userRole.substring(1)}
+    </div>
+)}
+        </div>
+        </div>
+    </div>
+    <MenuItem onClick={handleLogout} className='logout-text'>
+            <FontAwesomeIcon icon={faSignOutAlt} style={{ marginRight: '8px' }} />
+            Logout
+    </MenuItem>
+</Menu>
+
             </Box>
         </Box>
     );
 }
 export default Navbar;
+
+
+
+
+
+
+
+
+
+
+
+
