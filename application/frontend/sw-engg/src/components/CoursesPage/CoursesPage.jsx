@@ -10,7 +10,7 @@ const CoursesPage = () => {
         const loadCourses = async () => {
             setIsLoading(true); // Set loading to true when the operation begins
             try {
-                const response = await apiService.fetchFolders();
+                const response = await apiService.fetchCourses();
                 // Validate that the response contains data and it is an array
                 if (response && Array.isArray(response.data)) {
                     setCourses(response.data); // Only set courses if data is an array

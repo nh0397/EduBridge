@@ -56,11 +56,11 @@ const photos = [
 const PhotoCarousel = () => {
     const settings = {
         infinite: true,
-        speed: 200,
+        speed: 800,
         slidesToShow: 2,
         slidesToScroll: 1,
         autoplay: true,
-        autoplaySpeed: 2000,
+        autoplaySpeed: 5000,
         prevArrow: <PrevArrow />,
         nextArrow: <NextArrow />,
         responsive: [

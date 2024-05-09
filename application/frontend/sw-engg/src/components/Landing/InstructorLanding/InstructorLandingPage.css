@@ -1,87 +1,114 @@
 body {
-    background-image: url('../../../images/Background2.webp');
-    background-size: cover; /* Ensures the background covers the entire viewport */
-    background-position: center; /* Centers the background image */
-    background-repeat: no-repeat; /* Makes sure the image does not repeat */
-    background-attachment: fixed; /* Gives a parallax effect on scroll */
-    min-height: 100vh; /* Ensures the minimum height is full viewport height */
-    margin: 0; /* Removes default margin from the body */
-    padding: 0; /* Removes default padding from the body */
+    background-color: #FFFFFF;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
 }
 
 .tabs {
-    display: float;
-    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
 .tab-button {
-    padding: 12px 24px; /* Slightly larger padding for better touch targets */
+    padding: 12px 24px;
     cursor: pointer;
     border: none;
-    color: white; /* Ensures text is readable on dark background */
+    color: white;
     background-color: #2A6B58;
     transition: background-color 0.3s ease, color 0.3s ease;
-    font-size: 1.25 em; /* Reduced font size for better fit */
-    border-radius: 5px; /* Softens the corners */
-    margin-right: 10px; /* Adds space between tabs */
-    text-align: center; /* Ensures text is centered */
+    font-size: 1.25em;
+    border-radius: 5px;
+    margin-right: 10px;
+    text-align: center;
 }
 
-.tab-button:hover, .tab-button:focus {
-    background-color: #539d87; /* Darker shade for hover/focus */
-    color: #FFFFFF; /* Keeps text color white for contrast */
-    outline: none; /* Removes default focus outline */
+.tab-button:hover,
+.tab-button:focus {
+    background-color: #539d87;
+    color: #FFFFFF;
+    outline: none;
 }
 
 .tab-button.active {
     position: relative;
-    
 }
 
+.courses-carousel-container,
+.files-carousel-container {
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+.file-card {
+    padding: 15px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 0 10px;
+}
+
+.file-thumbnail {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.file-info {
+    text-align: center;
+}
+
+.slick-slider {
+    position: relative;
+    z-index: 1;
+}
+
+/* Maintain the styles for the photo carousel */
 .photo-slide {
-    padding: 15px; /* Consistent padding */
+    padding: 15px;
     box-sizing: border-box;
 }
 
 .photo-image {
-    width: 100%; /* Full width for responsiveness */
-    height: auto; /* Maintains aspect ratio */
-    display: block; /* Ensures images are block level for proper spacing */
-    border-radius: 15px; /* Consistent corner rounding */
-    margin: auto; /* Centers image in the slide */
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 15px;
+    margin: auto;
 }
 
-.slick-slider {
-    margin: auto; /* Adds vertical margin for spacing */
-    position: relative;
-}
-
-.slick-prev, .slick-next {
+.slick-prev,
+.slick-next {
     position: absolute;
     top: 50%;
     z-index: 10;
     width: 40px;
     height: 40px;
-    border-radius: 50%; /* Full rounding for circle appearance */
-    color: white; /* White icons for contrast */
+    border-radius: 50%;
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: none; /* No border */
-    cursor: pointer; /* Indicates that the element is clickable */
+    border: none;
+    cursor: pointer;
 }
 
 .slick-prev {
-    left: 10px; /* Distance from the left edge of the container */
-    
+    left: 10px;
 }
 
 .slick-next {
-    right: 10px; /* Distance from the right edge of the container */
-    transform: translateX(50%) translateY(-50%); /* Adjusts right arrow's horizontal positioning */
+    right: 10px;
+    transform: translateX(50%) translateY(-50%);
 }
 
 .slick-disabled {
-    opacity: 0.3; /* Dim disabled arrows for better user feedback */
-    cursor: default; /* Changes cursor to indicate non-interactive element */
+    opacity: 0.3;
+    cursor: default;
 }

@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './InstructorLandingPage.css';  // Ensure your CSS path is correct
+import './InstructorLandingPage.css';
 import Modal from '../../DiscussionForum/Modal';
 import apiService from '../../../services/apiService';
 import { Box, Paper, Typography } from "@mui/material";
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import CommentIcon from '@mui/icons-material/Comment';
-import PhotoCarousel from './PhotoCarousel'; // Make sure you have this component properly set up
+import PhotoCarousel from './PhotoCarousel';
+import CoursesCarousel from './CoursesCarousel'; // Import CoursesCarousel component
+import FilesCarousel from './FilesCarousel'; // Import PopularFilesCarousel component
 
 const InstructorLandingPage = (props) => {
     const [files, setFiles] = useState([]);
     const [discussions, setDiscussions] = useState([]);
+    const [courses, setCourses] = useState([]); // State for courses
     const navigate = useNavigate();
     const role = sessionStorage.getItem('role'); // Fetching role from sessionStorage
 
@@ -79,9 +82,10 @@ const InstructorLandingPage = (props) => {
                 {activeTab === 'tab1' ? (
                     <div>
                         {role === 'Student' && (
-                            <PhotoCarousel photos={[
-                        ]} />
-                    )}
+                            <PhotoCarousel photos={files} />
+                        )}
+                        <CoursesCarousel courses={courses} /> {/* Integrate CoursesCarousel */}
+                        <FilesCarousel files={files} /> {/* Include PopularFilesCarousel */}
                     </div>
                 ) : (
                     <Box sx={{ maxWidth: 800, margin: 'auto', mt: 2 }}>
