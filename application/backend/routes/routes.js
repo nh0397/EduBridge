@@ -466,8 +466,14 @@ router.post('/discussions/:id/like', async (req, res) => {
 router.get("/files", async (req, res) => {
   try {
     const response = await directusClient.get('/files');
-    console.log(response);
+    const file_list = response.data
+    for (const entry of file_list.data) {
+      const userResponse = await directusClient.get(`/users/${entry.uploaded_by}`);
+      entry.user_name = `${userResponse.data.data.first_name} ${userResponse.data.data.last_name}`;
+      console.log(entry.user_name)
+    }
     res.json(response.data);
+    
   } catch (error) {
     console.error("Error fetching files from Directus:", error);
     res.status(500).json({
