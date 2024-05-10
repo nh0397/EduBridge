@@ -73,7 +73,7 @@ const CoursesCarousel = () => {
                 {courses.map((course, index) => (
                     <div key={index} className="course-slide" style={{ padding: '10px' }}>
                         <div className="course-card">
-                            <img src={course.imageUrl} alt={course.name} style={{ width: '100%', height: 'auto', borderRadius: '5px 5px 0 0', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' }} />
+                            <img src={course.imageURL} alt={course.name} style={{ width: '100%', height: 'auto', borderRadius: '5px 5px 0 0', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' }} />
                             <div className="course-details">
                                 <p className="course-name">{course.name}</p>
                             </div>
