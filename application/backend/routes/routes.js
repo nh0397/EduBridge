@@ -258,6 +258,7 @@ router.post("/upload", upload.single("file"), async (req, res) => {
 router.get("/folders", async (req, res) => {
   try {
     const response = await directusClient.get("/folders");
+    console.log('', respone.data)
     res.json(response.data);
   } catch (error) {
     console.error("Failed to fetch folders from Directus:", error);
@@ -267,70 +268,42 @@ router.get("/folders", async (req, res) => {
 
 router.get("/courses", async (req, res) => {
   try {
-    let {data} = await directusClient.get("/folders");
-    if (!data) {
-      return res.status(404).json({message: "No folders found"});
+    // Fetch courses from Directus
+    let { data } = await directusClient.get("/folders");
+    if (!data || !data.data) {
+      return res.status(404).json({ message: "No courses found" });
     }
 
-    data = data.data;
-
+    // Fetch all images from MySQL database
+    const [images] = await pool.query("SELECT * FROM DomainImages");
 
     const courseMap = {};
     const rootCourses = [];
 
-
-    data.forEach(course => {
-      courseMap[course.id] = {...course, children: []};
+    // First pass to create course map and assign image URLs
+    data.data.forEach(course => {
+      // Find associated image based on some criteria, e.g., course.id
+      const imageUrl = images.find(img => img.DomainName === course.name)?.ImageURL || 'default.jpg';
+      courseMap[course.id] = { ...course, children: [], imageURL: imageUrl };
     });
 
-
-    router.get("/courses", async (req, res) => {
-  try {
-    let {data} = await directusClient.get("/folders");
-    if (!data) {
-      return res.status(404).json({message: "No folders found"});
-    }
-
-    data.forEach(course => {
+    // Second pass to build the tree structure
+    data.data.forEach(course => {
       if (course.parent) {
         if (courseMap[course.parent]) {
           courseMap[course.parent].children.push(courseMap[course.id]);
         } else {
-
           console.warn("Orphaned course found, missing parent: ", course);
         }
       } else {
-
         rootCourses.push(courseMap[course.id]);
       }
     });
 
     res.json(rootCourses);
   } catch (error) {
-    console.error("Failed to fetch folders from Directus:", error);
-    res.status(500).json({message: "Failed to fetch folders from Directus"});
-  }
-});
-
-
-    data.forEach(course => {
-      if (course.parent) {
-        if (courseMap[course.parent]) {
-          courseMap[course.parent].children.push(courseMap[course.id]);
-        } else {
-
-          console.warn("Orphaned course found, missing parent: ", course);
-        }
-      } else {
-
-        rootCourses.push(courseMap[course.id]);
-      }
-    });
-
-    res.json(rootCourses);
-  } catch (error) {
-    console.error("Failed to fetch folders from Directus:", error);
-    res.status(500).json({message: "Failed to fetch folders from Directus"});
+    console.error("Failed to fetch courses from Directus:", error);
+    res.status(500).json({ message: "Failed to fetch courses" });
   }
 });
 
