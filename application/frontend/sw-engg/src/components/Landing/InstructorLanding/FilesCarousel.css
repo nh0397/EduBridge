@@ -1,0 +1,89 @@
+/* Carousel and Card Styling */
+.file-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #ffffff;
+    border-radius: 8px;
+    
+    padding: 20px;
+    margin: 50px;
+    text-align: center;
+    min-height: 150px;
+    height: auto;
+}
+
+.file-title-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #004C3F;
+    color: #ffffff;
+    padding: 10px 15px;
+    border-radius: 5px 5px 0 0;
+    font-size: 20px;
+    font-weight: bold;
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Add ellipsis for overflow text */
+}
+
+.file-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+}
+
+.author-name, .modified-date {
+    color: #666;
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.info-button, .download-link {
+    color: #005B4B;
+    font-size: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.info-button:hover,
+.download-link:hover {
+    color: #00A887;
+}
+
+/* Modal Styling */
+.modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    max-width: 500px;
+}
+
+.close-button {
+    color: #333;
+    float: right;
+    font-size: 24px;
+}

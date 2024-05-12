@@ -81,9 +81,7 @@ const InstructorLandingPage = (props) => {
             <div className="tab-content">
                 {activeTab === 'tab1' ? (
                     <div>
-                        {role === 'Student' && (
-                            <PhotoCarousel photos={files} />
-                        )}
+                        <PhotoCarousel photos={files} />
                         <CoursesCarousel courses={courses} /> {/* Integrate CoursesCarousel */}
                         <FilesCarousel files={files} /> {/* Include PopularFilesCarousel */}
                     </div>

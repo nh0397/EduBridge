@@ -19,7 +19,7 @@ function Navbar(props) {
     const firstName = sessionStorage.getItem('firstName'); // Fetching firstName from sessionStorage
     const lastName = sessionStorage.getItem('lastName'); // Fetching lastName from sessionStorage
     const navigate = useNavigate();
-    const homePath = userRole === 'instructor' ? '/instructor' : '/student'; // Define homePath based on userRole
+    const homePath = '/landingPage';
     const [courses, setCourses] = useState([]);
 
 
