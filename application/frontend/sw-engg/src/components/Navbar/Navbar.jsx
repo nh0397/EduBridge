@@ -22,6 +22,13 @@ function Navbar(props) {
     const homePath = '/landingPage';
     const [courses, setCourses] = useState([]);
 
+    const handleSearchSubmit = (event) => {
+        event.preventDefault(); // Prevent the form from causing a page reload
+        if (searchTerm.trim()) { // Check if searchTerm is not just empty spaces
+            navigate(`/search-results?search=${encodeURIComponent(searchTerm)}`); // Correctly navigate to search results page
+        }
+    }
+    
 
     const handleLogout = () => {
         sessionStorage.clear();
@@ -131,24 +138,24 @@ function Navbar(props) {
                     <img src={logo} alt="App Logo" style={{ width: '100%' }} />
                 </Avatar>
             </Link>
-            <div> 
-				<TextField
-				variant="standard"
-				margin="normal"
-				className='search-field'
-                size="small"
-                placeholder="Search"
-				InputProps={{
-					disableUnderline: true,
-					  style: {
-						height:40,
-						paddingLeft: 15
-					}
-				}}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-            />
-			</div>
+            <div>
+                <form onSubmit={handleSearchSubmit}>
+                    <TextField
+                        variant="standard"
+                        margin="normal"
+                        className='search-field'
+                        size="small"
+                        placeholder="Search"
+                        InputProps={{
+                            disableUnderline: true,
+                            style: { height: 40, paddingLeft: 15 }
+                        }}
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    <Button type="submit" color="inherit">Search</Button>
+                </form>
+            </div>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 {userRole?.toLowerCase() === 'instructor' && (
                     <Button onClick={openFileUploadModal} sx={buttonStyle}>

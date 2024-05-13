@@ -21,6 +21,8 @@ import MyDiscussions from './components/DiscussionForum/MyDiscussions';
 import CoursesPage from "./components/CoursesPage/CoursesPage";
 import FileDetails from "./components/Files/FileDetails";
 
+import SearchResultsPage from "./components/Search/SearchResultsPage";
+
 function App() {
     const [modalOpen, setModalState] = useState(false);
     const [modalType, setModalType] = useState("");
@@ -61,7 +63,9 @@ function App() {
                         <Route path="/my-discussions" element={<MyDiscussions />} />
                         {/* Courses page route */}
                         <Route path="/courses" element={<CoursesPage />} />
-                        <Route path="/files/:id" element={<FileDetails/>} />
+                        <Route path="/files/:id" element={<FileDetails />} />
+                        {/* Search Result page route */}
+                        <Route path="/search-results" element={<SearchResultsPage />} />
                     </Routes>
                 </Layout>
             </div>
