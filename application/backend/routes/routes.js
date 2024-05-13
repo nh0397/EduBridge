@@ -486,9 +486,33 @@ router.get("/directusUsers", async (req, res) => {
   }
 });
 
+router.get('/download-file/:fileId', async (req, res) => {
+  const { fileId } = req.params;
+  try {
+      const url = `/assets/${fileId}?download`;
 
-module.exports = router;
+      const response = await directusClient.get(url, {
+          responseType: 'arraybuffer' // Ensures that the data is treated as a binary file
+      });
 
+      // Attempt to extract filename from the Content-Disposition header
+      const contentDisposition = response.headers['content-disposition'];
+      let filename = 'default_filename.ext'; // A default filename if extraction fails
+      if (contentDisposition) {
+          const filenameMatch = contentDisposition.match(/filename="?(.+?)"?$/);
+          if (filenameMatch && filenameMatch[1]) {
+              filename = filenameMatch[1];
+          }
+      }
 
-// Export the router
+      // Set headers to download the file with the extracted or default filename
+      res.setHeader('Content-Type', 'application/octet-stream');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      console.log(res.getHeaders())
+      res.send(response.data);
+  } catch (error) {
+      console.error('Failed to download file:', error);
+      res.status(500).send('Failed to download file');
+  }
+});
 module.exports = router;

@@ -175,6 +175,36 @@ const fetchFileMetadata = async (id) => {
   return data.data;
 };
 
+function downloadFile(fileId) {
+  axios({
+      url: `${config.BASE_URL}/download-file/${fileId}`,
+      method: 'GET',
+      responseType: 'blob',
+  }).then(response => {
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const contentDisposition = response.headers['content-disposition'];
+      let filename = 'default_filename.ext';
+      if (contentDisposition) {
+          const filenameMatch = contentDisposition.match(/filename="?(.+?)"?$/);
+          if (filenameMatch && filenameMatch[1]) {
+              filename = filenameMatch[1];
+          }
+      }
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+
+      setTimeout(() => {
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+      }, 100);
+  }).catch(error => {
+      console.error('Download failed:', error);
+  });
+}
 
 
 // Export the service functions
@@ -203,4 +233,5 @@ export default {
   fetchCourses,
   fetchAllFiles,
   fetchFileMetadata,
+  downloadFile
 }

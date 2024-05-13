@@ -1,50 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
-import { faChevronLeft, faChevronRight, faInfoCircle, faDownload, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faChevronLeft, faChevronRight, faInfoCircle, faDownload, faTimes,
+    faFilePdf, faFileWord, faFileExcel, faFileImage, faFileVideo,
+    faFileAudio, faFile
+} from '@fortawesome/free-solid-svg-icons';
 import apiService from '../../../services/apiService';
 import { useNavigate } from 'react-router-dom';
 import './FilesCarousel.css';
 
-import {
-    faFilePdf,
-    faFileWord,
-    faFileExcel,
-    faFileImage,
-    faFileVideo,
-    faFileAudio,
-    faFile
-} from '@fortawesome/free-solid-svg-icons';
-
+// Function to determine the icon based on file type
 const getFileIcon = (filename_download) => {
     const fileExtension = filename_download.split('.').pop().toLowerCase();
     switch (fileExtension) {
-        case 'pdf':
-            return faFilePdf;
+        case 'pdf': return faFilePdf;
         case 'doc':
-        case 'docx':
-            return faFileWord;
+        case 'docx': return faFileWord;
         case 'xls':
-        case 'xlsx':
-            return faFileExcel;
+        case 'xlsx': return faFileExcel;
         case 'jpg':
         case 'jpeg':
         case 'png':
-        case 'gif':
-            return faFileImage;
+        case 'gif': return faFileImage;
         case 'mp4':
         case 'avi':
-        case 'mov':
-            return faFileVideo;
+        case 'mov': return faFileVideo;
         case 'mp3':
         case 'wav':
-        case 'aac':
-            return faFileAudio;
-        default:
-            return faFile; // Generic file icon for unknown types
+        case 'aac': return faFileAudio;
+        default: return faFile; // Generic file icon for unknown types
     }
 };
 
+// Components for navigation arrows in the slider
 const PrevArrow = ({ className, style, onClick }) => (
     <div className={className} style={{ ...style, display: "block", left: 25, zIndex: 1 }} onClick={onClick}>
         <FontAwesomeIcon icon={faChevronLeft} />
@@ -57,6 +46,7 @@ const NextArrow = ({ className, style, onClick }) => (
     </div>
 );
 
+// Modal component for displaying file details
 const Modal = ({ file, onClose }) => (
     <div className="modal">
         <div className="modal-content">
@@ -66,12 +56,10 @@ const Modal = ({ file, onClose }) => (
     </div>
 );
 
+// Main component for displaying files in a carousel
 const PopularFilesCarousel = () => {
     const navigate = useNavigate();
     const [files, setFiles] = useState([]);
-    const navigateToFileDetails = (id) => {
-        navigate(`/files/${id}`);
-    }
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
 
@@ -80,12 +68,14 @@ const PopularFilesCarousel = () => {
             try {
                 const filesData = await apiService.fetchAllFiles();
                 const sortedFiles = filesData.data.sort((a, b) => new Date(b.modified_on) - new Date(a.modified_on)).slice(0, 10);
-                setFiles(sortedFiles);
+                setFiles(sortedFiles.map(file => ({
+                    ...file,
+                    downloadUrl: `http://3.137.218.130:8055/assets/${file.id}?download` // Correctly formatted download URL
+                })));
             } catch (error) {
                 console.error('Error fetching files:', error);
             }
         };
-
         fetchFiles();
     }, []);
 
@@ -101,10 +91,9 @@ const PopularFilesCarousel = () => {
                 return words.slice(0, 30).join(' ') + '...';
             }
             return description;
-        } else {
-            return '';
         }
-    }
+        return '';
+    };
 
     const settings = {
         infinite: true,
@@ -127,14 +116,23 @@ const PopularFilesCarousel = () => {
         ]
     };
 
+    const handleDownloadClick = async (fileId) => {
+    try {
+        await apiService.downloadFile(fileId);
+        console.log('File downloaded successfully');
+    } catch (error) {
+        console.error('Failed to download file:', error);
+    }
+    };
+
     return (
         <div className="carousel-container">
             <h2 className="carousel-title">Recent Files</h2>
             <Slider {...settings}>
                 {files.map((file) => (
                     <div key={file.id} className="file-card">
-                        <div className="file-info" onClick={() => navigateToFileDetails(file.id)}>
-                            <div className="file-title-container">
+                        <div className="file-info">
+                            <div className="file-title-container" onClick={() => navigate(`/files/${file.id}`)}>
                                 <FontAwesomeIcon icon={getFileIcon(file.filename_download)} className="file-icon" />
                                 <h3 className="file-title" style={{ cursor: 'pointer' }}>{file.title}</h3>
                             </div>
@@ -143,12 +141,10 @@ const PopularFilesCarousel = () => {
                                 <p className="author-name">Author: {file.user_name}</p>
                                 <p className="modified-date">Modified on: {new Date(file.modified_on).toLocaleString()}</p>
                                 <div className="action-buttons">
-                                    <button title = {file.description} className="info-button">
+                                    <button className="info-button" onClick={() => handleInfoClick(file)}>
                                         <FontAwesomeIcon icon={faInfoCircle} />
                                     </button>
-                                    <a href={file.downloadUrl} className="download-link">
-                                        <FontAwesomeIcon icon={faDownload} />
-                                    </a>
+                                    <button onClick={() => handleDownloadClick(file.id)}><FontAwesomeIcon icon={faDownload} /></button>
                                 </div>
                             </div>
                         </div>
@@ -158,5 +154,6 @@ const PopularFilesCarousel = () => {
             {modalOpen && <Modal file={selectedFile} onClose={() => setModalOpen(false)} />}
         </div>
     );
-}
+};
+
 export default PopularFilesCarousel;

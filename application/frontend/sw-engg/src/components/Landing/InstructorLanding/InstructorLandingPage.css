@@ -11,8 +11,9 @@ body {
 
 .tabs {
     display: flex;
-    justify-content: center;
+    justify-content: start;
     margin-bottom: 20px;
+    padding: 10px;
 }
 
 .tab-button {
