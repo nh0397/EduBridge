@@ -170,9 +170,14 @@ const fetchAllFiles = async (searchTerm) => {
 };
 
 const fetchFileMetadata = async (id) => {
-  const response = await fetch("http://3.137.218.130:8055/items/files/${id}");
-  const data = await response.json();
-  return data.data;
+  try {
+    const response = await fetch(`${config.BASE_URL}/files/${id}`);
+    const data = await response.json();
+    return data.data;  // Assuming the server sends the data in this structure
+  } catch (error) {
+    console.error('Error fetching file metadata:', error);
+    throw error;  // or handle the error as you see fit
+  }
 };
 
 function downloadFile(fileId) {

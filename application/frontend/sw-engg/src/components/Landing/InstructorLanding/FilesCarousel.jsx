@@ -144,7 +144,7 @@ const PopularFilesCarousel = () => {
                                     <button className="info-button" onClick={() => handleInfoClick(file)}>
                                         <FontAwesomeIcon icon={faInfoCircle} />
                                     </button>
-                                    <button onClick={() => handleDownloadClick(file.id)}><FontAwesomeIcon icon={faDownload} /></button>
+                                    <button className='download-link' onClick={() => handleDownloadClick(file.id)}><FontAwesomeIcon icon={faDownload} /></button>
                                 </div>
                             </div>
                         </div>

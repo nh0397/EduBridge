@@ -515,4 +515,21 @@ router.get('/download-file/:fileId', async (req, res) => {
       res.status(500).send('Failed to download file');
   }
 });
+
+router.get("/files/:id", async (req, res) => {
+  const id = req.params
+  try {
+    const response = await directusClient.get(`/files/${id.id}`);
+    res.json(response.data);
+    
+  } catch (error) {
+    console.error("Error fetching files from Directus:", error);
+    res.status(500).json({
+      message: "Failed to fetch files from Directus",
+    });
+  }
+});
+
+
+
 module.exports = router;
