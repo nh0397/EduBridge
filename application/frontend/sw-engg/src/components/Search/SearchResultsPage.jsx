@@ -1,6 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import apiService from '../../services/apiService';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faChevronLeft, faChevronRight, faInfoCircle, faDownload, faTimes,
+    faFilePdf, faFileWord, faFileExcel, faFileImage, faFileVideo,
+    faFileAudio, faFile
+} from '@fortawesome/free-solid-svg-icons';
+import './SearchResultsPage.css';
+
+function getFileIcon(filename_download) {
+    const fileExtension = filename_download.split('.').pop().toLowerCase();
+    switch (fileExtension) {
+        case 'pdf': return faFilePdf;
+        case 'doc':
+        case 'docx': return faFileWord;
+        case 'xls':
+        case 'xlsx': return faFileExcel;
+        case 'jpg':
+        case 'jpeg':
+        case 'png':
+        case 'gif': return faFileImage;
+        case 'mp4':
+        case 'avi':
+        case 'mov': return faFileVideo;
+        case 'mp3':
+        case 'wav':
+        case 'aac': return faFileAudio;
+        default: return faFile; // Generic file icon for unknown types
+    }
+}
 
 function useQuery() {
     const { search } = useLocation();
@@ -43,26 +72,48 @@ const SearchResultsPage = () => {
         fetchResults();
     }, [searchTerm]);
 
+    const truncateDescription = (description) => {
+        if (description) {
+            const words = description.split(' ');
+            if (words.length > 30) {
+                return words.slice(0, 30).join(' ') + '...';
+            }
+            return description;
+        }
+        return '';
+    };
+
     return (
-        <div>
-            <h1>Search Results for: {decodeURIComponent(searchTerm)}</h1>
+        <div className="search-results-container">
+            <h2>Search Results for: {decodeURIComponent(searchTerm)}</h2>
             {loading ? (
                 <p>Loading...</p>
             ) : error ? (
                 <p>Error: {error}</p>
             ) : (
-                <ul>
+                <div className="search-results-container">
                     {results.length > 0 ? (
-                        results.map((item, index) => (
-                            <li key={index}>{item.name || 'Detail not available'}</li> // Handle missing details
+                        results.map((file, index) => (
+                            <div key={index} className="search-result-card">
+                                <div className="file-title-container">
+                                    <FontAwesomeIcon icon={getFileIcon(file.filename_download)} size="2x" className="file-icon"/>
+                                    <h3>{file.title || 'Detail not available'}</h3>
+                                </div>
+                                <div className="search-info">
+                                    <p className="description-preview">{truncateDescription(file.description)}</p>
+                                    <p>Author: {file.user_name || 'Unknown'}</p>
+                                    <p>Modified on: {new Date(file.modified_on).toLocaleString()}</p>
+                                </div>
+                                
+                            </div>
                         ))
                     ) : (
                         <p>No results found.</p>
                     )}
-                </ul>
+                </div>
             )}
         </div>
-    );
+    ); 
 };
 
 export default SearchResultsPage;

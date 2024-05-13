@@ -5,7 +5,7 @@ import theme from '../../theme'; // Make sure this path is correct
 import logo from '../../images/eduBridge.webp';
 import backgroundImage from '../../images/Backgroundimage.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook, faCloudUploadAlt, faPlus, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faBook, faCloudUploadAlt, faPlus, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
 import { Dropdown, DropdownMenuItem, DropdownNestedMenuItem } from "./Dropdown";
 import apiService from "../../services/apiService";
@@ -138,24 +138,39 @@ function Navbar(props) {
                     <img src={logo} alt="App Logo" style={{ width: '100%' }} />
                 </Avatar>
             </Link>
-            <div>
-                <form onSubmit={handleSearchSubmit}>
-                    <TextField
-                        variant="standard"
-                        margin="normal"
-                        className='search-field'
-                        size="small"
-                        placeholder="Search"
-                        InputProps={{
-                            disableUnderline: true,
-                            style: { height: 40, paddingLeft: 15 }
-                        }}
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                    <Button type="submit" color="inherit">Search</Button>
-                </form>
-            </div>
+            <form onSubmit={handleSearchSubmit}>
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <TextField
+            variant="outlined"
+            size="small"
+            placeholder="Search Files"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            sx={{
+                borderRadius: '20px',
+                backgroundColor: 'white',
+                width: '500px',
+                flexGrow: 1,
+                '& .MuiOutlinedInput-root': {
+                    '& fieldset': { border: 'none' }, // Remove the border
+                    '&:hover fieldset': { border: 'none' }, // Remove border on hover
+                    '&.Mui-focused fieldset': { border: 'none' }, // Remove border when focused
+                }
+            }}
+        />
+        <Button type="submit" color="inherit" sx={{
+            p: 0, 
+            minWidth: 'auto', 
+            backgroundColor: 'transparent', 
+            ml: 1,
+            '&:hover': { backgroundColor: 'transparent'}, // Ensure no background change on hover
+            '&:focus': { outline: 'none' } // Remove focus outline
+        }}>
+            <FontAwesomeIcon icon={faSearch} size="lg" style={{ color: '#ffffff' }} />
+        </Button>
+    </Box>
+</form>
+
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 {userRole?.toLowerCase() === 'instructor' && (
                     <Button onClick={openFileUploadModal} sx={buttonStyle}>
@@ -233,15 +248,3 @@ function Navbar(props) {
     );
 }
 export default Navbar;
-
-
-
-
-
-
-
-
-
-
-
-
