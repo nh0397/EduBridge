@@ -169,16 +169,6 @@ const fetchAllFiles = async (searchTerm) => {
   }
 };
 
-const fetchFileMetadata = async (id) => {
-  try {
-    const response = await fetch(`${config.BASE_URL}/files/${id}`);
-    const data = await response.json();
-    return data.data;  // Assuming the server sends the data in this structure
-  } catch (error) {
-    console.error('Error fetching file metadata:', error);
-    throw error;  // or handle the error as you see fit
-  }
-};
 
 function downloadFile(fileId) {
   axios({
@@ -211,6 +201,25 @@ function downloadFile(fileId) {
   });
 }
 
+const fetchFileUrl = async (id) => {
+  try {
+      const response = await axios.get(`${config.BASE_URL}/file-url/${id}`);
+      return response.data.fileUrl;
+  } catch (error) {
+      console.error('Error fetching file URL:', error);
+      throw error;
+  }
+};
+
+const fetchFileMetadata = async (id) => {
+  try {
+      const response = await axios.get(`${config.BASE_URL}/files/${id}`);
+      return response.data.data;  // Assuming the server sends the data in this structure
+  } catch (error) {
+      console.error('Error fetching file metadata:', error);
+      throw error;  // or handle the error as you see fit
+  }
+};
 
 // Export the service functions
 export default {
@@ -238,5 +247,6 @@ export default {
   fetchCourses,
   fetchAllFiles,
   fetchFileMetadata,
-  downloadFile
+  downloadFile,
+  fetchFileUrl
 }

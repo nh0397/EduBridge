@@ -2,7 +2,7 @@ const express = require("express");
 const CryptoJS = require("crypto-js");
 const multer = require("multer"); // Using multer for file uploads
 const FormData = require("form-data");
-
+const axios = require('axios');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
@@ -12,7 +12,8 @@ const { sendOtpEmail } = require("../Services/emailService");
 const { directusClient, pingDirectus } = require("../Services/directus");
 
 const router = express.Router();
-
+const DIRECTUS_API_URL = 'http://3.137.218.130:8055';
+const DIRECTUS_API_TOKEN = 'fNVT4Ht5HE0_nlVOOhanaeXfWA1o1KFf';
 // Ping Directus to test connectivity
 pingDirectus();
 
@@ -530,6 +531,34 @@ router.get("/files/:id", async (req, res) => {
   }
 });
 
+
+router.get("/file-url/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+      const response = await directusClient.get(`/files/${id}`);
+      if (response.status !== 200) {
+          return res.status(response.status).send('Error fetching file metadata');
+      }
+      const data = response.data;
+      const fileUrl = `${DIRECTUS_API_URL}/assets/${data.data.filename_disk}`;
+
+      // Fetch the file with the Bearer token
+      const fileResponse = await axios.get(fileUrl, {
+          responseType: 'arraybuffer',
+          headers: {
+              'Authorization': `Bearer ${DIRECTUS_API_TOKEN}`
+          }
+      });
+
+      // Set headers and send file content
+      res.setHeader('Content-Type', fileResponse.headers['content-type']);
+      res.send(fileResponse.data);
+
+  } catch (error) {
+      console.error('Error fetching file URL:', error);
+      res.status(500).send('Server Error');
+  }
+});
 
 
 module.exports = router;
