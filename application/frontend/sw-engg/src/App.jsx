@@ -19,6 +19,7 @@ import ForgotPassword from "./components/forgotPassword/ForgotPassword";
 import AdministratorRoute from "./components/routing/AdministratorRoute";
 import MyDiscussions from './components/DiscussionForum/MyDiscussions';
 import CoursesPage from "./components/CoursesPage/CoursesPage";
+import FileDetails from "./components/Files/FileDetails";
 
 function App() {
     const [modalOpen, setModalState] = useState(false);
@@ -60,6 +61,7 @@ function App() {
                         <Route path="/my-discussions" element={<MyDiscussions />} />
                         {/* Courses page route */}
                         <Route path="/courses" element={<CoursesPage />} />
+                        <Route path="/files/:id" element={<FileDetails/>} />
                     </Routes>
                 </Layout>
             </div>

@@ -169,6 +169,12 @@ const fetchAllFiles = async (searchTerm) => {
   }
 };
 
+const fetchFileMetadata = async (id) => {
+  const response = await fetch("http://3.137.218.130:8055/items/files/${id}");
+  const data = await response.json();
+  return data.data;
+};
+
 
 
 // Export the service functions
@@ -195,5 +201,6 @@ export default {
   dislikeDiscussion,
   updateDiscussion,
   fetchCourses,
-  fetchAllFiles
+  fetchAllFiles,
+  fetchFileMetadata,
 }

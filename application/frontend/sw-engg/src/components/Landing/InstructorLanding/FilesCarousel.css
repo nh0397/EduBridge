@@ -1,3 +1,17 @@
+.carousel-title {
+    text-align: center;
+    color: #004C3F; /* Choose a color that fits your design */
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 20px; /* Space above the title */
+    margin-bottom: 0px; /* Space below the title, above the carousel */
+}
+.carousel-container {
+    width: auto; /* Example fixed width */
+    margin-left: auto;
+    margin-right: auto; /* Centers the carousel if container is wider */
+}
+
 /* Carousel and Card Styling */
 .file-card {
     display: flex;
@@ -5,8 +19,8 @@
     justify-content: space-between;
     background-color: #ffffff;
     border-radius: 8px;
-    padding: 20px;
-    margin: 50px;
+    padding: -100px !important;
+    margin: 20px;
     text-align: center;
     height: 300px;  /* Ensures consistent height */
     position: relative; /* Needed for absolute positioning of children */

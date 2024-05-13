@@ -3,7 +3,9 @@ import Slider from 'react-slick';
 import { faChevronLeft, faChevronRight, faInfoCircle, faDownload, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import apiService from '../../../services/apiService';
-import './FilesCarousel.css'; // Ensure you import your CSS file
+import { useNavigate } from 'react-router-dom';
+import './FilesCarousel.css';
+
 import {
     faFilePdf,
     faFileWord,
@@ -64,9 +66,12 @@ const Modal = ({ file, onClose }) => (
     </div>
 );
 
-
 const PopularFilesCarousel = () => {
+    const navigate = useNavigate();
     const [files, setFiles] = useState([]);
+    const navigateToFileDetails = (id) => {
+        navigate(`/files/${id}`);
+    }
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
 
@@ -74,7 +79,8 @@ const PopularFilesCarousel = () => {
         const fetchFiles = async () => {
             try {
                 const filesData = await apiService.fetchAllFiles();
-                setFiles(filesData.data);
+                const sortedFiles = filesData.data.sort((a, b) => new Date(b.modified_on) - new Date(a.modified_on)).slice(0, 10);
+                setFiles(sortedFiles);
             } catch (error) {
                 console.error('Error fetching files:', error);
             }
@@ -99,10 +105,8 @@ const PopularFilesCarousel = () => {
             return '';
         }
     }
-    
 
     const settings = {
-        dots: true,
         infinite: true,
         speed: 500,
         slidesToShow: 3,
@@ -114,31 +118,32 @@ const PopularFilesCarousel = () => {
         responsive: [
             {
                 breakpoint: 768,
-                settings: { slidesToShow: 2 }
+                settings: { slidesToShow: 3 }
             },
             {
                 breakpoint: 480,
-                settings: { slidesToShow: 1 }
+                settings: { slidesToShow: 2 }
             }
         ]
     };
 
     return (
         <div className="carousel-container">
+            <h2 className="carousel-title">Recent Files</h2>
             <Slider {...settings}>
                 {files.map((file) => (
                     <div key={file.id} className="file-card">
-                        <div className="file-info">
+                        <div className="file-info" onClick={() => navigateToFileDetails(file.id)}>
                             <div className="file-title-container">
                                 <FontAwesomeIcon icon={getFileIcon(file.filename_download)} className="file-icon" />
-                                <h3 className="file-title">{file.title}</h3>
+                                <h3 className="file-title" style={{ cursor: 'pointer' }}>{file.title}</h3>
                             </div>
                             <div className="file-details">
                                 <p className="description-preview">{truncateDescription(file.description)}</p>
                                 <p className="author-name">Author: {file.user_name}</p>
                                 <p className="modified-date">Modified on: {new Date(file.modified_on).toLocaleString()}</p>
                                 <div className="action-buttons">
-                                    <button className="info-button" onClick={() => handleInfoClick(file)}>
+                                    <button title = {file.description} className="info-button">
                                         <FontAwesomeIcon icon={faInfoCircle} />
                                     </button>
                                     <a href={file.downloadUrl} className="download-link">
@@ -150,10 +155,8 @@ const PopularFilesCarousel = () => {
                     </div>
                 ))}
             </Slider>
-
             {modalOpen && <Modal file={selectedFile} onClose={() => setModalOpen(false)} />}
         </div>
     );
-};
-
+}
 export default PopularFilesCarousel;
