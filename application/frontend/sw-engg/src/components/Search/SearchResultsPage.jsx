@@ -84,7 +84,7 @@ const SearchResultsPage = () => {
     };
 
     return (
-        <div className="search-results-container">
+        <div>
             <h2>Search Results for: {decodeURIComponent(searchTerm)}</h2>
             {loading ? (
                 <p>Loading...</p>
