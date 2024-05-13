@@ -3,6 +3,7 @@ import Slider from 'react-slick';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import apiService from '../../../services/apiService';
+import './CoursesCarousel.css'; // Import CourseCarousel.css
 
 // Define custom arrows for the carousel
 const PrevArrow = (props) => {
@@ -54,31 +55,30 @@ const CoursesCarousel = () => {
     const settings = {
         infinite: true,
         speed: 500,
-        slidesToShow: 4, // Adjust the number of slides to show
+        slidesToShow: 4,
         slidesToScroll: 1,
         autoplay: false,
         autoplaySpeed: 5000,
         prevArrow: <PrevArrow />,
         nextArrow: <NextArrow />,
         responsive: [
-            { breakpoint: 768, settings: { slidesToShow: 2 } },
-            { breakpoint: 480, settings: { slidesToShow: 1 } }
+            { breakpoint: 768, settings: { slidesToShow: 2, slidesToScroll: 1 } },
+            { breakpoint: 480, settings: { slidesToShow: 1, slidesToScroll: 1 } }
         ]
     };
+    
 
     return (
         <div className="courses-carousel-container">
-            <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Popular Courses</h2>
+            <h2 className="carousel-heading">Popular Courses</h2>
             <Slider {...settings}>
                 {courses.map((course, index) => (
-                    <div key={index} className="course-slide" style={{ padding: '10px' }}>
-                        <div className="course-card">
-                            <img src={course.imageURL} alt={course.name} style={{ width: '100%', height: '100px', borderRadius: '5px 5px 0 0', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' , margin:'4px'}} />
+                        <div className='course-slide' key={index}>
+                            <img src={course.imageURL} alt={course.name} className="course-image" />
                             <div className="course-details">
                                 <p className="course-name">{course.name}</p>
                             </div>
                         </div>
-                    </div>
                 ))}
             </Slider>
         </div>
@@ -86,3 +86,4 @@ const CoursesCarousel = () => {
 };
 
 export default CoursesCarousel;
+

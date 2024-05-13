@@ -32,13 +32,13 @@ body {
 
 .tab-button:hover,
 .tab-button:focus {
-    background-color: white;
+    background-color: transparent;
     color: #2A6B58;
     outline: none;
 }
 
 .tab-button.active {
-    background-color: transparent;
+    background-color: transparent!important;
     color: #2A6B58;
     position: relative;
 }
