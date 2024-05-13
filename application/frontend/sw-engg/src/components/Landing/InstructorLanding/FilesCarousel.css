@@ -5,34 +5,34 @@
     justify-content: space-between;
     background-color: #ffffff;
     border-radius: 8px;
-    
     padding: 20px;
     margin: 50px;
     text-align: center;
-    min-height: 150px;
-    height: auto;
+    height: 300px;  /* Ensures consistent height */
+    position: relative; /* Needed for absolute positioning of children */
 }
 
 .file-title-container {
     display: flex;
     align-items: center;
     gap: 10px;
-    background-color: #004C3F;
-    color: #ffffff;
+    background-color: #004C3F; /* Restored background color for visibility */
+    color: #ffffff; /* White text for readability */
     padding: 10px 15px;
-    border-radius: 5px 5px 0 0;
+    border-radius: 5px 5px 0 0; /* Rounds only the top corners */
     font-size: 20px;
     font-weight: bold;
-    white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden; /* Hide overflow text */
-    text-overflow: ellipsis; /* Add ellipsis for overflow text */
+    white-space: nowrap; /* Prevents text from wrapping to ensure it stays in one line */
+    overflow: hidden; /* Ensures excess text is not visible */
+    text-overflow: ellipsis; /* Adds an ellipsis to text that overflows */
 }
 
 .file-info {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    flex: 1;
+    flex: 1; /* Takes all available space, pushing actions to the bottom */
+    color: #666;
 }
 
 .author-name, .modified-date {
@@ -42,22 +42,26 @@
 }
 
 .action-buttons {
+    position: absolute; /* Positions the buttons at the bottom */
+    background: transparent;
+    bottom: 20px; /* Distance from the bottom of the card */
+    left: 20px; /* Aligns buttons to the left edge */
+    right: 20px; /* Aligns buttons to the right edge */
     display: flex;
-    gap: 10px;
-    margin-top: 10px;
+    justify-content: space-between; /* Ensures icons are spaced out evenly */
 }
+
 
 .info-button, .download-link {
     color: #005B4B;
     font-size: 16px;
-    background: none;
+    background: transparent !important;
     border: none;
     cursor: pointer;
 }
 
-.info-button:hover,
-.download-link:hover {
-    color: #00A887;
+.info-button:hover, .download-link:hover {
+    color: #39826A;
 }
 
 /* Modal Styling */
@@ -80,10 +84,15 @@
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     max-width: 500px;
+    background-image: url('../../../images/Background2.webp'); /* Add your desired background image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .close-button {
-    color: #333;
+    color: #005B4B;
     float: right;
-    font-size: 24px;
+    font-size: 18px;
 }
+

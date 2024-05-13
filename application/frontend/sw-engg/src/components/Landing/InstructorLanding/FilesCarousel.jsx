@@ -59,10 +59,11 @@ const Modal = ({ file, onClose }) => (
     <div className="modal">
         <div className="modal-content">
             <span className="close-button" onClick={onClose}><FontAwesomeIcon icon={faTimes} /></span>
-            <p>{file.description}</p>
+            <p>{file.description || "No description provided."}</p>
         </div>
     </div>
 );
+
 
 const PopularFilesCarousel = () => {
     const [files, setFiles] = useState([]);
@@ -87,6 +88,19 @@ const PopularFilesCarousel = () => {
         setModalOpen(true);
     };
 
+    const truncateDescription = (description) => {
+        if (description) {
+            const words = description.split(' ');
+            if (words.length > 30) {
+                return words.slice(0, 30).join(' ') + '...';
+            }
+            return description;
+        } else {
+            return '';
+        }
+    }
+    
+
     const settings = {
         dots: true,
         infinite: true,
@@ -94,7 +108,7 @@ const PopularFilesCarousel = () => {
         slidesToShow: 3,
         slidesToScroll: 1,
         autoplay: true,
-        autoplaySpeed: 2000,
+        autoplaySpeed: 4000,
         prevArrow: <PrevArrow />,
         nextArrow: <NextArrow />,
         responsive: [
@@ -119,12 +133,8 @@ const PopularFilesCarousel = () => {
                                 <FontAwesomeIcon icon={getFileIcon(file.filename_download)} className="file-icon" />
                                 <h3 className="file-title">{file.title}</h3>
                             </div>
-                            {selectedFile && selectedFile.id === file.id && (
-                                <div className="description-preview">
-                                    <p>{file.description}</p>
-                                </div>
-                            )}
                             <div className="file-details">
+                                <p className="description-preview">{truncateDescription(file.description)}</p>
                                 <p className="author-name">Author: {file.user_name}</p>
                                 <p className="modified-date">Modified on: {new Date(file.modified_on).toLocaleString()}</p>
                                 <div className="action-buttons">
