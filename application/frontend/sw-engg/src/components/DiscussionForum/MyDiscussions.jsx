@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {useNavigate} from 'react-router-dom';
-import {Box, Button, IconButton, Paper, TextField, Typography} from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Box, Button, IconButton, Paper, TextField, Typography } from "@mui/material";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import CommentIcon from "@mui/icons-material/Comment";
@@ -29,7 +29,7 @@ const MyDiscussions = () => {
       if (response && response.discussion && response.replies) {
         const discussionsWithRepliesCount = response.discussion.map(discussion => {
           const repliesCount = response.replies.filter(reply => reply.discussion_id === discussion.id).length;
-          return {...discussion, repliesCount};
+          return { ...discussion, repliesCount };
         });
         setDiscussions(discussionsWithRepliesCount);
       } else {
@@ -90,9 +90,9 @@ const MyDiscussions = () => {
   };
 
   return (
-      <Box sx={{maxWidth: 800, margin: 'auto', mt: 2}}>
+      <Box sx={{ maxWidth: 800, margin: 'auto', mt: 2 }}>
         {discussions.map((discussion) => (
-            <Paper key={discussion.id} elevation={2} sx={{p: 2, mb: 2}}
+            <Paper key={discussion.id} elevation={2} sx={{ p: 2, mb: 2 }}
                    onClick={() => handleDiscussionClick(discussion.id)}>
               {isEditing && discussion.id === discussionToEdit.id ? (
                   <>
@@ -102,7 +102,7 @@ const MyDiscussions = () => {
                         label="Title"
                         value={editedTitle}
                         onChange={(e) => setEditedTitle(e.target.value)}
-                        sx={{mb: 2}}
+                        sx={{ mb: 2 }}
                     />
                     <TextField
                         variant="outlined"
@@ -112,11 +112,10 @@ const MyDiscussions = () => {
                         label="Content"
                         value={editedText}
                         onChange={(e) => setEditedText(e.target.value)}
-                        sx={{mb: 2}}
+                        sx={{ mb: 2 }}
                     />
-                    <Button startIcon={<SaveIcon/>} onClick={handleSaveEdit} color="primary">Save</Button>
-                    <Button startIcon={<CancelIcon/>} onClick={handleCancelEdit}
-                            color="secondary">Cancel</Button>
+                    <Button startIcon={<SaveIcon />} onClick={handleSaveEdit} color="primary">Save</Button>
+                    <Button startIcon={<CancelIcon />} onClick={handleCancelEdit} color="secondary">Cancel</Button>
                   </>
               ) : (
                   <>
@@ -128,17 +127,17 @@ const MyDiscussions = () => {
                     }}>
                       {discussion.title}
                       <Box>
-                        <IconButton onClick={(e) => handleEditClick(discussion, e)}><EditIcon/></IconButton>
-                        <IconButton
-                            onClick={(e) => deleteDiscussion(discussion.id, e)}><DeleteIcon/></IconButton>
+                        <IconButton onClick={(e) => handleEditClick(discussion, e)}><EditIcon /></IconButton>
+                        <IconButton onClick={(e) => deleteDiscussion(discussion.id, e)}><DeleteIcon /></IconButton>
                       </Box>
                     </Typography>
-                    <Typography variant="body2" sx={{mb: 2}}>{discussion.content}</Typography>
-                    <Box sx={{display: 'flex', alignItems: 'center'}}>
-                      <ThumbUpAltIcon sx={{mr: 0.5, color: 'primary.main'}}/>
-                      <Typography sx={{mx: 2}}>{discussion.likes - discussion.dislikes}</Typography>
-                      <ThumbDownAltIcon sx={{mr: 0.5, color: 'secondary.main'}}/>
-                      <CommentIcon sx={{ml: 2, mr: 0.5, color: 'action.active'}}/>
+                    <Typography variant="body2" sx={{ mb: 2 }}>{discussion.content}</Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <ThumbUpAltIcon sx={{ mr: 0.5, color: 'primary.main' }} />
+                      <Typography sx={{ mx: 2 }}>{discussion.likes}</Typography>
+                      <ThumbDownAltIcon sx={{ mr: 0.5, color: 'secondary.main' }} />
+                      <Typography sx={{ mx: 2 }}>{discussion.dislikes}</Typography>
+                      <CommentIcon sx={{ ml: 2, mr: 0.5, color: 'action.active' }} />
                       <Typography>{discussion.repliesCount}</Typography>
                     </Box>
                   </>

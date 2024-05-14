@@ -94,8 +94,9 @@ const InstructorLandingPage = (props) => {
                                 <Typography variant="body2" sx={{ mb: 2 }}>{discussion.content}</Typography>
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                     <ThumbUpAltIcon sx={{ mr: 0.5, color: 'primary.main' }} />
-                                    <Typography sx={{ mx: 2 }}>{discussion.likes - discussion.dislikes}</Typography>
+                                    <Typography sx={{ mx: 2 }}>{discussion.likes}</Typography>
                                     <ThumbDownAltIcon sx={{ mr: 0.5, color: 'secondary.main' }} />
+                                    <Typography sx={{ mx: 2 }}>{discussion.dislikes}</Typography>
                                     <CommentIcon sx={{ ml: 2, mr: 0.5, color: 'action.active' }} />
                                     <Typography>{discussion.repliesCount}</Typography>
                                 </Box>
