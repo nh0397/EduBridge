@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Avatar, Box, Button, Menu, MenuItem, TextField, Typography } from '@mui/material';
+import { Avatar, Box, Button, Menu, MenuItem, TextField, Typography, InputAdornment, IconButton } from '@mui/material';
 import theme from '../../theme'; // Make sure this path is correct
 import logo from '../../images/eduBridge.webp';
 import backgroundImage from '../../images/Backgroundimage.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faBook, faCloudUploadAlt, faPlus, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faSearch, faBook, faCloudUploadAlt, faPlus, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
 import { Dropdown, DropdownMenuItem, DropdownNestedMenuItem } from "./Dropdown";
 import apiService from "../../services/apiService";
@@ -140,24 +140,38 @@ function Navbar(props) {
             </Link>
             <form onSubmit={handleSearchSubmit}>
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <TextField
-            variant="outlined"
-            size="small"
-            placeholder="Search Files"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            sx={{
-                borderRadius: '20px',
-                backgroundColor: 'white',
-                width: '500px',
-                flexGrow: 1,
-                '& .MuiOutlinedInput-root': {
-                    '& fieldset': { border: 'none' }, // Remove the border
-                    '&:hover fieldset': { border: 'none' }, // Remove border on hover
-                    '&.Mui-focused fieldset': { border: 'none' }, // Remove border when focused
-                }
-            }}
-        />
+                <TextField
+                variant="outlined"
+                size="small"
+                placeholder="Search Files"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                    sx={{
+                        borderRadius: '20px',
+                        backgroundColor: 'white',
+                        width: '500px',
+                        flexGrow: 1,
+                        '& .MuiOutlinedInput-root': {
+                            '& fieldset': { border: 'none' },
+                            '&:hover fieldset': { border: 'none' },
+                            '&.Mui-focused fieldset': { border: 'none' },
+                        }
+                    }}
+                    InputProps={{
+                        endAdornment: searchTerm && (
+                            <InputAdornment position="end">
+                                <IconButton
+                                    onClick={() => setSearchTerm('')}
+                                    edge="end"
+                                    sx={{ size:"0x", color: '#005B4B' }}
+                                >
+                                    <FontAwesomeIcon icon={faTimes} />
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
+                />
+
         <Button type="submit" color="inherit" sx={{
             p: 0, 
             minWidth: 'auto', 
@@ -166,7 +180,7 @@ function Navbar(props) {
             '&:hover': { backgroundColor: 'transparent'}, // Ensure no background change on hover
             '&:focus': { outline: 'none' } // Remove focus outline
         }}>
-            <FontAwesomeIcon icon={faSearch} size="lg" style={{ color: '#ffffff' }} />
+            <FontAwesomeIcon icon={faSearch} size="lg" style={{ color: '#005B4B' }} />
         </Button>
     </Box>
 </form>
