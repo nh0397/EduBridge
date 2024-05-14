@@ -2,6 +2,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: left;
+    
 }
 
 .search-result-card {
@@ -32,6 +33,23 @@ h2 {
     align-content: center;
     margin-left: 20px; /* Add margin from the left */
     color:  #004C3F; /* Change font color */
+}
+
+.search-title-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #004C3F; /* Restored background color for visibility */
+    color: #ffffff; /* White text for readability */
+    padding: 10px 15px;
+    border-radius: 5px 5px 0 0; /* Rounds only the top corners */
+    font-size: 20px;
+    font-weight: bold;
+    white-space: nowrap; /* Prevents text from wrapping to ensure it stays in one line */
+    overflow: hidden; /* Ensures excess text is not visible */
+    text-overflow: ellipsis; /* Adds an ellipsis to text that overflows */
+    cursor: pointer; /* Ensures cursor changes to pointer on hover */
+    transition: color 0.3s ease;
 }
 
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import apiService from '../../services/apiService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -37,6 +37,7 @@ function useQuery() {
 }
 
 const SearchResultsPage = () => {
+    const navigate = useNavigate();
     const query = useQuery();
     const searchTerm = query.get('search');
     const [results, setResults] = useState([]);
@@ -95,7 +96,7 @@ const SearchResultsPage = () => {
                     {results.length > 0 ? (
                         results.map((file, index) => (
                             <div key={index} className="search-result-card">
-                                <div className="file-title-container">
+                                <div className="search-title-container" onClick={() => navigate(`/files/${file.id}`)}>
                                     <FontAwesomeIcon icon={getFileIcon(file.filename_download)} size="2x" className="file-icon"/>
                                     <h3>{file.title || 'Detail not available'}</h3>
                                 </div>
