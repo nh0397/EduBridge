@@ -73,7 +73,8 @@ function Modal(props) {
             const formData = new FormData();
             formData.append('title', postTitle);
             formData.append('description', postDescription);
-            const data = await apiService.createDiscussion(formData);
+            formData.append('userEmail', sessionStorage.getItem('userEmail'));
+            const data = await apiService.createDiscussion(postTitle,postDescription,sessionStorage.getItem('userEmail'));
             if (data) {
                 navigate(`/discussion/${data.id}`);
                 props.toggleModal();
