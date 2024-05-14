@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, IconButton, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, IconButton, Paper, TextField, Typography, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import CommentIcon from "@mui/icons-material/Comment";
@@ -12,11 +12,13 @@ import apiService from '../../services/apiService';
 
 const MyDiscussions = () => {
   const [discussions, setDiscussions] = useState([]);
-  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState('');
   const [editedText, setEditedText] = useState('');
   const [discussionToEdit, setDiscussionToEdit] = useState(null);
+  const [discussionToDelete, setDiscussionToDelete] = useState(null); // New state for tracking discussion to delete
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false); // New state for confirmation dialog
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchMyDiscussionsFromApi();
@@ -40,11 +42,18 @@ const MyDiscussions = () => {
     }
   };
 
-  const deleteDiscussion = async (id, event) => {
+  const confirmDeleteDiscussion = (discussion, event) => {
     event.stopPropagation();
+    setDiscussionToDelete(discussion);
+    setIsConfirmDialogOpen(true);
+  };
+
+  const deleteDiscussion = async () => {
     try {
-      await apiService.deleteDiscussion(id);
-      setDiscussions(discussions.filter((discussion) => discussion.id !== id));
+      await apiService.deleteDiscussion(discussionToDelete.id);
+      setDiscussions(discussions.filter((discussion) => discussion.id !== discussionToDelete.id));
+      setIsConfirmDialogOpen(false);
+      setDiscussionToDelete(null);
     } catch (error) {
       console.error('Error deleting discussion:', error);
     }
@@ -128,7 +137,7 @@ const MyDiscussions = () => {
                       {discussion.title}
                       <Box>
                         <IconButton onClick={(e) => handleEditClick(discussion, e)}><EditIcon /></IconButton>
-                        <IconButton onClick={(e) => deleteDiscussion(discussion.id, e)}><DeleteIcon /></IconButton>
+                        <IconButton onClick={(e) => confirmDeleteDiscussion(discussion, e)}><DeleteIcon /></IconButton>
                       </Box>
                     </Typography>
                     <Typography variant="body2" sx={{ mb: 2 }}>{discussion.content}</Typography>
@@ -144,6 +153,25 @@ const MyDiscussions = () => {
               )}
             </Paper>
         ))}
+        <Dialog
+            open={isConfirmDialogOpen}
+            onClose={() => setIsConfirmDialogOpen(false)}
+        >
+          <DialogTitle>Confirm Delete</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Are you sure you want to delete this discussion?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setIsConfirmDialogOpen(false)} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={deleteDiscussion} color="secondary">
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Box>
   );
 };
