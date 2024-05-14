@@ -28,6 +28,12 @@ function Navbar(props) {
             navigate(`/search-results?search=${encodeURIComponent(searchTerm)}`); // Correctly navigate to search results page
         }
     }
+
+    const handleNavigateMyDiscussions = () =>{
+        handleClose();
+        navigate('/my-discussions');
+    };
+
     
 
     const handleLogout = () => {
@@ -251,6 +257,9 @@ function Navbar(props) {
         </div>
         </div>
     </div>
+                    <MenuItem onClick={handleNavigateMyDiscussions}>
+                        My Discussions
+                    </MenuItem>
     <MenuItem onClick={handleLogout} className='logout-text'>
             <FontAwesomeIcon icon={faSignOutAlt} style={{ marginRight: '8px' }} />
             Logout
