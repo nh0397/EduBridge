@@ -3,7 +3,7 @@ const mysql = require('mysql2/promise');
 // Create a MySQL pool with `mysql2` promise support
 const pool = mysql.createPool({
     connectionLimit : 1000,
-    host     : '3.137.218.130',    
+    host     : '3.141.35.121',    
     user     : 'root',
     password : 'rootpassword',
     database : 'csc848',
