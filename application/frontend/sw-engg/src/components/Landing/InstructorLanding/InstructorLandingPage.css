@@ -20,8 +20,8 @@ body {
     padding: 12px 24px;
     cursor: pointer;
     border: none;
-    color: white;
-    background-color: #2A6B58; /* Fix the background-color property */
+    color: #2A6B58;
+    background-color: white; /* Fix the background-color property */
     transition: background-color 0.3s ease, color 0.3s ease;
     font-size: 1.25em;
     border-radius: 5px;
@@ -38,8 +38,8 @@ body {
 }
 
 .tab-button.active {
-    background-color: transparent!important;
-    color: #2A6B58;
+    background-color: #2A6B58!important;
+    color: white;
     position: relative;
 }
 

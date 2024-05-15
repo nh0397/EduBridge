@@ -142,7 +142,7 @@ function Navbar(props) {
                         <TextField
                             variant="outlined"
                             size="small"
-                            placeholder="Search Files"
+                            placeholder="Search"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             sx={{
@@ -178,7 +178,7 @@ function Navbar(props) {
                             '&:hover': { backgroundColor: 'transparent'}, // Ensure no background change on hover
                             '&:focus': { outline: 'none' } // Remove focus outline
                         }}>
-                            <FontAwesomeIcon icon={faSearch} size="lg" style={{ color: '#005B4B' }} />
+                            <FontAwesomeIcon icon={faSearch} size="lg" style={{ color: 'white' }} />
                         </Button>
                     </Box>
                 </form>

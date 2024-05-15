@@ -103,11 +103,7 @@ const FileDetails = () => {
                 Can't view this file type here. Work in progress for this file extension.
               </Typography>
             )}
-            {viewerError && (
-              <Typography variant="body1" className="unsupported-message">
-                Can't view this file type here. Work in progress for this file extension.
-              </Typography>
-            )}
+            {viewerError}
           </Box>
         ) : (
           <Typography variant="body1">No file found.</Typography>
