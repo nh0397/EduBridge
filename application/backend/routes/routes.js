@@ -12,7 +12,7 @@ const { sendOtpEmail } = require("../Services/emailService");
 const { directusClient, pingDirectus } = require("../Services/directus");
 
 const router = express.Router();
-const DIRECTUS_API_URL = 'http://3.137.218.130:8055';
+const DIRECTUS_API_URL = 'http://3.141.35.121:8055';
 const DIRECTUS_API_TOKEN = 'fNVT4Ht5HE0_nlVOOhanaeXfWA1o1KFf';
 // Ping Directus to test connectivity
 pingDirectus();
