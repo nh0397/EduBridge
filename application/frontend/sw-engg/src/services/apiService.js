@@ -221,6 +221,16 @@ const fetchFileMetadata = async (id) => {
   }
 };
 
+const searchDiscussions = async (searchTerm) => {
+  try {
+    const response = await axios.get(`${config.BASE_URL}/api/discussions/search/${searchTerm}`);
+    return response.data.discussions;
+  } catch (error) {
+    console.error('Error searching discussions:', error);
+    throw error;
+  }
+}
+
 // Export the service functions
 export default {
   signup,
@@ -243,6 +253,7 @@ export default {
   fetchUserFirstName,
   fetchMyDiscussions,
   dislikeDiscussion,
+  searchDiscussions,
   updateDiscussion,
   fetchCourses,
   fetchAllFiles,
