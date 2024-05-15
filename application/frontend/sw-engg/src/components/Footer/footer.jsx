@@ -12,7 +12,7 @@ const Footer = () => {
         </Typography>
       </div>
       <Typography variant="body2" className="footerParagraph">
-        Welcome to eduBridge, where we're redefining the learning experience. Our passion lies in creating a platform that inspires curiosity, fosters creativity, and fuels lifelong learning. We believe that education should be accessible to all, regardless of background or circumstance. With a diverse range of courses curated by experts, personalized learning experiences, and a vibrant community, we're here to empower individuals to pursue their dreams and unlock their full potential. Join us on this journey of discovery and transformation.
+        At duBridge, we aim to redefine the learning experience. Our passion lies in creating a platform that inspires curiosity, fosters creativity, and fuels lifelong learning. We believe that education should be accessible to all, regardless of background or circumstance. With a diverse range of courses curated by experts, personalized learning experiences, and a vibrant community, we're here to empower individuals to pursue their dreams and unlock their full potential. Join us on this journey of discovery and transformation.
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12} md={4}>
