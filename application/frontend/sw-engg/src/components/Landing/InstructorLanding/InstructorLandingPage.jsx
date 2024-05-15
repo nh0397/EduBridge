@@ -43,8 +43,7 @@ const InstructorLandingPage = (props) => {
     };
 
     useEffect(() => {
-        fetchFiles();
-        fetchCourses();
+
         fetchDiscussionsFromApi(searchTerm);
     }, [searchTerm]);
 
