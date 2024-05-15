@@ -81,37 +81,86 @@ router.get('/:id', async (req, res) => {
 
 // Record Likes
 router.post('/:id/like', async (req, res) => {
-    const { id } = req.params;
-    const likeDiscussionQuery = 'UPDATE discussions SET likes = likes + 1 WHERE id = ?';
-  
-    try {
-      const [result] = await pool.execute(likeDiscussionQuery, [id]);
-      if (result.affectedRows === 0) {
-        return res.status(404).json({ message: 'Discussion not found' });
-      }
-      res.status(200).json({ message: 'Discussion liked successfully' });
-    } catch (error) {
-      console.error('Database error:', error);
-      res.status(500).json({ message: 'Error liking discussion' });
+  const { id } = req.params;
+  const { userId } = req.body;
+
+  const checkLikeQuery = 'SELECT * FROM likes WHERE user_id = ? AND discussion_id = ?';
+  const deleteLikeQuery = 'DELETE FROM likes WHERE user_id = ? AND discussion_id = ?';
+  const insertLikeQuery = 'INSERT INTO likes (user_id, discussion_id) VALUES (?, ?)';
+  const updateLikesCountQuery = 'UPDATE discussions SET likes = likes + ? WHERE id = ?';
+  const decrementDislikesQuery = 'UPDATE discussions SET dislikes = dislikes - 1 WHERE id = ?';
+  const deleteDislikeQuery = 'DELETE FROM dislikes WHERE user_id = ? AND discussion_id = ?';
+
+  try {
+    const [existingLike] = await pool.execute(checkLikeQuery, [userId, id]);
+
+    if (existingLike.length > 0) {
+
+      await pool.execute(deleteLikeQuery, [userId, id]);
+      await pool.execute(updateLikesCountQuery, [-1, id]);
+      return res.status(200).json({ message: 'Like removed successfully' });
     }
+
+
+    const [existingDislike] = await pool.execute('SELECT * FROM dislikes WHERE user_id = ? AND discussion_id = ?', [userId, id]);
+
+    if (existingDislike.length > 0) {
+      await pool.execute(deleteDislikeQuery, [userId, id]);
+      await pool.execute(decrementDislikesQuery, [id]);
+    }
+
+
+    await pool.execute(insertLikeQuery, [userId, id]);
+    await pool.execute(updateLikesCountQuery, [1, id]);
+    res.status(200).json({ message: 'Discussion liked successfully' });
+  } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({ message: 'Error liking discussion' });
+  }
 });
 
 // Record Dislikes
 router.post('/:id/dislike', async (req, res) => {
   const { id } = req.params;
-  const dislikeDiscussionQuery = 'UPDATE discussions SET dislikes = dislikes + 1 WHERE id = ?';
+  const { userId } = req.body;
+
+  const checkDislikeQuery = 'SELECT * FROM dislikes WHERE user_id = ? AND discussion_id = ?';
+  const deleteDislikeQuery = 'DELETE FROM dislikes WHERE user_id = ? AND discussion_id = ?';
+  const insertDislikeQuery = 'INSERT INTO dislikes (user_id, discussion_id) VALUES (?, ?)';
+  const updateDislikesCountQuery = 'UPDATE discussions SET dislikes = dislikes + ? WHERE id = ?';
+  const decrementLikesQuery = 'UPDATE discussions SET likes = likes - 1 WHERE id = ?';
+  const deleteLikeQuery = 'DELETE FROM likes WHERE user_id = ? AND discussion_id = ?';
 
   try {
-    const [result] = await pool.execute(dislikeDiscussionQuery, [id]);
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ message: 'Discussion not found' });
+    const [existingDislike] = await pool.execute(checkDislikeQuery, [userId, id]);
+
+    if (existingDislike.length > 0) {
+
+      await pool.execute(deleteDislikeQuery, [userId, id]);
+      await pool.execute(updateDislikesCountQuery, [-1, id]);
+      return res.status(200).json({ message: 'Dislike removed successfully' });
     }
+
+
+    const [existingLike] = await pool.execute('SELECT * FROM likes WHERE user_id = ? AND discussion_id = ?', [userId, id]);
+
+    if (existingLike.length > 0) {
+      await pool.execute(deleteLikeQuery, [userId, id]);
+      await pool.execute(decrementLikesQuery, [id]);
+    }
+
+
+    await pool.execute(insertDislikeQuery, [userId, id]);
+    await pool.execute(updateDislikesCountQuery, [1, id]);
     res.status(200).json({ message: 'Discussion disliked successfully' });
   } catch (error) {
     console.error('Database error:', error);
     res.status(500).json({ message: 'Error disliking discussion' });
   }
 });
+
+
+
 
 //Delete Discussion
 router.delete('/:id', async (req, res) => {

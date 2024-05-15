@@ -37,7 +37,8 @@ const DiscussionDetail = () => {
 
     const handleLike = async () => {
         try {
-            await apiService.handleLike(id);
+            const userId = sessionStorage.getItem('userEmail');
+            await apiService.handleLike(id, userId);
             await fetchDiscussionDetails();
         } catch (error) {
             console.error('Error updating like:', error);
@@ -47,13 +48,15 @@ const DiscussionDetail = () => {
 
     const handleDislike = async () => {
         try {
-            await apiService.dislikeDiscussion(id);
+            const userId = sessionStorage.getItem('userEmail');
+            await apiService.dislikeDiscussion(id, userId);
             await fetchDiscussionDetails();
         } catch (error) {
             console.error('Error updating dislike:', error);
             setError('Failed to update dislike.');
         }
     };
+
 
     const handleReplySubmit = async () => {
         if (!newReply.trim()) {
