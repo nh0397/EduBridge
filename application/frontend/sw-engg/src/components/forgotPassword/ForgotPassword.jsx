@@ -8,8 +8,10 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import backgroundImage from '../../images/Backgroundimage.png';
 import theme from '../../theme';
 import './ForgotPassword.css'
+import { useNavigate } from 'react-router-dom';
 
 function ForgotPassword() {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [otp, setOtp] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -54,7 +56,8 @@ function ForgotPassword() {
         e.preventDefault();
         try {
             await apiService.resetPasswordWithOtp(email, otp, newPassword);
-            setMessage('Your password has been reset successfully. You can now login with your new password.');
+            alert('Your password has been reset successfully. You can now login with your new password.');
+            navigate(`/login`);
         } catch (error) {
             setMessage('Failed to reset password. Please ensure your OTP is correct and try again.');
         }

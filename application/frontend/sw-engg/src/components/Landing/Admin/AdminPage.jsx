@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import apiService from '../../../services/apiService';
 import { Box, Paper, TextField, Typography, Table, TableHead, TableBody, TableRow, TableCell, Select, MenuItem, Snackbar, Alert } from '@mui/material';
 import theme from '../../../theme'; // Ensure the theme is imported correctly
+import BackgroundImage from '../../../images/Background2.webp';
 
 const AdminPage = () => {
   const [users, setUsers] = useState([]);
@@ -62,7 +63,7 @@ const AdminPage = () => {
         flexDirection: 'column',
         alignItems: 'center',
         height: 'auto',
-        backgroundImage: 'url("../../../images/Background2.webp")',
+        backgroundImage: `url(${BackgroundImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',

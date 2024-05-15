@@ -55,7 +55,7 @@ router.post('/reset-password-with-otp', async (req, res) => {
     }
 
     const user = users[0];
-    if (user.otp === otp) {
+    if (user.otp === parseInt(otp)) {
 
       const hashedPassword = CryptoJS.SHA256(newPassword).toString();
       await pool.query("UPDATE users SET password = ?, otp = NULL, is_authenticated = 1 WHERE email = ?", [hashedPassword, email]);

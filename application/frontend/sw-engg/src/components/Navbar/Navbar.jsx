@@ -143,7 +143,6 @@ function Navbar(props) {
             backgroundPosition: 'center',
             marginLeft: 'auto',
             marginRight: 'auto',
-
         }}>
             <Link to={homePath} style={{
                 textDecoration: 'none',
@@ -156,52 +155,54 @@ function Navbar(props) {
                     <img src={logo} alt="App Logo" style={{ width: '100%' }} />
                 </Avatar>
             </Link>
-            <form onSubmit={handleSearchSubmit}>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <TextField
-                        variant="outlined"
-                        size="small"
-                        placeholder="Search Files"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        sx={{
-                            borderRadius: '20px',
-                            backgroundColor: 'white',
-                            width: '500px',
-                            flexGrow: 1,
-                            '& .MuiOutlinedInput-root': {
-                                '& fieldset': { border: 'none' },
-                                '&:hover fieldset': { border: 'none' },
-                                '&.Mui-focused fieldset': { border: 'none' },
-                            }
-                        }}
-                        InputProps={{
-                            endAdornment: searchTerm && (
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        onClick={() => setSearchTerm('')}
-                                        edge="end"
-                                        sx={{ size: "0x", color: '#005B4B' }}
-                                    >
-                                        <FontAwesomeIcon icon={faTimes} />
-                                    </IconButton>
-                                </InputAdornment>
-                            ),
-                        }}
-                    />
 
-                    <Button type="submit" color="inherit" sx={{
-                        p: 0,
-                        minWidth: 'auto',
-                        backgroundColor: 'transparent',
-                        ml: 1,
-                        '&:hover': { backgroundColor: 'transparent' }, // Ensure no background change on hover
-                        '&:focus': { outline: 'none' } // Remove focus outline
-                    }}>
-                        <FontAwesomeIcon icon={faSearch} size="lg" style={{ color: '#005B4B' }} />
-                    </Button>
-                </Box>
-            </form>
+            {userRole?.toLowerCase() !== 'admin' && (
+                <form onSubmit={handleSearchSubmit}>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <TextField
+                            variant="outlined"
+                            size="small"
+                            placeholder="Search Files"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            sx={{
+                                borderRadius: '20px',
+                                backgroundColor: 'white',
+                                width: '500px',
+                                flexGrow: 1,
+                                '& .MuiOutlinedInput-root': {
+                                    '& fieldset': { border: 'none' },
+                                    '&:hover fieldset': { border: 'none' },
+                                    '&.Mui-focused fieldset': { border: 'none' },
+                                }
+                            }}
+                            InputProps={{
+                                endAdornment: searchTerm && (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            onClick={() => setSearchTerm('')}
+                                            edge="end"
+                                            sx={{ size: "0x", color: '#005B4B' }}
+                                        >
+                                            <FontAwesomeIcon icon={faTimes} />
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                        <Button type="submit" color="inherit" sx={{
+                            p: 0,
+                            minWidth: 'auto',
+                            backgroundColor: 'transparent',
+                            ml: 1,
+                            '&:hover': { backgroundColor: 'transparent' }, // Ensure no background change on hover
+                            '&:focus': { outline: 'none' } // Remove focus outline
+                        }}>
+                            <FontAwesomeIcon icon={faSearch} size="lg" style={{ color: 'white' }} />
+                        </Button>
+                    </Box>
+                </form>
+            )}
 
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 {userRole?.toLowerCase() === 'instructor' && (
@@ -210,17 +211,21 @@ function Navbar(props) {
                         <Typography variant="body1">Upload New Content</Typography>
                     </Button>
                 )}
-                <Button onClick={openDiscussionModal} sx={buttonStyle}>
-                    <FontAwesomeIcon icon={faPlus} size="sm" />
-                    <Typography variant="body1">Create Discussion</Typography>
-                </Button>
-                <Dropdown
-                    trigger={<Button sx={buttonStyle}>
-                        <FontAwesomeIcon icon={faBook} size="sm" />
-                        <Typography variant="body1">Courses</Typography>
-                    </Button>}
-                    menu={courseMenuItems}
-                />
+                {userRole?.toLowerCase() !== 'admin' && (
+                    <>
+                        <Button onClick={openDiscussionModal} sx={buttonStyle}>
+                            <FontAwesomeIcon icon={faPlus} size="sm" />
+                            <Typography variant="body1">Create Discussion</Typography>
+                        </Button>
+                        <Dropdown
+                            trigger={<Button sx={buttonStyle}>
+                                <FontAwesomeIcon icon={faBook} size="sm" />
+                                <Typography variant="body1">Courses</Typography>
+                            </Button>}
+                            menu={courseMenuItems}
+                        />
+                    </>
+                )}
                 <Button onClick={handleClick} sx={buttonStyle}>
                     <Avatar sx={{ bgcolor: theme.palette.primary.main, width: 50, height: 50, alignItems: 'right', marginLeft: -16, marginRight: -16 }}>
                         {getInitials(firstName, lastName)}
@@ -286,3 +291,4 @@ function Navbar(props) {
 }
 
 export default Navbar;
+
