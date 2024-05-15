@@ -466,6 +466,12 @@ router.get('/searchFiles', async (req, res) => {
       
       const response = await directusClient.get(`${query}`);
       console.log(response)
+      const file_list = response.data
+      for (const entry of file_list.data) {
+        const userResponse = await directusClient.get(`/users/${entry.uploaded_by}`);
+        entry.user_name = `${userResponse.data.data.first_name} ${userResponse.data.data.last_name}`;
+        console.log(entry.user_name)
+      }
       res.json(response.data);
     } else {
       // If no search term is provided, respond with an error or empty array
