@@ -11,9 +11,11 @@ import PhotoCarousel from './PhotoCarousel';
 import CoursesCarousel from './CoursesCarousel';
 import FilesCarousel from './FilesCarousel';
 import { TabContext } from '../../context/TabContext';
+import { SearchContext } from '../../context/SearchContext';
 
 const InstructorLandingPage = (props) => {
     const { activeTab, setActiveTab } = useContext(TabContext);
+    const { searchTerm } = useContext(SearchContext);
     const [files, setFiles] = useState([]);
     const [discussions, setDiscussions] = useState([]);
     const [courses, setCourses] = useState([]); // State for courses
@@ -43,16 +45,22 @@ const InstructorLandingPage = (props) => {
     useEffect(() => {
         fetchFiles();
         fetchCourses();
-        fetchDiscussionsFromApi();
-    }, []);
+        fetchDiscussionsFromApi(searchTerm);
+    }, [searchTerm]);
 
-    const fetchDiscussionsFromApi = async () => {
+    const fetchDiscussionsFromApi = async (term = '') => {
         try {
-            const response = await apiService.fetchDiscussions();
+            let response;
+            if (term) {
+                response = await apiService.searchDiscussions(term);
+            } else {
+                response = await apiService.fetchDiscussions();
+                console.log('Expected response structure:',response)
+            }
             if (response && response.discussion && response.replies) {
                 const discussionsWithRepliesCount = response.discussion.map(discussion => {
                     const repliesCount = response.replies.filter(reply => reply.discussion_id === discussion.id).length;
-                    return {...discussion, repliesCount};
+                    return { ...discussion, repliesCount };
                 });
                 setDiscussions(discussionsWithRepliesCount);
             } else {

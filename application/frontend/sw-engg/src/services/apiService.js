@@ -223,10 +223,13 @@ const fetchFileMetadata = async (id) => {
 
 const searchDiscussions = async (searchTerm) => {
   try {
-    const response = await axios.get(`${config.BASE_URL}/api/discussions/search/${searchTerm}`);
-    return response.data.discussions;
+    const response = await fetch(`${config.BASE_URL}/api/discussions/search/${searchTerm}`);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return await response.json();
   } catch (error) {
-    console.error('Error searching discussions:', error);
+    console.error('Error fetching discussions:', error);
     throw error;
   }
 }

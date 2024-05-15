@@ -13,12 +13,12 @@ import CoursesPage from "./components/CoursesPage/CoursesPage";
 import FileDetails from "./components/Files/FileDetails";
 import SearchResultsPage from "./components/Search/SearchResultsPage";
 import { TabProvider } from './components/context/TabContext';
+import { SearchProvider } from './components/context/SearchContext';
 import DiscussionForum from "./components/DiscussionForum/DiscussionForum";
 import DiscussionDetail from "./components/DiscussionForum/DiscussionDetail";
 import DiscussionList from "./components/DiscussionForum/DiscussionList";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
 
 function App() {
     const [modalOpen, setModalState] = useState(false);
@@ -42,30 +42,32 @@ function App() {
         <Router>
             <div className="app">
                 <TabProvider>
-                    <Layout> {/* Render Layout component here */}
-                        <Routes>
-                            <Route path="/" element={<Navigate replace to="/login" />} />
-                            <Route path="/login" element={<Login/>}/>
-                            <Route path="/signup" element={<Signup/>}/>
-                            <Route path="/forgot-password" element={<ForgotPassword/>}/>
-                            <Route path="/landingPage" element={
-                                <ProtectedRoute>
-                                    <InstructorLandingPage toggleModal={() => setModalState(!modalOpen)} modalOpen={modalOpen} modalTypeFunc={(value)=> setModalType(value)} modalType={modalType}/>
-                                </ProtectedRoute>
-                            }/>
-                            <Route path="/admin" element={<AdminPage/>} />
-                            {/* Discussion Forum routes */}
-                            <Route path="/forum" element={<DiscussionForum/>}/>
-                            <Route path="/discussions" element={<DiscussionList/>}/>
-                            <Route path="/discussion/:id" element={<DiscussionDetail/>}/>
-                            <Route path="/my-discussions" element={<MyDiscussions />} />
-                            {/* Courses page route */}
-                            <Route path="/courses" element={<CoursesPage />} />
-                            <Route path="/files/:id" element={<FileDetails />} />
-                            {/* Search Result page route */}
-                            <Route path="/search-results" element={<SearchResultsPage />} />
-                        </Routes>
-                    </Layout>
+                    <SearchProvider>
+                        <Layout> {/* Render Layout component here */}
+                            <Routes>
+                                <Route path="/" element={<Navigate replace to="/login" />} />
+                                <Route path="/login" element={<Login />} />
+                                <Route path="/signup" element={<Signup />} />
+                                <Route path="/forgot-password" element={<ForgotPassword />} />
+                                <Route path="/landingPage" element={
+                                    <ProtectedRoute>
+                                        <InstructorLandingPage toggleModal={() => setModalState(!modalOpen)} modalOpen={modalOpen} modalTypeFunc={(value) => setModalType(value)} modalType={modalType} />
+                                    </ProtectedRoute>
+                                } />
+                                <Route path="/admin" element={<AdminPage />} />
+                                {/* Discussion Forum routes */}
+                                <Route path="/forum" element={<DiscussionForum />} />
+                                <Route path="/discussions" element={<DiscussionList />} />
+                                <Route path="/discussion/:id" element={<DiscussionDetail />} />
+                                <Route path="/my-discussions" element={<MyDiscussions />} />
+                                {/* Courses page route */}
+                                <Route path="/courses" element={<CoursesPage />} />
+                                <Route path="/files/:id" element={<FileDetails />} />
+                                {/* Search Result page route */}
+                                <Route path="/search-results" element={<SearchResultsPage />} />
+                            </Routes>
+                        </Layout>
+                    </SearchProvider>
                 </TabProvider>
             </div>
         </Router>

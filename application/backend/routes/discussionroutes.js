@@ -183,7 +183,7 @@ router.get('/my/:userEmail', async (req, res) => {
 router.get('/search/:searchTerm', async (req, res) => {
   const { searchTerm } = req.params;
 
-  const searchQuery = `
+  const searchDiscussionsQuery = `
     SELECT d.id, d.title, d.content, u.first_name, u.last_name, d.likes, d.dislikes, d.created_at 
     FROM discussions d 
     INNER JOIN users u ON d.user_id = u.email 
@@ -191,13 +191,18 @@ router.get('/search/:searchTerm', async (req, res) => {
     ORDER BY d.created_at DESC
   `;
 
+  const selectRepliesQuery = 'SELECT * FROM replies';
+
   try {
-    const [results] = await pool.execute(searchQuery, [`%${searchTerm}%`, `%${searchTerm}%`]);
-    res.status(200).json({ discussions: results });
+    const likeSearchTerm = `%${searchTerm}%`;
+    const [discussions] = await pool.execute(searchDiscussionsQuery, [likeSearchTerm, likeSearchTerm]);
+    const [replies] = await pool.execute(selectRepliesQuery);
+    res.status(200).json({ discussion: discussions, replies });
   } catch (error) {
     console.error('Database error:', error);
     res.status(500).json({ message: 'Error searching discussions' });
   }
 });
+
 
 module.exports = router;

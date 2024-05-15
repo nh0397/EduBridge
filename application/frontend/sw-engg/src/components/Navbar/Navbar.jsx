@@ -10,9 +10,10 @@ import './Navbar.css';
 import { Dropdown, DropdownMenuItem, DropdownNestedMenuItem } from "./Dropdown";
 import apiService from "../../services/apiService";
 import { TabContext } from '../context/TabContext';
+import { SearchContext } from '../context/SearchContext';
 
 function Navbar(props) {
-    const [searchTerm, setSearchTerm] = useState('');
+    const { searchTerm, setSearchTerm } = useContext(SearchContext);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const userRole = sessionStorage.getItem('role');
