@@ -37,7 +37,8 @@ const DiscussionDetail = () => {
 
     const handleLike = async () => {
         try {
-            await apiService.handleLike(id);
+            const userId = sessionStorage.getItem('userEmail');
+            await apiService.handleLike(id, userId);
             await fetchDiscussionDetails();
         } catch (error) {
             console.error('Error updating like:', error);
@@ -47,13 +48,15 @@ const DiscussionDetail = () => {
 
     const handleDislike = async () => {
         try {
-            await apiService.dislikeDiscussion(id);
+            const userId = sessionStorage.getItem('userEmail');
+            await apiService.dislikeDiscussion(id, userId);
             await fetchDiscussionDetails();
         } catch (error) {
             console.error('Error updating dislike:', error);
             setError('Failed to update dislike.');
         }
     };
+
 
     const handleReplySubmit = async () => {
         if (!newReply.trim()) {
@@ -72,29 +75,30 @@ const DiscussionDetail = () => {
     };
 
     return (
-        <Box sx={{maxWidth: 600, margin: 'auto', p: 2}}>
-          <Button onClick={() => window.history.back()} sx={{color: 'primary.main', textTransform: 'none', minWidth: 0}}>
-                        <ArrowBackIcon   sx={{ml:-1}}/>
+        <Box sx={{ maxWidth: 600, margin: 'auto', p: 2 }}>
+            <Button onClick={() => window.history.back()} sx={{ color: 'primary.main', textTransform: 'none', minWidth: 0 }}>
+                <ArrowBackIcon sx={{ ml: -1 }} />
+            </Button>
+            <Paper elevation={2} sx={{ p: 2 }}>
+                <Typography variant="h5" sx={{ mb: 1 }}>{discussion.title}</Typography>
+                <Typography variant="body1" sx={{ mb: 2 }}>{discussion.content}</Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                    <Button onClick={handleLike} sx={{ color: 'primary.main', textTransform: 'none', minWidth: 0 }}>
+                        <ThumbUpAltIcon sx={{ mr: 0.5 }} />
                     </Button>
-            <Paper elevation={2} sx={{p: 2}}>
-                <Typography variant="h5" sx={{mb: 1}}>{discussion.title}</Typography>
-                <Typography variant="body1" sx={{mb: 2}}>{discussion.content}</Typography>
-                <Box sx={{display: 'flex', alignItems: 'center', mb: 2}}>
-                    <Button onClick={handleLike} sx={{color: 'primary.main', textTransform: 'none', minWidth: 0}}>
-                        <ThumbUpAltIcon sx={{mr: 0.5}}/>
+                    <Typography sx={{ mx: 2 }}>{discussion.likes}</Typography>
+                    <Button onClick={handleDislike} sx={{ color: 'secondary.main', textTransform: 'none', minWidth: 0 }}>
+                        <ThumbDownAltIcon sx={{ mr: 0.5 }} />
                     </Button>
-                    <Typography sx={{mx: 2}}>{discussion.likes - discussion.dislikes}</Typography>
-                    <Button onClick={handleDislike} sx={{color: 'secondary.main', textTransform: 'none', minWidth: 0}}>
-                        <ThumbDownAltIcon sx={{mr: 0.5}}/>
-                    </Button>
-                    <IconButton sx={{color: 'action.active', textTransform: 'none', minWidth: 0, ml: 2}}>
-                        <CommentIcon/>
-                        <Typography sx={{ml: 1}}>{replies.length}</Typography>
+                    <Typography sx={{ mx: 2 }}>{discussion.dislikes}</Typography>
+                    <IconButton sx={{ color: 'action.active', textTransform: 'none', minWidth: 0, ml: 2 }}>
+                        <CommentIcon />
+                        <Typography sx={{ ml: 1 }}>{replies.length}</Typography>
                     </IconButton>
                 </Box>
-                <Divider sx={{my: 2}}/>
+                <Divider sx={{ my: 2 }} />
                 {replies.map((reply, index) => (
-                    <Typography key={index} sx={{mt: 1}}>{reply.content}</Typography>
+                    <Typography key={index} sx={{ mt: 1 }}>{reply.content}</Typography>
                 ))}
                 <TextField
                     fullWidth
@@ -102,7 +106,7 @@ const DiscussionDetail = () => {
                     variant="outlined"
                     value={newReply}
                     onChange={handleReplyChange}
-                    sx={{mt: 2, mb: 2}}
+                    sx={{ mt: 2, mb: 2 }}
                     error={!!error}
                     helperText={error}
                 />

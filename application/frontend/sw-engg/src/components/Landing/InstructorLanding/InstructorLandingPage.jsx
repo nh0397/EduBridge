@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './InstructorLandingPage.css';
 import Modal from '../../DiscussionForum/Modal';
@@ -8,10 +8,14 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import CommentIcon from '@mui/icons-material/Comment';
 import PhotoCarousel from './PhotoCarousel';
-import CoursesCarousel from './CoursesCarousel'; // Import CoursesCarousel component
-import FilesCarousel from './FilesCarousel'; // Import PopularFilesCarousel component
+import CoursesCarousel from './CoursesCarousel';
+import FilesCarousel from './FilesCarousel';
+import { TabContext } from '../../context/TabContext';
+import { SearchContext } from '../../context/SearchContext';
 
 const InstructorLandingPage = (props) => {
+    const { activeTab, setActiveTab } = useContext(TabContext);
+    const { searchTerm } = useContext(SearchContext);
     const [files, setFiles] = useState([]);
     const [discussions, setDiscussions] = useState([]);
     const [courses, setCourses] = useState([]); // State for courses
@@ -21,24 +25,41 @@ const InstructorLandingPage = (props) => {
     const fetchFiles = async () => {
         try {
             const filesData = await apiService.fetchAllFiles();
+            console.log('Fetched files:', filesData);
             setFiles(filesData.data);
         } catch (error) {
             console.error('Error fetching files:', error);
         }
     };
 
-    useEffect(() => {
-        fetchFiles();
-        fetchDiscussionsFromApi();
-    }, []);
-
-    const fetchDiscussionsFromApi = async () => {
+    const fetchCourses = async () => {
         try {
-            const response = await apiService.fetchDiscussions();
+            const coursesData = await apiService.fetchCourses();
+            console.log('Fetched courses:', coursesData);
+            setCourses(coursesData);
+        } catch (error) {
+            console.error('Error fetching courses:', error);
+        }
+    };
+
+    useEffect(() => {
+
+        fetchDiscussionsFromApi(searchTerm);
+    }, [searchTerm]);
+
+    const fetchDiscussionsFromApi = async (term = '') => {
+        try {
+            let response;
+            if (term) {
+                response = await apiService.searchDiscussions(term);
+            } else {
+                response = await apiService.fetchDiscussions();
+                console.log('Expected response structure:',response)
+            }
             if (response && response.discussion && response.replies) {
                 const discussionsWithRepliesCount = response.discussion.map(discussion => {
                     const repliesCount = response.replies.filter(reply => reply.discussion_id === discussion.id).length;
-                    return {...discussion, repliesCount};
+                    return { ...discussion, repliesCount };
                 });
                 setDiscussions(discussionsWithRepliesCount);
             } else {
@@ -53,7 +74,6 @@ const InstructorLandingPage = (props) => {
         navigate(`/discussion/${id}`);
     };
 
-    const [activeTab, setActiveTab] = useState('tab1');
     const handleTabClick = (tab) => setActiveTab(tab);
     const closeModal = () => props.setModal(false);
 
@@ -94,8 +114,9 @@ const InstructorLandingPage = (props) => {
                                 <Typography variant="body2" sx={{ mb: 2 }}>{discussion.content}</Typography>
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                     <ThumbUpAltIcon sx={{ mr: 0.5, color: 'primary.main' }} />
-                                    <Typography sx={{ mx: 2 }}>{discussion.likes - discussion.dislikes}</Typography>
+                                    <Typography sx={{ mx: 2 }}>{discussion.likes}</Typography>
                                     <ThumbDownAltIcon sx={{ mr: 0.5, color: 'secondary.main' }} />
+                                    <Typography sx={{ mx: 2 }}>{discussion.dislikes}</Typography>
                                     <CommentIcon sx={{ ml: 2, mr: 0.5, color: 'action.active' }} />
                                     <Typography>{discussion.repliesCount}</Typography>
                                 </Box>

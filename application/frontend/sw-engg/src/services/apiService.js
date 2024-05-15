@@ -91,19 +91,7 @@ const fetchDiscussions = async () => {
   }
 };
 
-const handleLike = async (id) => {
-  try {
-    const response = await fetch(`${config.BASE_URL}/api/discussions/${id}/like`, { // Template literal used
-      method: 'POST'
-    });
-    if (!response.ok) {
-      throw new Error('Could not like the discussion');
-    }
-    return await response.json();
-  } catch (error) {
-    console.error('Error liking discussion:', error);
-  }
-}
+
 
 const fetchSearchedFiles = async (searchTerm) => {
   try {
@@ -132,19 +120,49 @@ const fetchMyDiscussions = async (userEmail) => {
   }
 };
 
-const dislikeDiscussion = async (id) => {
+
+
+const handleLike = async (id, userId) => {
   try {
-    const response = await fetch(`${config.BASE_URL}/api/discussions/${id}/dislike`, {
-      method: 'POST'
+    const response = await fetch(`${config.BASE_URL}/api/discussions/${id}/like`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ userId })
     });
     if (!response.ok) {
-      throw new Error('Could not dislike the discussion');
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Could not like the discussion');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error liking discussion:', error);
+    throw error;
+  }
+};
+
+const dislikeDiscussion = async (id, userId) => {
+  try {
+    const response = await fetch(`${config.BASE_URL}/api/discussions/${id}/dislike`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ userId })
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Could not dislike the discussion');
     }
     return await response.json();
   } catch (error) {
     console.error('Error disliking discussion:', error);
+    throw error;
   }
-}
+};
+
+
 
 
 const updateDiscussion = async (id, title, content, userEmail) => {
@@ -221,6 +239,19 @@ const fetchFileMetadata = async (id) => {
   }
 };
 
+const searchDiscussions = async (searchTerm) => {
+  try {
+    const response = await fetch(`${config.BASE_URL}/api/discussions/search/${searchTerm}`);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching discussions:', error);
+    throw error;
+  }
+}
+
 // Export the service functions
 export default {
   signup,
@@ -243,6 +274,7 @@ export default {
   fetchUserFirstName,
   fetchMyDiscussions,
   dislikeDiscussion,
+  searchDiscussions,
   updateDiscussion,
   fetchCourses,
   fetchAllFiles,
