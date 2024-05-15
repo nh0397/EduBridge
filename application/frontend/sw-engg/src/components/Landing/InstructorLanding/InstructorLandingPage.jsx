@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './InstructorLandingPage.css';
 import Modal from '../../DiscussionForum/Modal';
@@ -8,10 +8,12 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import CommentIcon from '@mui/icons-material/Comment';
 import PhotoCarousel from './PhotoCarousel';
-import CoursesCarousel from './CoursesCarousel'; // Import CoursesCarousel component
-import FilesCarousel from './FilesCarousel'; // Import PopularFilesCarousel component
+import CoursesCarousel from './CoursesCarousel';
+import FilesCarousel from './FilesCarousel';
+import { TabContext } from '../../context/TabContext';
 
 const InstructorLandingPage = (props) => {
+    const { activeTab, setActiveTab } = useContext(TabContext);
     const [files, setFiles] = useState([]);
     const [discussions, setDiscussions] = useState([]);
     const [courses, setCourses] = useState([]); // State for courses
@@ -21,14 +23,26 @@ const InstructorLandingPage = (props) => {
     const fetchFiles = async () => {
         try {
             const filesData = await apiService.fetchAllFiles();
+            console.log('Fetched files:', filesData);
             setFiles(filesData.data);
         } catch (error) {
             console.error('Error fetching files:', error);
         }
     };
 
+    const fetchCourses = async () => {
+        try {
+            const coursesData = await apiService.fetchCourses();
+            console.log('Fetched courses:', coursesData);
+            setCourses(coursesData);
+        } catch (error) {
+            console.error('Error fetching courses:', error);
+        }
+    };
+
     useEffect(() => {
         fetchFiles();
+        fetchCourses();
         fetchDiscussionsFromApi();
     }, []);
 
@@ -53,7 +67,6 @@ const InstructorLandingPage = (props) => {
         navigate(`/discussion/${id}`);
     };
 
-    const [activeTab, setActiveTab] = useState('tab1');
     const handleTabClick = (tab) => setActiveTab(tab);
     const closeModal = () => props.setModal(false);
 

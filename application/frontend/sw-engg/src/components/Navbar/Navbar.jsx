@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Avatar, Box, Button, Menu, MenuItem, TextField, Typography, InputAdornment, IconButton } from '@mui/material';
 import theme from '../../theme'; // Make sure this path is correct
@@ -9,7 +9,7 @@ import { faTimes, faSearch, faBook, faCloudUploadAlt, faPlus, faSignOutAlt } fro
 import './Navbar.css';
 import { Dropdown, DropdownMenuItem, DropdownNestedMenuItem } from "./Dropdown";
 import apiService from "../../services/apiService";
-
+import { TabContext } from '../context/TabContext';
 
 function Navbar(props) {
     const [searchTerm, setSearchTerm] = useState('');
@@ -21,6 +21,11 @@ function Navbar(props) {
     const navigate = useNavigate();
     const homePath = '/landingPage';
     const [courses, setCourses] = useState([]);
+    const { activeTab } = useContext(TabContext);
+
+    useEffect(() => {
+        console.log(`Active Tab in Navbar: ${activeTab}`);
+    }, [activeTab]);
 
     const handleSearchSubmit = (event) => {
         event.preventDefault(); // Prevent the form from causing a page reload
