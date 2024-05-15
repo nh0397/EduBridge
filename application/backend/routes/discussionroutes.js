@@ -180,4 +180,24 @@ router.get('/my/:userEmail', async (req, res) => {
   }
 });
 
+router.get('/search/:searchTerm', async (req, res) => {
+  const { searchTerm } = req.params;
+
+  const searchQuery = `
+    SELECT d.id, d.title, d.content, u.first_name, u.last_name, d.likes, d.dislikes, d.created_at 
+    FROM discussions d 
+    INNER JOIN users u ON d.user_id = u.email 
+    WHERE d.title LIKE ? OR d.content LIKE ?
+    ORDER BY d.created_at DESC
+  `;
+
+  try {
+    const [results] = await pool.execute(searchQuery, [`%${searchTerm}%`, `%${searchTerm}%`]);
+    res.status(200).json({ discussions: results });
+  } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({ message: 'Error searching discussions' });
+  }
+});
+
 module.exports = router;
