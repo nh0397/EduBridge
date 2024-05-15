@@ -196,10 +196,13 @@ function Navbar(props) {
                     <FontAwesomeIcon icon={faPlus} size="sm" />
                     <Typography variant="body1">Create Discussion</Typography>
                 </Button>
-                <Button onClick={() => null} sx={buttonStyle}>
-                    <FontAwesomeIcon icon={faBook} size="sm" />
-                    <Typography variant="body1">Courses</Typography>
-                </Button>
+                <Dropdown
+                    trigger={<Button sx={buttonStyle}>
+                        <FontAwesomeIcon icon={faBook} size="sm" />
+                        <Typography variant="body1">Courses</Typography>
+                    </Button>}
+                    menu={courseMenuItems}
+                />
                 <Button onClick={handleClick} sx={buttonStyle}>
                     <Avatar sx={{ bgcolor: theme.palette.primary.main, width: 50, height: 50, alignItems: 'right', marginLeft: -16, marginRight: -16 }}>
                         {getInitials(firstName, lastName)}
