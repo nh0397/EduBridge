@@ -62,23 +62,22 @@ const CoursesCarousel = () => {
         prevArrow: <PrevArrow />,
         nextArrow: <NextArrow />,
         responsive: [
-            { breakpoint: 768, settings: { slidesToShow: 2, slidesToScroll: 1 } },
-            { breakpoint: 480, settings: { slidesToShow: 1, slidesToScroll: 1 } }
+            { breakpoint: 768, settings: { slidesToShow: 2, slidesToScroll: 1, centerMode: true, centerPadding: '40px' } },
+            { breakpoint: 480, settings: { slidesToShow: 1, slidesToScroll: 1, centerMode: true, centerPadding: '20px' } }
         ]
     };
-    
 
     return (
         <div className="courses-carousel-container">
             <h2 className="carousel-heading">Popular Courses</h2>
             <Slider {...settings}>
                 {courses.map((course, index) => (
-                        <div className='course-slide' key={index}>
-                            <img src={course.imageURL} alt={course.name} className="course-image" />
-                            <div className="course-details">
-                                <p className="course-name">{course.name}</p>
-                            </div>
+                    <div className='course-slide' key={index}>
+                        <img src={course.imageURL} alt={course.name} className="course-image" />
+                        <div className="course-details">
+                            <p className="course-name">{course.name}</p>
                         </div>
+                    </div>
                 ))}
             </Slider>
         </div>
@@ -86,4 +85,5 @@ const CoursesCarousel = () => {
 };
 
 export default CoursesCarousel;
+
 

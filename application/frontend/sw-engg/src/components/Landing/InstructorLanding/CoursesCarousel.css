@@ -9,14 +9,14 @@
 }
 
 .course-slide {
+    width: 90% !important;
     padding: 10px; /* Increased padding for more space between cards */
-    margin-right: 30px !important; /* Increased margin to ensure better spacing between slides */
+    margin-right: 15px; /* Adjusted margin for better spacing between slides */
 }
-
 
 /* Ensure the last item doesn't have unnecessary margin */
 .course-slide:last-child {
-    margin-right: 0;
+    margin-right: 0 !important;
 }
 
 .course-image {
@@ -39,7 +39,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    color: white;
+    color: #005B4B !important;
     display: flex;
     align-items: center;
     justify-content: center;
