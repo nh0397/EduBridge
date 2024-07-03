@@ -1,15 +1,8 @@
 # EduBridge
-# <img src="./application/frontend/sw-engg/src/images/eduBridge.webp" alt="EduBridge Logo" width="300" height="300"> 
+# <img src="./application/frontend/sw-engg/src/images/eduBridge.webp" alt="EduBridge Logo" width="300" height="300" style="border-radius:50%"> 
 
 EduBridge is a modern learning platform designed to enhance the online education experience by bridging the gap between educators and students. Our platform focuses on delivering quality education with active participation and rewards for both instructors and students.
 
-# URLs
-* App: https://syntaax-squaad-swe.netlify.app/login
-* Backend: https://swe-syntaax-squuad.duckdns.org
-* Directus is hosted on AWS EC2 instance* : http://3.141.35.121:8055/
-
-
-\* After the Free hours of EC2 get over, the deployment will stop working
 ## Table of Contents
 
 - [Key Features](#key-features)
@@ -33,6 +26,20 @@ EduBridge is a modern learning platform designed to enhance the online education
 - **User Management**: Users can register, log in, and have roles such as admin, student, and instructor.
 - **Content Upload and Playback**: Instructors can upload various types of content, and users can view or download these files.
 - **Discussion and Feedback**: Users can engage in discussions, post comments, and search for topics.
+
+## Screenshots
+
+### Login Page
+<img src="./application/frontend/sw-engg/src/images/Login.png" alt="Login">
+
+### Authentication
+<img src="./application/frontend/sw-engg/src/images/Verification.png" alt="Login">
+
+### Playback
+<img src="./application/frontend/sw-engg/src/images/Playback.png" alt="Login">
+
+### Discussions
+<img src="./application/frontend/sw-engg/src/images/Discussion Forum.png" alt="Login">
 
 ## Technologies Used
 
