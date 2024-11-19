@@ -12,8 +12,8 @@ const { sendOtpEmail } = require("../Services/emailService");
 const { directusClient, pingDirectus } = require("../Services/directus");
 
 const router = express.Router();
-const DIRECTUS_API_URL = 'http://3.141.35.121:8055';
-const DIRECTUS_API_TOKEN = 'fNVT4Ht5HE0_nlVOOhanaeXfWA1o1KFf';
+const DIRECTUS_API_URL = 'http://127.0.0.1:8055';
+const DIRECTUS_API_TOKEN = '836f8SW1VqRDIkFt368WsTHQPkm0t0qv';
 // Ping Directus to test connectivity
 pingDirectus();
 
@@ -565,6 +565,39 @@ router.get("/file-url/:id", async (req, res) => {
       res.status(500).send('Server Error');
   }
 });
+
+// In your route file (e.g., router.js)
+
+router.post('/submit-assignment', async (req, res) => {
+  const { assignmentId, userName, classLabel, metrics, answers } = req.body;
+
+  if (!assignmentId || !userName || !classLabel || !metrics || !answers) {
+    return res.status(400).json({ message: 'Missing required fields.' });
+  }
+
+  try {
+    const [result] = await pool.execute(
+      `INSERT INTO submissions (assignment_id, user_name, class_label, metrics, answers)
+       VALUES (?, ?, ?, ?, ?)`,
+      [
+        assignmentId,
+        userName,
+        classLabel,
+        JSON.stringify(metrics),
+        JSON.stringify(answers)
+      ]
+    );
+
+    res.status(200).json({
+      message: 'Assignment submitted successfully.',
+      submissionId: result.insertId
+    });
+  } catch (error) {
+    console.error('Error saving submission:', error);
+    res.status(500).json({ message: 'Internal server error.' });
+  }
+});
+
 
 
 module.exports = router;

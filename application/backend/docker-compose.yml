@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: example_root_password
+      MYSQL_DATABASE: directus_db
+      MYSQL_USER: directus_user
+      MYSQL_PASSWORD: directus_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - directus_network
+    ports:
+      - '3306:3306'
+      
+  directus:
+    image: directus/directus:latest
+    environment:
+      DATABASE_CLIENT: mysql
+      DATABASE_HOST: mysql
+      DATABASE_PORT: 3306
+      DATABASE_NAME: directus_db
+      DATABASE_USER: directus_user
+      DATABASE_PASSWORD: directus_password
+      ADMIN_EMAIL: admin@example.com
+      ADMIN_PASSWORD: admin_password
+      ADMIN_FIRSTNAME: Admin
+      ADMIN_LASTNAME: User
+    ports:
+      - '8055:8055'
+    depends_on:
+      - mysql
+    networks:
+      - directus_network
+
+networks:
+  directus_network:
+
+volumes:
+  mysql_data:
