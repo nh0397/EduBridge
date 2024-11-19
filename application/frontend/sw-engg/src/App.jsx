@@ -19,6 +19,8 @@ import DiscussionDetail from "./components/DiscussionForum/DiscussionDetail";
 import DiscussionList from "./components/DiscussionForum/DiscussionList";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import AssignmentPage from "./components/AssignmentPage/AssignmentPage";
+
 
 function App() {
     const [modalOpen, setModalState] = useState(false);
@@ -50,7 +52,7 @@ function App() {
                                 <Route path="/signup" element={<Signup />} />
                                 <Route path="/forgot-password" element={<ForgotPassword />} />
                                 <Route path="/landingPage" element={
-                                    <ProtectedRoute>
+                                 <ProtectedRoute>
                                         <InstructorLandingPage toggleModal={() => setModalState(!modalOpen)} modalOpen={modalOpen} modalTypeFunc={(value) => setModalType(value)} modalType={modalType} />
                                     </ProtectedRoute>
                                 } />
@@ -65,6 +67,8 @@ function App() {
                                 <Route path="/files/:id" element={<FileDetails />} />
                                 {/* Search Result page route */}
                                 <Route path="/search-results" element={<SearchResultsPage />} />
+                                <Route path="/assignments/:id" element={<AssignmentPage />} />
+
                             </Routes>
                         </Layout>
                     </SearchProvider>

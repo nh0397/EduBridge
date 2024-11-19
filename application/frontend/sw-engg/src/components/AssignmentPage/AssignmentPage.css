@@ -1,0 +1,181 @@
+/* src/components/AssignmentPage.css */
+
+.assignment-page {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+  
+  .back-button-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .back-button {
+    color: #2A6B58; /* Match your theme color */
+    background-color: transparent;
+    transition: color 0.3s ease;
+  }
+  
+  .back-button:hover {
+    color: #1E4F3E;
+  }
+  
+  .back-button-text {
+    margin-left: 8px;
+    font-size: 1em;
+    color: #2A6B58;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .back-button-text:hover {
+    color: #1E4F3E;
+  }
+  
+  .assignment-page h1 {
+    font-size: 2.5em;
+    color: #2A6B58;
+    margin-bottom: 25px;
+    text-align: center;
+  }
+  
+  .instruction {
+    font-size: 1.2em;
+    line-height: 1.8;
+    color: #333333;
+    white-space: pre-wrap; /* Preserves line breaks */
+    margin-bottom: 35px;
+  }
+  
+  .purpose {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #555555;
+    margin-bottom: 25px;
+  }
+  
+  .question-box {
+    margin-bottom: 40px;
+    width: 96%;
+  }
+  
+  .question-box h3 {
+    font-size: 1.3em;
+    color: #2A6B58;
+    margin-bottom: 15px;
+  }
+  
+  .answer-textarea {
+    width: 100%;
+    height: 180px;
+    padding: 15px;
+    font-size: 1em;
+    border: 2px solid #2A6B58;
+    border-radius: 8px;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Arial', sans-serif;
+    background-color: #F9F9F9;
+  }
+  
+  .answer-textarea:focus {
+    border-color: #1E4F3E;
+    box-shadow: 0 0 8px rgba(30, 79, 62, 0.3);
+  }
+  
+  .question-metrics {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    color: #555555;
+    font-size: 0.95em;
+  }
+  
+  .question-metrics p {
+    margin: 5px 0;
+  }
+  
+  .aggregated-metrics {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #F1F1F1;
+    border-radius: 8px;
+  }
+  
+  .aggregated-metrics h2 {
+    font-size: 1.8em;
+    color: #2A6B58;
+    margin-bottom: 15px;
+  }
+  
+  .aggregated-metrics p {
+    margin: 8px 0;
+    font-size: 1em;
+  }
+  
+  .submit-button {
+    display: block;
+    width: 100%;
+    padding: 18px;
+    margin-top: 30px;
+    background-color: #2A6B58;
+    color: #FFFFFF;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+  }
+  
+  .submit-button:hover {
+    background-color: #1E4F3E;
+  }
+  
+  @media (max-width: 768px) {
+    .assignment-page {
+      padding: 20px;
+    }
+  
+    .assignment-page h1 {
+      font-size: 2em;
+    }
+  
+    .instruction {
+      font-size: 1.1em;
+    }
+  
+    .purpose {
+      font-size: 1em;
+    }
+  
+    .question-box h3 {
+      font-size: 1.2em;
+    }
+  
+    .answer-textarea {
+      height: 150px;
+    }
+  
+    .aggregated-metrics h2 {
+      font-size: 1.5em;
+    }
+  
+    .submit-button {
+      padding: 15px;
+      font-size: 1.1em;
+    }
+  
+    .back-button-text {
+      display: none; /* Hide text on smaller screens for a cleaner look */
+    }
+  }
+  

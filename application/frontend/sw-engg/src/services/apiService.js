@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios'; // Ensure this is the only import
 import config from "../config";
 
 const signup = (firstName, lastName, email, password) => {
@@ -252,6 +252,9 @@ const searchDiscussions = async (searchTerm) => {
   }
 }
 
+const submitAssignment = (submissionData) => {
+  return axios.post(`${config.BASE_URL}/submit-assignment`, submissionData);
+};
 // Export the service functions
 export default {
   signup,
@@ -280,5 +283,6 @@ export default {
   fetchAllFiles,
   fetchFileMetadata,
   downloadFile,
-  fetchFileUrl
+  fetchFileUrl,
+  submitAssignment
 }

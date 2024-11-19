@@ -22,13 +22,13 @@ const PopularCoursesCarousel = ({ files }) => {
     nextArrow: <NextArrow />,
     responsive: [
       {
-        breakpoint: 768, // Adjust breakpoint as needed
+        breakpoint: 768,
         settings: {
           slidesToShow: 2
         }
       },
       {
-        breakpoint: 480, // Adjust breakpoint as needed
+        breakpoint: 480,
         settings: {
           slidesToShow: 1
         }
@@ -64,6 +64,9 @@ const StudentLandingPage = () => {
   const navigate = useNavigate();
   const [files, setFiles] = useState([]);
   const [showMyDiscussions, setShowMyDiscussions] = useState(false);
+  const [startTime, setStartTime] = useState(null);
+  const [typedCharacters, setTypedCharacters] = useState(0);
+  const [typingSpeed, setTypingSpeed] = useState(null);
   const Name = sessionStorage.getItem('firstName');
 
   useEffect(() => {
@@ -73,7 +76,6 @@ const StudentLandingPage = () => {
         setFiles(filesData.data);
       } catch (error) {
         console.error('Error fetching files:', error);
-        // Display error message to the user
       }
     };
 
@@ -88,10 +90,28 @@ const StudentLandingPage = () => {
     setShowMyDiscussions(!showMyDiscussions);
   };
 
+  const handleFocus = () => {
+    setStartTime(new Date());
+    setTypedCharacters(0);
+    setTypingSpeed(null);
+  };
+
+  const handleInput = (event) => {
+    setTypedCharacters(event.target.value.length);
+  };
+
+  const handleBlur = () => {
+    const endTime = new Date();
+    const timeDiffInMinutes = (endTime - startTime) / (1000 * 60);
+    const wordsTyped = typedCharacters / 5;
+    const wpm = Math.round(wordsTyped / timeDiffInMinutes);
+    setTypingSpeed(wpm);
+  };
+
   return (
     <div className="landing-page">
       <section className="welcome-section">
-        <h2 className="welcome-heading">{Name ? `Hello, ${Name}`: ''}</h2>
+        <h2 className="welcome-heading">{Name ? `Hello, ${Name}` : ''}</h2>
         <p className="welcome-description">Discover new courses and enhance your learning journey with us.</p>
         <button className="explore-button" onClick={exploreCourses}>Explore Courses</button>
       </section>
@@ -113,6 +133,22 @@ const StudentLandingPage = () => {
       <section className="featured-courses">
         <h2 className="section-heading">Popular Files</h2>
         <PopularCoursesCarousel files={files} />
+      </section>
+
+      {/* Typing Speed Section */}
+      <section className="typing-speed-section">
+        <h2 className="section-heading">Typing Speed Test</h2>
+        <textarea
+          rows="5"
+          cols="40"
+          placeholder="Start typing..."
+          onFocus={handleFocus}
+          onInput={handleInput}
+          onBlur={handleBlur}
+        ></textarea>
+        {typingSpeed !== null && (
+          <p>Your typing speed is {typingSpeed} words per minute.</p>
+        )}
       </section>
 
       <footer className="landing-footer">
@@ -142,4 +178,3 @@ const NextArrow = (props) => {
 };
 
 export default StudentLandingPage;
-

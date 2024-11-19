@@ -59,6 +59,7 @@ function Login() {
       if (requireOtp) {
         response = await apiService.loginWithOtp(email, hashedPassword, otp);
       } else {
+        console.log("Login without OTP:", email, hashedPassword);
         response = await apiService.login(email, hashedPassword);
       }
 
