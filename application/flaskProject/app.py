@@ -131,9 +131,20 @@ def handle_emotion_data(json, methods=["GET", "POST"]):
 def emotion_data():
     try:
         data = request.get_json()
-        # Process the data as needed
-        print("Emotion data received:", data)
-        return jsonify({"message": "Emotion data received successfully"})
+        # Process the data to extract emotional state
+        if "expressions" in data:
+            expressions = data["expressions"]
+            # Find the emotion with the highest probability
+            dominant_emotion = max(expressions, key=expressions.get)
+            return jsonify(
+                {
+                    "message": "Emotion data received successfully",
+                    "dominant_emotion": dominant_emotion,
+                    "expressions": expressions,
+                }
+            )
+        else:
+            return jsonify({"error": "No expressions data found"}), 400
     except Exception as e:
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
 
