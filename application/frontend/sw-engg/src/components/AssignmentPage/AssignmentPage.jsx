@@ -5,7 +5,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { IconButton } from '@mui/material';
 import io from "socket.io-client";
 import assignmentQuestions from './assignmentQuestions';
-
+import Chatbot from '../Chatbot/chatbot'; // Import the Chatbot component
+import VideoAnalytics from '../videoAnalytics/videoAnalytics';
 const assignmentsData = assignmentQuestions;
 
 // Create the WebSocket instance outside the component to prevent recreation
@@ -23,6 +24,8 @@ const AssignmentPage = () => {
   const [tabSwitchCount, setTabSwitchCount] = useState(0);
   const [errorCount, setErrorCount] = useState(0);
   const [totalWordsTyped, setTotalWordsTyped] = useState(0);
+  const [blinkChatbot, setBlinkChatbot] = useState(false); // Control blinking of the chatbot
+  const [hasBlinked, setHasBlinked] = useState(false); // Ensure blinking happens only once
 
   const isAnyFocusedRef = useRef(false);
   const isTabActiveRef = useRef(true);
@@ -54,14 +57,16 @@ const AssignmentPage = () => {
   // Emit current state values to the backend every 3 seconds
   useEffect(() => {
     const interval = setInterval(() => {
-      const message = stateRef.current; // Use the latest state from the ref
+      const message = {
+        ...stateRef.current, // Use the latest state from the ref
+      };
       console.log("Sending to backend:", message);
       socket.emit("time-message", message); // Send message to backend
     }, 3000);
 
     // Cleanup interval when the component unmounts
     return () => clearInterval(interval);
-  }, []);
+  }, [id]);
 
   // Recalculate typing speed whenever timeElapsed or totalWordsTyped changes
   useEffect(() => {
@@ -69,7 +74,7 @@ const AssignmentPage = () => {
       const wpm = Math.floor((totalWordsTyped / timeElapsed) * 60);
       setTypingSpeed(wpm);
     }
-  }, [timeElapsed, totalWordsTyped]); // Depend on timeElapsed and totalWordsTyped
+  }, [timeElapsed, totalWordsTyped]);
 
   // Handle WebSocket connection and acknowledgment
   useEffect(() => {
@@ -77,12 +82,17 @@ const AssignmentPage = () => {
       console.log("Connected to WebSocket server!");
     });
 
-    // Listen for acknowledgment from the backend
-    socket.on("acknowledgment", (data) => {
-      console.log("Acknowledgment from backend:", data);
+    // Listen for prediction result
+    socket.on("prediction-result", (data) => {
+      console.log("Prediction Result:", hasBlinked);
+      if (data.prediction === "help_needed" && !hasBlinked) {
+        setHasBlinked(true); // Mark that the blinking effect has been triggered
+        setBlinkChatbot(true); // Trigger blinking effect
+      }
     });
 
-  }, []);
+    // Do not disconnect the socket for now
+  }, [hasBlinked]);
 
   // Handle tab visibility changes
   useEffect(() => {
@@ -164,6 +174,12 @@ const AssignmentPage = () => {
     return <div className="assignment-page"><h2>Assignment not found.</h2></div>;
   }
 
+  const handleEmotionsDetected = (emotionData) => {
+    // For example, you could console.log it or
+    // integrate logic to trigger the chatbot blinking
+    console.log("Emotions detected:", emotionData);
+    // If you get a certain emotion from `emotionData`, you could setBlinkChatbot(true)
+  };
   return (
     <div className="assignment-page">
       {/* Back Button */}
@@ -173,7 +189,11 @@ const AssignmentPage = () => {
         </IconButton>
         <span className="back-button-text">Back</span>
       </div>
-
+      <div className="video-analytics-container">
+        <div>
+          <VideoAnalytics onEmotionsDetected={handleEmotionsDetected}/>
+        </div>
+      </div>
       <h1>{assignment.title}</h1>
       <div className="instruction">
         {assignment.questions.map((q) => q.text).join('\n\n')}
@@ -205,6 +225,7 @@ const AssignmentPage = () => {
       </div>
 
       <button onClick={handleSubmit} className="submit-button">Submit Assignment</button>
+      <Chatbot blink={blinkChatbot} />
     </div>
   );
 };

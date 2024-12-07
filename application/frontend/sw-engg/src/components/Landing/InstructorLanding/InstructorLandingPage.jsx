@@ -233,7 +233,7 @@ const InstructorLandingPage = (props) => {
                     rows="5"
                     cols="40"
                     placeholder="Start typing..."
-                    onFocus={handleFocus}
+                    onFocus={handleFo   cus}
                     onInput={handleInput}
                     onBlur={handleBlur}
                 ></textarea>

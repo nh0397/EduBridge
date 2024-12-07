@@ -1,5 +1,17 @@
 /* src/components/AssignmentPage.css */
 
+.video-analytics-container{
+  height: 200px;
+  width: 100%;
+  border: #2A6B58 solid 2px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+}
 .assignment-page {
     max-width: 900px;
     margin: 40px auto;
@@ -179,3 +191,4 @@
     }
   }
   
+

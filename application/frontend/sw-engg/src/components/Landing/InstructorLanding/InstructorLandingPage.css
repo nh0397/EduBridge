@@ -158,3 +158,13 @@ body {
     position: fixed;
     left: 97vw;
 }
+
+.chatbot-div{
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    cursor: pointer;
+}

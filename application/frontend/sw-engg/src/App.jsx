@@ -1,28 +1,29 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from "react-router-dom";
-import Login from "./components/login/Login";
-import Signup from './components/signup/Signup';
-import InstructorLandingPage from "./components/Landing/InstructorLanding/InstructorLandingPage";
-import AdminPage from "./components/Landing/Admin/AdminPage";
-import ProtectedRoute from "./components/routing/ProtectedRoute";
-import Navbar from "./components/Navbar/Navbar";
-import Footer from "./components/Footer/footer";
-import ForgotPassword from "./components/forgotPassword/ForgotPassword";
-import MyDiscussions from './components/DiscussionForum/MyDiscussions';
-import CoursesPage from "./components/CoursesPage/CoursesPage";
-import FileDetails from "./components/Files/FileDetails";
-import SearchResultsPage from "./components/Search/SearchResultsPage";
-import { TabProvider } from './components/context/TabContext';
-import { SearchProvider } from './components/context/SearchContext';
-import DiscussionForum from "./components/DiscussionForum/DiscussionForum";
-import DiscussionDetail from "./components/DiscussionForum/DiscussionDetail";
-import DiscussionList from "./components/DiscussionForum/DiscussionList";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import AssignmentPage from "./components/AssignmentPage/AssignmentPage";
+    import React, { useState } from "react";
+    import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from "react-router-dom";
+    import Login from "./components/login/Login";
+    import Signup from './components/signup/Signup';
+    import InstructorLandingPage from "./components/Landing/InstructorLanding/InstructorLandingPage";
+    import AdminPage from "./components/Landing/Admin/AdminPage";
+    import ProtectedRoute from "./components/routing/ProtectedRoute";
+    import Navbar from "./components/Navbar/Navbar";
+    import Footer from "./components/Footer/footer";
+    import ForgotPassword from "./components/forgotPassword/ForgotPassword";
+    import MyDiscussions from './components/DiscussionForum/MyDiscussions';
+    import CoursesPage from "./components/CoursesPage/CoursesPage";
+    import FileDetails from "./components/Files/FileDetails";
+    import SearchResultsPage from "./components/Search/SearchResultsPage";
+    import { TabProvider } from './components/context/TabContext';
+    import { SearchProvider } from './components/context/SearchContext';
+    import DiscussionForum from "./components/DiscussionForum/DiscussionForum";
+    import DiscussionDetail from "./components/DiscussionForum/DiscussionDetail";
+    import DiscussionList from "./components/DiscussionForum/DiscussionList";
+    import "slick-carousel/slick/slick.css";
+    import "slick-carousel/slick/slick-theme.css";
+    import AssignmentPage from "./components/AssignmentPage/AssignmentPage";
+    import Chatbot from "./components/Chatbot/chatbot";
 
 
-function App() {
+   function App() {
     const [modalOpen, setModalState] = useState(false);
     const [modalType, setModalType] = useState("");
 
@@ -30,12 +31,14 @@ function App() {
         const location = useLocation();
         const hideNavbarAndFooterOnRoutes = ["/login", "/signup", "/forgot-password"];
         const showNavbarAndFooter = !hideNavbarAndFooterOnRoutes.includes(location.pathname);
+        const showChatbot = location.pathname !== "/login"; // Exclude Chatbot only on the login page
 
         return (
             <>
                 {showNavbarAndFooter && <Navbar toggleModal={() => setModalState(!modalOpen)} modalOpen={modalOpen} modalTypeFunc={(value) => setModalType(value)} />}
                 <div>{children}</div> {/* Render children here */}
                 {showNavbarAndFooter && <Footer />}
+                {showChatbot && <Chatbot />} {/* Render Chatbot conditionally */}
             </>
         );
     };
@@ -45,14 +48,14 @@ function App() {
             <div className="app">
                 <TabProvider>
                     <SearchProvider>
-                        <Layout> {/* Render Layout component here */}
+                        <Layout>
                             <Routes>
                                 <Route path="/" element={<Navigate replace to="/login" />} />
                                 <Route path="/login" element={<Login />} />
                                 <Route path="/signup" element={<Signup />} />
                                 <Route path="/forgot-password" element={<ForgotPassword />} />
                                 <Route path="/landingPage" element={
-                                 <ProtectedRoute>
+                                    <ProtectedRoute>
                                         <InstructorLandingPage toggleModal={() => setModalState(!modalOpen)} modalOpen={modalOpen} modalTypeFunc={(value) => setModalType(value)} modalType={modalType} />
                                     </ProtectedRoute>
                                 } />
@@ -68,7 +71,6 @@ function App() {
                                 {/* Search Result page route */}
                                 <Route path="/search-results" element={<SearchResultsPage />} />
                                 <Route path="/assignments/:id" element={<AssignmentPage />} />
-
                             </Routes>
                         </Layout>
                     </SearchProvider>
@@ -77,5 +79,7 @@ function App() {
         </Router>
     );
 }
+
+
 
 export default App;
