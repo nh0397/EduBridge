@@ -7,6 +7,7 @@ import io from "socket.io-client";
 import assignmentQuestions from './assignmentQuestions';
 import Chatbot from '../Chatbot/chatbot'; // Import the Chatbot component
 import VideoAnalytics from '../videoAnalytics/videoAnalytics';
+
 const assignmentsData = assignmentQuestions;
 
 // Create the WebSocket instance outside the component to prevent recreation
@@ -26,6 +27,9 @@ const AssignmentPage = () => {
   const [totalWordsTyped, setTotalWordsTyped] = useState(0);
   const [blinkChatbot, setBlinkChatbot] = useState(false); // Control blinking of the chatbot
   const [hasBlinked, setHasBlinked] = useState(false); // Ensure blinking happens only once
+  const [chatbotMessage, setChatbotMessage] = useState(""); // Message from chatbot
+  const [chatOpen, setChatOpen] = useState(false);
+
 
   const isAnyFocusedRef = useRef(false);
   const isTabActiveRef = useRef(true);
@@ -60,11 +64,9 @@ const AssignmentPage = () => {
       const message = {
         ...stateRef.current, // Use the latest state from the ref
       };
-      console.log("Sending to backend:", message);
       socket.emit("time-message", message); // Send message to backend
     }, 3000);
 
-    // Cleanup interval when the component unmounts
     return () => clearInterval(interval);
   }, [id]);
 
@@ -84,7 +86,7 @@ const AssignmentPage = () => {
 
     // Listen for prediction result
     socket.on("prediction-result", (data) => {
-      console.log("Prediction Result:", hasBlinked);
+      console.log("has blinked:", hasBlinked);
       if (data.prediction === "help_needed" && !hasBlinked) {
         setHasBlinked(true); // Mark that the blinking effect has been triggered
         setBlinkChatbot(true); // Trigger blinking effect
@@ -170,16 +172,31 @@ const AssignmentPage = () => {
     navigate(-1);
   };
 
+  const handleEmotionsDetected = (emotionData) => {
+    // Trigger blinking if negative emotions detected and not already blinking
+    if ((emotionData.expressions['angry'] > 0.5 ||
+         emotionData.expressions['disgusted'] > 0.5 ||
+         emotionData.expressions['fearful'] > 0.5 ||
+         emotionData.expressions['sad'] > 0.5 ||
+         emotionData.expressions['surprised'] > 0.5) && !blinkChatbot) {
+      console.log("Not normal emotions");
+      setBlinkChatbot(true);
+    }
+  };
+
+  const handleChatbotClick = () => {
+    // Stop blinking
+    setBlinkChatbot(false);
+    // Show introductory message
+    setChatbotMessage("Hey, we sensed you need some help. You wanna walk through to the solution together?");
+  };
+
   if (!assignment) {
     return <div className="assignment-page"><h2>Assignment not found.</h2></div>;
   }
 
-  const handleEmotionsDetected = (emotionData) => {
-    // For example, you could console.log it or
-    // integrate logic to trigger the chatbot blinking
-    console.log("Emotions detected:", emotionData);
-    // If you get a certain emotion from `emotionData`, you could setBlinkChatbot(true)
-  };
+  const handleChatToggle = () => setChatOpen((prev) => !prev);
+
   return (
     <div className="assignment-page">
       {/* Back Button */}
@@ -225,7 +242,7 @@ const AssignmentPage = () => {
       </div>
 
       <button onClick={handleSubmit} className="submit-button">Submit Assignment</button>
-      <Chatbot blink={blinkChatbot} />
+      <Chatbot blink={blinkChatbot} isOpen={chatOpen} onToggleOpen={handleChatToggle} />
     </div>
   );
 };

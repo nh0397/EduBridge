@@ -38,7 +38,6 @@
                 {showNavbarAndFooter && <Navbar toggleModal={() => setModalState(!modalOpen)} modalOpen={modalOpen} modalTypeFunc={(value) => setModalType(value)} />}
                 <div>{children}</div> {/* Render children here */}
                 {showNavbarAndFooter && <Footer />}
-                {showChatbot && <Chatbot />} {/* Render Chatbot conditionally */}
             </>
         );
     };

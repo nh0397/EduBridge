@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as faceapi from 'face-api.js';
 
 const VideoAnalytics = ({ onEmotionsDetected }) => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
+  const timer = useState(0);
 
   useEffect(() => {
     async function loadModels() {
@@ -63,13 +64,13 @@ const VideoAnalytics = ({ onEmotionsDetected }) => {
           })
             .then((response) => response.json())
             .then((data) => {
-              console.log('Emotion Data from Flask:', data);
+            //   console.log('Emotion Data from Flask:', data);
               // Optionally call a prop callback to inform parent component
               onEmotionsDetected && onEmotionsDetected(data);
             })
             .catch((error) => console.error("Error:", error));
         }
-      }, 100);
+      }, 500);
 
       return () => clearInterval(intervalId);
     });
