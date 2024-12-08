@@ -30,11 +30,11 @@ const AssignmentPage = () => {
   const [chatbotMessage, setChatbotMessage] = useState(""); // Message from chatbot
   const [chatOpen, setChatOpen] = useState(false);
 
-
   const isAnyFocusedRef = useRef(false);
   const isTabActiveRef = useRef(true);
   const elapsedTimerRef = useRef(null);
   const pausedTimerRef = useRef(null);
+  const blinkTimeoutRef = useRef(null); // Ref to manage blink timeout
 
   // Ref to store the latest state
   const stateRef = useRef({
@@ -87,14 +87,19 @@ const AssignmentPage = () => {
     // Listen for prediction result
     socket.on("prediction-result", (data) => {
       console.log("has blinked:", hasBlinked);
-      if (data.prediction === "help_needed" && !hasBlinked) {
+      if (data.prediction === "help_needed" && !chatOpen) {
         setHasBlinked(true); // Mark that the blinking effect has been triggered
         setBlinkChatbot(true); // Trigger blinking effect
       }
     });
 
-    // Do not disconnect the socket for now
-  }, [hasBlinked]);
+    // Cleanup
+    return () => {
+      socket.off("connect");
+      socket.off("prediction-result");
+      clearTimeout(blinkTimeoutRef.current);
+    };
+  }, [hasBlinked, chatOpen]);
 
   // Handle tab visibility changes
   useEffect(() => {
@@ -184,18 +189,20 @@ const AssignmentPage = () => {
     }
   };
 
-  const handleChatbotClick = () => {
-    // Stop blinking
+  const handleChatToggle = () => {
+    setChatOpen((prev) => !prev);
+
+    // Stop blinking and reset after 5 minutes
     setBlinkChatbot(false);
-    // Show introductory message
-    setChatbotMessage("Hey, we sensed you need some help. You wanna walk through to the solution together?");
+    clearTimeout(blinkTimeoutRef.current);
+    blinkTimeoutRef.current = setTimeout(() => {
+      setBlinkChatbot(true);
+    }, 5 * 60 * 1000);
   };
 
   if (!assignment) {
     return <div className="assignment-page"><h2>Assignment not found.</h2></div>;
   }
-
-  const handleChatToggle = () => setChatOpen((prev) => !prev);
 
   return (
     <div className="assignment-page">
