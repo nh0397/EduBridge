@@ -22,4 +22,4 @@ gradSeminar
 *.njsproj
 *.sln
 *.sw?
-
+*.env
