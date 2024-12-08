@@ -2,48 +2,42 @@ import React, { useState, useRef, useEffect } from 'react';
 import './chatbot.css';
 import chatbotLogo from '../../images/ChatBotLogo.png';
 
-const Chatbot = React.memo(({ blink, isOpen, onToggleOpen }) => {
+const Chatbot = React.memo(({ blink, isOpen, onToggleOpen, showIntroMessage }) => {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const messagesEndRef = useRef(null);
-  const [hasOpened, setHasOpened] = useState(false); // Track if we've shown the intro message already
 
-  // Scroll to bottom whenever messages change
+  // Scroll to the bottom of the messages when they change
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages]);
 
-  // If chatbot just opened and we haven't shown an intro message yet, show it
+  // Show introductory message when the chatbot is opened for the first time
   useEffect(() => {
-    if (isOpen && !hasOpened) {
-      setHasOpened(true);
-      const introMessage = blink 
-        ? "Do you need help?" 
-        : "Hey, what can I do for you?";
-      setMessages([{ role: 'assistant', text: introMessage }]);
+    if (isOpen && showIntroMessage) {
+      setMessages([{ role: 'assistant', text: 'Hey, what can I do for you?' }]);
     }
-  }, [isOpen, hasOpened, blink]);
+  }, [isOpen, showIntroMessage]);
 
   const handleSendMessage = async () => {
     const userMessage = inputValue.trim();
     if (!userMessage) return;
 
-    // Show user's message immediately
+    // Add the user's message immediately
     setMessages((prev) => [...prev, { role: 'user', text: userMessage }]);
     setInputValue('');
 
     try {
-      // Call backend API for a response
+      // Simulate a backend response
       const response = await fetch('http://localhost:3001/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userMessage })
+        body: JSON.stringify({ message: userMessage }),
       });
       const data = await response.json();
 
-      // Update messages with assistant's reply
       setMessages((prev) => [...prev, { role: 'assistant', text: data.response }]);
     } catch (error) {
       console.error('Error fetching bot response:', error);
@@ -57,26 +51,24 @@ const Chatbot = React.memo(({ blink, isOpen, onToggleOpen }) => {
     }
   };
 
-  // Stop blinking once opened by not applying blink class if isOpen is true
-  const iconClass = `chatbot-icon ${blink && !isOpen ? 'blink' : ''}`;
-
-  return (
-    <div className={`chatbot-container ${isOpen ? 'open' : ''}`}>
-      <div className={iconClass} onClick={onToggleOpen}>
-        <img src={chatbotLogo} alt="Chatbot" className="chatbot-logo" />
-      </div>
-      {isOpen && (
+  // Hide the icon entirely when the chatbot panel is open
+  if (isOpen) {
+    return (
+      <div className={`chatbot-container open`}>
         <div className="chatbot-panel">
           <div className="chatbot-header">
-            <div className="header-left">
-              <img src={chatbotLogo} alt="chatbot" className="chatbot-header-logo-img" />
-              <h2>Chatbot</h2>
-            </div>
-            <button className="close-btn" onClick={onToggleOpen}>×</button>
+            <img src={chatbotLogo} alt="chatbot" className="chatbot-header-logo-img" />
+            <h2>Chatbot</h2>
+            <button className="close-btn" onClick={onToggleOpen}>
+              ×
+            </button>
           </div>
           <div className="chatbot-messages">
             {messages.map((msg, i) => (
-              <div key={i} className={`message ${msg.role}`}>
+              <div
+                key={i}
+                className={`message ${msg.role === 'user' ? 'user-message' : 'assistant-message'}`}
+              >
                 <div className="message-bubble">{msg.text}</div>
               </div>
             ))}
@@ -93,7 +85,15 @@ const Chatbot = React.memo(({ blink, isOpen, onToggleOpen }) => {
             <button onClick={handleSendMessage}>Send</button>
           </div>
         </div>
-      )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="chatbot-container">
+      <div className={`chatbot-icon ${blink ? 'blink' : ''}`} onClick={onToggleOpen}>
+        <img src={chatbotLogo} alt="Chatbot" className="chatbot-logo" />
+      </div>
     </div>
   );
 });
