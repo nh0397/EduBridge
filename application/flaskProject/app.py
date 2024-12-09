@@ -7,6 +7,9 @@ from flask_cors import CORS
 import PyPDF2
 from openai import OpenAI
 import logging
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
@@ -15,8 +18,9 @@ socketio = SocketIO(app)
 
 # Define the path to the best model
 MODEL_PATH = "models/best_model.pkl"
+print("env key", os.getenv("OPENAI_API_KEY"))
 
-client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 
 # Load the best trained model

@@ -5,38 +5,84 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { IconButton } from '@mui/material';
 import io from "socket.io-client";
 import assignmentQuestions from './assignmentQuestions';
-import Chatbot from '../Chatbot/chatbot'; // Import the Chatbot component
+import Chatbot from '../Chatbot/chatbot';
 import VideoAnalytics from '../videoAnalytics/videoAnalytics';
 
-const assignmentsData = assignmentQuestions;
-
-// Create the WebSocket instance outside the component to prevent recreation
+// WebSocket instance
 const socket = io("http://localhost:3001");
+
+// EULA Component
+const EndUserLicenseAgreement = ({ onAgree, onDisagree }) => {
+  return (
+    <div className="eula-overlay">
+      <div className="eula-container">
+        <h2>End User License Agreement</h2>
+        <p>
+          By using this application, you acknowledge and agree to the following:
+        </p>
+        <ul>
+          <li>
+            <strong>Video Data:</strong> Your video feed may be analyzed to
+            detect emotions and behaviors to enhance your learning experience.
+          </li>
+          <li>
+            <strong>Textual Data:</strong> Text you type in response to
+            assignments is analyzed to provide feedback and improve metrics like
+            typing speed and error count.
+          </li>
+        </ul>
+        <p>
+          This data is used solely for improving your experience and will not
+          be shared with third parties without your consent.
+        </p>
+        <div className="eula-buttons">
+          <button onClick={onAgree} className="eula-agree-button">I Agree</button>
+          <button onClick={onDisagree} className="eula-disagree-button">I Disagree</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const assignmentsData = assignmentQuestions;
 
 const AssignmentPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const assignment = assignmentsData[id];
 
+  // EULA State
+  const [hasAgreedToEULA, setHasAgreedToEULA] = useState(() => {
+    const savedAgreement = localStorage.getItem('hasAgreedToEULA');
+    if (savedAgreement === 'true') return true;
+    if (savedAgreement === 'false') return false;
+    return null; // No agreement state saved
+  });
+
+  const handleEULAAgreement = () => {
+    localStorage.setItem('hasAgreedToEULA', 'true');
+    setHasAgreedToEULA(true);
+  };
+
+  const handleEULADisagreement = () => {
+    localStorage.setItem('hasAgreedToEULA', 'false');
+    setHasAgreedToEULA(false);
+  };
+
   // Metrics
-  const [timeElapsed, setTimeElapsed] = useState(0); // in seconds
-  const [timePaused, setTimePaused] = useState(0); // in seconds
-  const [typingSpeed, setTypingSpeed] = useState(0); // WPM
+  const [timeElapsed, setTimeElapsed] = useState(0);
+  const [timePaused, setTimePaused] = useState(0);
+  const [typingSpeed, setTypingSpeed] = useState(0);
   const [tabSwitchCount, setTabSwitchCount] = useState(0);
   const [errorCount, setErrorCount] = useState(0);
   const [totalWordsTyped, setTotalWordsTyped] = useState(0);
-  const [blinkChatbot, setBlinkChatbot] = useState(false); // Control blinking of the chatbot
-  const [hasBlinked, setHasBlinked] = useState(false); // Ensure blinking happens only once
-  const [chatbotMessage, setChatbotMessage] = useState(""); // Message from chatbot
+  const [blinkChatbot, setBlinkChatbot] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
 
   const isAnyFocusedRef = useRef(false);
   const isTabActiveRef = useRef(true);
   const elapsedTimerRef = useRef(null);
   const pausedTimerRef = useRef(null);
-  const blinkTimeoutRef = useRef(null); // Ref to manage blink timeout
-
-  // Ref to store the latest state
   const stateRef = useRef({
     timeElapsed,
     timePaused,
@@ -46,7 +92,7 @@ const AssignmentPage = () => {
     totalWordsTyped,
   });
 
-  // Keep the ref in sync with the state
+  // Sync state with refs
   useEffect(() => {
     stateRef.current = {
       timeElapsed,
@@ -58,19 +104,18 @@ const AssignmentPage = () => {
     };
   }, [timeElapsed, timePaused, typingSpeed, tabSwitchCount, errorCount, totalWordsTyped]);
 
-  // Emit current state values to the backend every 3 seconds
+  // Send metrics periodically
   useEffect(() => {
-    const interval = setInterval(() => {
-      const message = {
-        ...stateRef.current, // Use the latest state from the ref
-      };
-      socket.emit("time-message", message); // Send message to backend
-    }, 3000);
+    if (hasAgreedToEULA) {
+      const interval = setInterval(() => {
+        socket.emit("time-message", { ...stateRef.current });
+      }, 3000);
 
-    return () => clearInterval(interval);
-  }, [id]);
+      return () => clearInterval(interval);
+    }
+  }, [hasAgreedToEULA]);
 
-  // Recalculate typing speed whenever timeElapsed or totalWordsTyped changes
+  // Typing speed calculation
   useEffect(() => {
     if (timeElapsed > 0) {
       const wpm = Math.floor((totalWordsTyped / timeElapsed) * 60);
@@ -78,52 +123,7 @@ const AssignmentPage = () => {
     }
   }, [timeElapsed, totalWordsTyped]);
 
-  // Handle WebSocket connection and acknowledgment
-  useEffect(() => {
-    socket.on("connect", () => {
-      console.log("Connected to WebSocket server!");
-    });
-
-    // Listen for prediction result
-    socket.on("prediction-result", (data) => {
-      console.log("has blinked:", hasBlinked);
-      if (data.prediction === "help_needed" && !chatOpen) {
-        setHasBlinked(true); // Mark that the blinking effect has been triggered
-        setBlinkChatbot(true); // Trigger blinking effect
-      }
-    });
-
-    // Cleanup
-    return () => {
-      socket.off("connect");
-      socket.off("prediction-result");
-      clearTimeout(blinkTimeoutRef.current);
-    };
-  }, [hasBlinked, chatOpen]);
-
-  // Handle tab visibility changes
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        isTabActiveRef.current = false;
-        setTabSwitchCount((prev) => prev + 1);
-        handleFocusChange();
-      } else {
-        isTabActiveRef.current = true;
-        handleFocusChange();
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-      clearInterval(elapsedTimerRef.current);
-      clearInterval(pausedTimerRef.current);
-    };
-  }, []);
-
-  // Handle focus and blur events
+  // Handle focus and blur
   const handleFocusChange = () => {
     if (isAnyFocusedRef.current && isTabActiveRef.current) {
       clearInterval(pausedTimerRef.current);
@@ -146,62 +146,40 @@ const AssignmentPage = () => {
     }
   };
 
-  const handleFocus = () => {
-    isAnyFocusedRef.current = true;
-    handleFocusChange();
-  };
-
-  const handleBlur = () => {
-    isAnyFocusedRef.current = false;
-    handleFocusChange();
-  };
-
   const handleInputChange = (e) => {
     const text = e.target.value;
-
-    // Word counting based on spaces
     const words = text.trim().split(/\s+/).filter((word) => word.length > 0);
     setTotalWordsTyped(words.length);
 
     const inputType = e.nativeEvent.inputType;
-    if (inputType === 'deleteContentBackward' || inputType === 'deleteContentForward') {
+    if (inputType === "deleteContentBackward" || inputType === "deleteContentForward") {
       setErrorCount((prev) => prev + 1);
     }
   };
 
   const handleSubmit = () => {
-    alert('Assignment submitted successfully!');
+    alert("Assignment submitted successfully!");
   };
 
   const handleBack = () => {
     navigate(-1);
   };
 
-  const handleEmotionsDetected = (emotionData) => {
-    // Trigger blinking if negative emotions detected and not already blinking
-    if ((emotionData.expressions['angry'] > 0.5 ||
-         emotionData.expressions['disgusted'] > 0.5 ||
-         emotionData.expressions['fearful'] > 0.5 ||
-         emotionData.expressions['sad'] > 0.5 ||
-         emotionData.expressions['surprised'] > 0.5) && !blinkChatbot) {
-      console.log("Not normal emotions");
-      setBlinkChatbot(true);
-    }
-  };
-
-  const handleChatToggle = () => {
-    setChatOpen((prev) => !prev);
-
-    // Stop blinking and reset after 5 minutes
-    setBlinkChatbot(false);
-    clearTimeout(blinkTimeoutRef.current);
-    blinkTimeoutRef.current = setTimeout(() => {
-      setBlinkChatbot(true);
-    }, 5 * 60 * 1000);
-  };
-
   if (!assignment) {
-    return <div className="assignment-page"><h2>Assignment not found.</h2></div>;
+    return (
+      <div className="assignment-page">
+        <h2>Assignment not found.</h2>
+      </div>
+    );
+  }
+
+  if (hasAgreedToEULA === null) {
+    return (
+      <EndUserLicenseAgreement 
+        onAgree={handleEULAAgreement} 
+        onDisagree={handleEULADisagreement} 
+      />
+    );
   }
 
   return (
@@ -213,11 +191,14 @@ const AssignmentPage = () => {
         </IconButton>
         <span className="back-button-text">Back</span>
       </div>
-      <div className="video-analytics-container">
-        <div>
-          <VideoAnalytics onEmotionsDetected={handleEmotionsDetected}/>
+
+      {/* Conditionally Render Video Analytics */}
+      {hasAgreedToEULA && (
+        <div className="video-analytics-container">
+          <VideoAnalytics />
         </div>
-      </div>
+      )}
+
       <h1>{assignment.title}</h1>
       <div className="instruction">
         {assignment.questions.map((q) => q.text).join('\n\n')}
@@ -230,8 +211,14 @@ const AssignmentPage = () => {
           <textarea
             className="answer-textarea"
             data-optional={q.optional}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
+            onFocus={() => {
+              isAnyFocusedRef.current = true;
+              handleFocusChange();
+            }}
+            onBlur={() => {
+              isAnyFocusedRef.current = false;
+              handleFocusChange();
+            }}
             onChange={handleInputChange}
             placeholder="Start typing your answer here..."
           ></textarea>
@@ -249,7 +236,7 @@ const AssignmentPage = () => {
       </div>
 
       <button onClick={handleSubmit} className="submit-button">Submit Assignment</button>
-      <Chatbot blink={blinkChatbot} isOpen={chatOpen} onToggleOpen={handleChatToggle} />
+      <Chatbot blink={blinkChatbot} isOpen={chatOpen} onToggleOpen={() => setChatOpen((prev) => !prev)} />
     </div>
   );
 };
