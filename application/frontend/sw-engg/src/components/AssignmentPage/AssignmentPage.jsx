@@ -69,7 +69,7 @@ const AssignmentPage = () => {
     setHasAgreedToEULA(false);
   };
 
-  // Metrics
+  // Metrics and Blink Control
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [timePaused, setTimePaused] = useState(0);
   const [typingSpeed, setTypingSpeed] = useState(0);
@@ -83,18 +83,12 @@ const AssignmentPage = () => {
   const isTabActiveRef = useRef(true);
   const elapsedTimerRef = useRef(null);
   const pausedTimerRef = useRef(null);
-  const stateRef = useRef({
-    timeElapsed,
-    timePaused,
-    typingSpeed,
-    tabSwitchCount,
-    errorCount,
-    totalWordsTyped,
-  });
+  const blinkTimeoutRef = useRef(null);
+  const blinkDisableTimeoutRef = useRef(null);
 
   // Sync state with refs
   useEffect(() => {
-    stateRef.current = {
+    const stateRef = {
       timeElapsed,
       timePaused,
       typingSpeed,
@@ -104,46 +98,37 @@ const AssignmentPage = () => {
     };
   }, [timeElapsed, timePaused, typingSpeed, tabSwitchCount, errorCount, totalWordsTyped]);
 
-  // Send metrics periodically
+  // WebSocket setup for Chatbot
   useEffect(() => {
     if (hasAgreedToEULA) {
-      const interval = setInterval(() => {
-        socket.emit("time-message", { ...stateRef.current });
-      }, 3000);
+      socket.on("connect", () => console.log("Connected to WebSocket server!"));
+      socket.on("prediction-result", (data) => {
+        if (data.prediction === "help_needed" && !chatOpen) {
+          setBlinkChatbot(true);
+        }
+      });
 
-      return () => clearInterval(interval);
+      return () => {
+        socket.off("connect");
+        socket.off("prediction-result");
+      };
     }
-  }, [hasAgreedToEULA]);
+  }, [hasAgreedToEULA, chatOpen]);
 
-  // Typing speed calculation
-  useEffect(() => {
-    if (timeElapsed > 0) {
-      const wpm = Math.floor((totalWordsTyped / timeElapsed) * 60);
-      setTypingSpeed(wpm);
-    }
-  }, [timeElapsed, totalWordsTyped]);
+  // Handle Chat Toggle and Blink Control
+  const handleChatToggle = () => {
+    setChatOpen((prev) => !prev);
 
-  // Handle focus and blur
-  const handleFocusChange = () => {
-    if (isAnyFocusedRef.current && isTabActiveRef.current) {
-      clearInterval(pausedTimerRef.current);
-      pausedTimerRef.current = null;
+    // Stop blinking immediately
+    setBlinkChatbot(false);
 
-      if (!elapsedTimerRef.current) {
-        elapsedTimerRef.current = setInterval(() => {
-          setTimeElapsed((prev) => prev + 1);
-        }, 1000);
-      }
-    } else {
-      clearInterval(elapsedTimerRef.current);
-      elapsedTimerRef.current = null;
+    // Clear any previous blink timeout
+    clearTimeout(blinkTimeoutRef.current);
 
-      if (!pausedTimerRef.current) {
-        pausedTimerRef.current = setInterval(() => {
-          setTimePaused((prev) => prev + 1);
-        }, 1000);
-      }
-    }
+    // Disable blinking for 5 minutes
+    blinkTimeoutRef.current = setTimeout(() => {
+      setBlinkChatbot(true);
+    }, 5 * 60 * 1000);
   };
 
   const handleInputChange = (e) => {
@@ -195,7 +180,19 @@ const AssignmentPage = () => {
       {/* Conditionally Render Video Analytics */}
       {hasAgreedToEULA && (
         <div className="video-analytics-container">
-          <VideoAnalytics />
+          <VideoAnalytics
+            onEmotionsDetected={(emotionData) => {
+              if (
+                emotionData.expressions['angry'] > 0.5 ||
+                emotionData.expressions['disgusted'] > 0.5 ||
+                emotionData.expressions['fearful'] > 0.5 ||
+                emotionData.expressions['sad'] > 0.5 ||
+                emotionData.expressions['surprised'] > 0.5
+              ) {
+                setBlinkChatbot(true);
+              }
+            }}
+          />
         </div>
       )}
 
@@ -210,17 +207,8 @@ const AssignmentPage = () => {
           <h3>{q.text}</h3>
           <textarea
             className="answer-textarea"
-            data-optional={q.optional}
-            onFocus={() => {
-              isAnyFocusedRef.current = true;
-              handleFocusChange();
-            }}
-            onBlur={() => {
-              isAnyFocusedRef.current = false;
-              handleFocusChange();
-            }}
-            onChange={handleInputChange}
             placeholder="Start typing your answer here..."
+            onChange={handleInputChange}
           ></textarea>
         </div>
       ))}
@@ -236,7 +224,7 @@ const AssignmentPage = () => {
       </div>
 
       <button onClick={handleSubmit} className="submit-button">Submit Assignment</button>
-      <Chatbot blink={blinkChatbot} isOpen={chatOpen} onToggleOpen={() => setChatOpen((prev) => !prev)} />
+      <Chatbot blink={blinkChatbot} isOpen={chatOpen} onToggleOpen={handleChatToggle} />
     </div>
   );
 };
