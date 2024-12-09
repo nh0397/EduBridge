@@ -5,10 +5,9 @@ import pandas as pd
 from flask_socketio import SocketIO, emit
 from flask_cors import CORS
 import PyPDF2
-import openai
+from openai import OpenAI
 import logging
 
-# Initialize Flask app, enable CORS, and configure secret key for socket connections
 app = Flask(__name__)
 CORS(app)
 app.config["SECRET_KEY"] = "secret!"
@@ -16,6 +15,8 @@ socketio = SocketIO(app)
 
 # Define the path to the best model
 MODEL_PATH = "models/best_model.pkl"
+
+client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
 
 # Load the best trained model
@@ -186,35 +187,34 @@ def chatbot():
     This route takes a question from the user and responds with a helpful hint
     based on the content of the previously uploaded PDF file.
     """
-    question = request.json.get("question")
+    question = request.json.get("message")
     if not question:
         return jsonify({"error": "No question provided."}), 400
 
-    # Read the extracted PDF context
-    context_file_path = os.path.join("context", "pdf_context.txt")
-    with open(context_file_path, "r") as f:
-        context = f.read()
+    # Example context (replace with your actual context source)
+    context = (
+        "This is a dummy python context for testing. Python is a programming language "
+        "that lets you work quickly and integrate systems more effectively."
+    )
 
     try:
         # Call OpenAI API to generate a response
-        client = openai.OpenAI()
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4o",  # Replace with the appropriate model version
             messages=[
-                {
-                    "role": "system",
-                    "content": f"You are a chatbot designed to help students with their tests. The following is the content from the test material: {context}. Provide a hint or guide them towards the answer without giving it directly. Offer a helpful response. Don't provide the exact answer.",
-                },
+                {"role": "system", "content": f"Context: {context}. Help as a tutor."},
                 {"role": "user", "content": question},
             ],
             temperature=0.7,
         )
+
+        # Extract the assistant's response
         answer = response.choices[0].message.content.strip()
         return jsonify({"answer": answer})
 
     except Exception as e:
+        logging.error(f"An error occurred: {e}")
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
-
 
 # Routes related to emotion monitoring
 @app.route("/start-emotion-monitoring", methods=["POST"])

@@ -11,7 +11,7 @@ import joblib  # For saving the model
 
 
 # Step 1: Load and preprocess the data
-def load_data(file_path="data/data.xlsx"):
+def load_data():
     """
     Load and preprocess the dataset.
 
@@ -25,6 +25,7 @@ def load_data(file_path="data/data.xlsx"):
         tuple: Split data (X_train, X_test, y_train, y_test).
     """
     # Load the Excel file
+    file_path = "data/data.xlsx"
     data = pd.read_excel(file_path)
     print("Data loaded successfully.")
 

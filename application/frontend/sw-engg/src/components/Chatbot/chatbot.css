@@ -8,7 +8,7 @@
     background-color: #000;
     overflow: hidden;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
   }
   
@@ -94,14 +94,16 @@
     margin-bottom: 8px;
   }
   
-  .message.user .message-bubble {
+  .user-message .message-bubble {
     background: #007bff;
     color: #fff;
-    text-align: right;
     margin-left: auto;
+    display: flex;
+    width: fit-content;
+
   }
   
-  .message.assistant .message-bubble {
+  .assistant-message .message-bubble {
     background: #e1e1e1;
     margin-right: auto;
   }
