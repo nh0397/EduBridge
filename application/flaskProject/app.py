@@ -18,9 +18,45 @@ socketio = SocketIO(app)
 
 # Define the path to the best model
 MODEL_PATH = "models/best_model.pkl"
-print("env key", os.getenv("OPENAI_API_KEY"))
 
+# Initialize OpenAI
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+# make a ocntext folder for chat conversation
+CONTEXT_FOLDER = "context"
+os.makedirs(CONTEXT_FOLDER, exist_ok=True)
+
+
+# Read PDF content at startup
+PDF_FOLDER = "pdfs"  # Folder containing the PDF
+PDF_FILE = os.path.join(PDF_FOLDER, "answer_document.pdf")  # Specify your file here
+PDF_CONTENT = ""
+
+def load_pdf_content(pdf_path):
+    """
+    Load and extract text content from the specified PDF file.
+    """
+    if not os.path.exists(pdf_path):
+        logging.error(f"PDF file not found: {pdf_path}")
+        return "No PDF content available. Please upload a valid PDF."
+
+    try:
+        with open(pdf_path, "rb") as file:
+            pdf_reader = PyPDF2.PdfReader(file)
+            text = ""
+            for page in pdf_reader.pages:
+                text += page.extract_text()
+            print('here is the text', text)
+            return text
+
+    except Exception as e:
+        logging.error(f"Error reading PDF: {e}")
+        return "Error reading PDF content."
+
+
+# Load PDF content at startup
+PDF_CONTENT = load_pdf_content(PDF_FILE)
+
 
 
 # Load the best trained model
@@ -31,7 +67,7 @@ def load_model():
     return joblib.load(MODEL_PATH)
 
 
-# Routes related to model training and prediction
+# Routes related to model training and prediction for textual data
 @app.route("/train", methods=["POST"])
 def train_models():
     """
@@ -76,13 +112,6 @@ def get_best_model():
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    """
-    Make a prediction using the best trained model.
-
-    Accepts JSON input, processes it, and returns a prediction. The input must
-    contain the necessary features (excluding ParticipantID), and the model will
-    be used to generate predictions.
-    """
     if not os.path.exists(MODEL_PATH):
         return (
             jsonify({"error": "No trained model found. Please train the model first."}),
@@ -186,39 +215,60 @@ def extract_text_from_pdf(pdf_file):
 @app.route("/chatbot", methods=["POST"])
 def chatbot():
     """
-    Handle chatbot requests based on the uploaded PDF content.
-
-    This route takes a question from the user and responds with a helpful hint
-    based on the content of the previously uploaded PDF file.
+    Handle chatbot requests based on user input, conversation history, and answers so far.
     """
-    question = request.json.get("message")
-    if not question:
-        return jsonify({"error": "No question provided."}), 400
-
-    # Example context (replace with your actual context source)
-    context = (
-        "This is a dummy python context for testing. Python is a programming language "
-        "that lets you work quickly and integrate systems more effectively."
-    )
-
     try:
-        # Call OpenAI API to generate a response
+        # Parse the incoming request
+        data = request.get_json()
+        print("Incoming request data:", data)
+
+        # Extract message and history
+        user_message = data.get("message", "").strip()
+        conversation_history = data.get("history", "").strip()
+
+        # Debugging: Print extracted data
+        print(f"User Message: {user_message}")
+        print(f"Conversation History: {conversation_history}")
+
+        # Ensure message is provided
+        if not user_message:
+            print("Error: No user message provided.")
+            return jsonify({"error": "No message provided."}), 400
+
+        # Prepare the system prompt
+        system_prompt = (
+            f"Here is the user's progress so far:\n{conversation_history}\n\n"
+            "You must only provide suggestions based on the user's question. "
+            "Be strict in not giving the direct answer."
+        )
+
+        # Debugging: Print system prompt
+        print(f"System Prompt: {system_prompt}")
+
+        # Call OpenAI API
         response = client.chat.completions.create(
-            model="gpt-4o",  # Replace with the appropriate model version
+            model="gpt-4o",
             messages=[
-                {"role": "system", "content": f"Context: {context}. Help as a tutor."},
-                {"role": "user", "content": question},
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_message},
             ],
             temperature=0.7,
         )
 
-        # Extract the assistant's response
-        answer = response.choices[0].message.content.strip()
-        return jsonify({"answer": answer})
+        # Extract response content
+        suggestion = response.choices[0].message.content.strip()
+
+        # Debugging: Print response from OpenAI
+        print(f"OpenAI Response: {suggestion}")
+
+        return jsonify({"suggestion": suggestion})
 
     except Exception as e:
-        logging.error(f"An error occurred: {e}")
+        # Debugging: Print exception details
+        logging.error(f"An error occurred in the chatbot endpoint: {str(e)}")
+        print(f"Exception: {str(e)}")
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
+
 
 # Routes related to emotion monitoring
 @app.route("/start-emotion-monitoring", methods=["POST"])
